@@ -1,5 +1,6 @@
 from PIL import Image
 import random
+import sys
 
 """
 [ref](https://www.geeksforgeeks.org/find-two-rectangles-overlap/)
@@ -13,11 +14,12 @@ def is_overlap(l1, r1, l2, r2):
 
     return True
 
-def genereator(images):
+def genereator(images, name, count):
     height = 1000
     width = 1000
     background = Image.new(mode="RGBA",size=(width,height))
-    paste_image_list = [Image.open(image_loc).resize((100,100)) for image_loc in images]
+    
+    paste_image_list = [Image.open(image_loc).resize((100,100)).convert("RGBA") for image_loc in images]
     alread_paste_point_list = []
 
     for img in paste_image_list:
@@ -38,11 +40,32 @@ def genereator(images):
                 background.paste(img, (x, y), img)
                 break
 
-    background.save("test.png")
+    background.save(f"../generator/generated/{name}{count}.png")
 
     # check like this, all three rectangles all not overlapping each other
     from itertools import combinations
     assert(all(not is_overlap(l1, r1, l2, r2) for (l1, r1), (l2, r2) in combinations(alread_paste_point_list, 2)))
 
-images =["../images/A.png", "../images/B.png", "../images/C.png", "../images/D.png"]
-genereator(images)
+
+import random
+def chooseFilesToCombine(num):
+    possiblilities = ["A","B","C","D"]
+    picked = []
+    for i in range(num):
+        picked.append(random.choice(possiblilities))
+        possiblilities.remove(picked[-1])
+    return picked
+
+
+if __name__ == "__main__":
+    # Run this in ./generator directory. New created images will be stored in ./generator/generated
+    for i in range(10):
+        letters = chooseFilesToCombine(random.randint(1,4))    
+        print(letters)
+        name = "".join(letters)
+        images = []
+        for letter in letters:
+            rotation = random.randint(0,7)
+            images.append(f"../images/{letter}/{letter}{rotation}.png")
+        print(images)
+        genereator(images, name, i)

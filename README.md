@@ -1,4 +1,5 @@
 # ExplainableAI
-This projects holds the master thesis of Brigt Arve Toppe Håvardstun. In the master thesis we will discuss a new approach in Explainable AI, where we try to find the most significant data to explain how our model is working. 
+This projects holds the master thesis of Brigt Arve Toppe Håvardstun. In the master thesis we will discuss a approach in Explainable AI, where we try to find the instances to explain how our model is working. To achive this we will use ML with a loss function focusing on – among other things – the complexity of the instances picked. 
 
-In this github we will create a dummy example. We will train three MLs to try to modle a boolean function, where input is a image of literals set to true in the boolean function.
+In this github we will create a dummy example. We will train three (+?) MLs to try to modle a boolean function, where input is a image of literals set to true in the boolean function. We then want to create a Teacher and a Learner, where we want the Teacher to teach the Learner the correlation between (image, boolValue) and model. 
+After training our Learner on this we will task the Teacher to find the instances to show a real human, with the hope that the human understand which model the Teacher is trying to teach him. This will be a loss function based on: complexity of instances, how accuratly the Students predicts the model, how confident the Students is in its answer.

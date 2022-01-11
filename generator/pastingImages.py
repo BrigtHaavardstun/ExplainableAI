@@ -17,7 +17,8 @@ def is_overlap(l1, r1, l2, r2):
 def genereator(images, name, count):
     height = 1000
     width = 1000
-    background = Image.new(mode="RGBA",size=(width,height))
+    background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
+    
     
     paste_image_list = [Image.open(image_loc).resize((100,100)).convert("RGBA") for image_loc in images]
     alread_paste_point_list = []

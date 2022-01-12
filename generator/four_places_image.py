@@ -1,17 +1,18 @@
+from os import WEXITED
 from PIL import Image
 import random
 import sys
 
 def genereator(images, name, count):
-    height = 200
-    width = 200
+    height = 64
+    width = 64
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
     
     
-    paste_image_list = [Image.open(image_loc).resize((100,100)).convert("RGBA") for image_loc in images]
+    paste_image_list = [Image.open(image_loc).resize((width//2,height//2)).convert("RGBA") for image_loc in images]
  
 
-    positions = [(0,0), (0,100), (100, 0), (100,100)]
+    positions = [(0,0), (0,height//2), (width//2, 0), (width//2,height//2)]
     for img in paste_image_list:
         x,y = random.choice(positions)
         background.paste(img, (x, y), img)
@@ -29,7 +30,7 @@ def chooseFilesToCombine(num):
 
 if __name__ == "__main__":
     # Run this in ./generator directory. New created images will be stored in ./generator/generated
-    for i in range(10):
+    for i in range(200):
         letters = chooseFilesToCombine(random.randint(1,4))    
         print(letters)
         name = "".join(sorted(letters))

@@ -63,7 +63,7 @@ if __name__ == "__main__":
     for i in range(10):
         letters = chooseFilesToCombine(random.randint(1,4))    
         print(letters)
-        name = "".join(letters)
+        name = "".join(sorted(letters))
         images = []
         for letter in letters:
             rotation = random.randint(0,7)

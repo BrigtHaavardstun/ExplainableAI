@@ -4,12 +4,12 @@ import random
 import sys
 
 def genereator(images, name, count):
-    height = 64
-    width = 64
+    height = 32
+    width = 32
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
     
-    
-    paste_image_list = [Image.open(image_loc).resize((width//2,height//2)).convert("RGBA") for image_loc in images]
+    diff = random.randint(0,10)-5
+    paste_image_list = [Image.open(image_loc).resize((width//2+diff,height//2+diff)).convert("RGBA") for image_loc in images]
  
 
     positions = [(0,0), (0,height//2), (width//2, 0), (width//2,height//2)]
@@ -30,7 +30,7 @@ def chooseFilesToCombine(num):
 
 if __name__ == "__main__":
     # Run this in ./generator directory. New created images will be stored in ./generator/generated
-    for i in range(200):
+    for i in range(2000):
         letters = chooseFilesToCombine(random.randint(1,4))    
         print(letters)
         name = "".join(sorted(letters))

@@ -15,12 +15,12 @@ def is_overlap(l1, r1, l2, r2):
     return True
 
 def genereator(images, name, count):
-    height = 1000
-    width = 1000
+    height = 128
+    width = 128
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
     
     
-    paste_image_list = [Image.open(image_loc).resize((100,100)).convert("RGBA") for image_loc in images]
+    paste_image_list = [Image.open(image_loc).resize((32,32)).convert("RGBA") for image_loc in images]
     alread_paste_point_list = []
 
     for img in paste_image_list:
@@ -60,13 +60,13 @@ def chooseFilesToCombine(num):
 
 if __name__ == "__main__":
     # Run this in ./generator directory. New created images will be stored in ./generator/generated
-    for i in range(10):
+    for i in range(10000):
         letters = chooseFilesToCombine(random.randint(1,4))    
-        print(letters)
+        #print(letters)
         name = "".join(sorted(letters))
         images = []
         for letter in letters:
             rotation = random.randint(0,7)
             images.append(f"../images/{letter}/{letter}{rotation}.png")
-        print(images)
+        #print(images)
         genereator(images, name, i)

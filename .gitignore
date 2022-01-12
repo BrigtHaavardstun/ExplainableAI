@@ -131,5 +131,5 @@ dmypy.json
 
 # generated data and training data
 generated/
-labeles/
+lables/
 training_data/

@@ -129,5 +129,7 @@ dmypy.json
 .pyre/
 
 
-# generated data
+# generated data and training data
 generated/
+labeles/
+training_data/

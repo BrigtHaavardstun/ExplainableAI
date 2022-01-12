@@ -1,3 +1,8 @@
+from sklearn.neural_network import MLPClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+import numpy as np
+
 class model:
     def __init__(self, boolFunc, labelData, images) -> None:
         self.boolFunc = boolFunc   
@@ -5,16 +10,19 @@ class model:
     
 
 
+def load_train_test():
+
+    X = []
+    y = np.array()
 
 """
 Below is testing to get used to generate NNs
 """
 
-from sklearn.neural_network import MLPClassifier
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
+
 print("making regression...")
-X, y = make_classification(n_samples=10000, random_state=1)
+#X, y = make_classification(n_samples=10000, random_state=1)
+X,y = load_train_test()
 print("test train split")
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y,random_state=1)
 print("trainging")

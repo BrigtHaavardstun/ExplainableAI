@@ -4,7 +4,8 @@ from os import listdir
 from os.path import isfile, join
 
 def booleanFunction(A,B,C,D):
-    return (A or B) and (C or not D) #!!! MEGA IMPORTANT, defines ML
+    return A or D #!!! MEGA IMPORTANT, defines ML if we need multiple MLs
+                                     # we need different bool funcs
 
 def parseNameToLabel(fileName):
     A = "A" in fileName 

@@ -39,6 +39,35 @@ def load_train_test():
     y = np.asarray(y)
     return X,y
 
+
+def bootstrap(X,y):
+
+    unique, counts = np.unique(y, return_counts=True)
+    occurences = dict(zip(unique, counts))
+    print(occurences)
+    zeros = occurences[0]
+    ones = occurences[1]
+    if zeros < ones:
+        X_0 = [x for i,x in enumerate(X) if y[i] == 0 ] 
+        for i in range(ones-zeros):
+            x_random = random.choice(X_0)
+            X = np.append(X,[x_random], axis=0)
+            y = np.append(y, [0])
+    else:
+        X_1 = [x for i,x in enumerate(X) if y[i] == 1 ] 
+        for i in range(zeros-ones):
+            x_random = random.choice(X_1)
+            X = np.append(X,[x_random], axis=0)
+            y = np.append(y, [1])
+    
+    unique, counts = np.unique(y, return_counts=True)
+    occurences = dict(zip(unique, counts))
+    print(occurences)
+    print(len(X), len(y))
+
+    return X,y
+    
+
 """
 Below is testing to get used to generate NNs
 """
@@ -49,6 +78,7 @@ print("loading dataset...")
 X,y = load_train_test()
 
 print("test train split")
+X,y = bootstrap(X,y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y,random_state=1)
 print("fiting data")
 clf = MLPClassifier(solver='lbfgs', alpha=1e-5,  hidden_layer_sizes=(16, 4, 16),random_state=1, max_iter=3000).fit(X_train, y_train)

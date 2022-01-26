@@ -130,6 +130,13 @@ dmypy.json
 
 
 # generated data and training data
-generated/
-lables/
-training_data/
+data/lables/*
+!data/lables/clean.sh
+
+data/training_data/*
+!data/training_data/clean.sh
+
+data/images/*
+!data/images/clean.sh
+
+savedModels/

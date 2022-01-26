@@ -1,5 +1,6 @@
 from os import WEXITED
 from PIL import Image
+from multiprocessing.pool import ThreadPool as Pool
 import random
 import sys
 
@@ -17,7 +18,7 @@ def genereator(images, name, count):
         x,y = random.choice(positions)
         background.paste(img, (x, y), img)
         positions.remove((x,y))
-    background.save(f"../generator/generated/{name}{count}.png")   
+    background.save(f"../data/images/{name}{count}.png")   
 
 def chooseFilesToCombine(num):
     possiblilities = ["A","B","C","D"]
@@ -30,7 +31,11 @@ def chooseFilesToCombine(num):
 
 if __name__ == "__main__":
     # Run this in ./generator directory. New created images will be stored in ./generator/generated
-    for i in range(2000):
+    
+    pool_size = 4  # your "parallelness"
+    pool = Pool(pool_size)
+
+    for i in range(5000):
         letters = chooseFilesToCombine(random.randint(1,4))    
         print(letters)
         name = "".join(sorted(letters))
@@ -38,4 +43,8 @@ if __name__ == "__main__":
         for letter in letters:
             images.append(f"../images/{letter}/{letter}.png")
         print(images)
-        genereator(images, name, i)
+        pool.apply_async(genereator, (images, name, i,))
+
+    pool.close()
+    pool.join()
+      

@@ -1,6 +1,7 @@
 from PIL import Image
 import random
 import sys
+from multiprocessing.pool import ThreadPool as Pool
 
 """
 [ref](https://www.geeksforgeeks.org/find-two-rectangles-overlap/)
@@ -15,12 +16,12 @@ def is_overlap(l1, r1, l2, r2):
     return True
 
 def genereator(images, name, count):
-    height = 128
-    width = 128
+    height = 32
+    width = 32
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
+
     
-    
-    paste_image_list = [Image.open(image_loc).resize((32,32)).convert("RGBA") for image_loc in images]
+    paste_image_list = [Image.open(image_loc).resize((width//3,height//3)).convert("RGBA") for image_loc in images]
     alread_paste_point_list = []
 
     for img in paste_image_list:
@@ -41,7 +42,7 @@ def genereator(images, name, count):
                 background.paste(img, (x, y), img)
                 break
 
-    background.save(f"../generator/generated/{name}{count}.png")
+    background.save(f"../data/images/{name}{count}.png")
 
     # check like this, all three rectangles all not overlapping each other
     from itertools import combinations
@@ -57,16 +58,29 @@ def chooseFilesToCombine(num):
         possiblilities.remove(picked[-1])
     return picked
 
+# define worker function before a Pool is instantiated
+def generateImage(i, itterations):
+    if item%(itterations//100)== 0:
+            print(str(100*item/itterations)+"%")
+    letters = chooseFilesToCombine(random.randint(1,4))    
+    name = "".join(sorted(letters))
+    images = []
+    for letter in letters:
+        rotation = 0
+        images.append(f"../images/{letter}/{letter}{rotation}.png")
+    genereator(images, name, i)
+
 
 if __name__ == "__main__":
-    # Run this in ./generator directory. New created images will be stored in ./generator/generated
-    for i in range(10000):
-        letters = chooseFilesToCombine(random.randint(1,4))    
-        #print(letters)
-        name = "".join(sorted(letters))
-        images = []
-        for letter in letters:
-            rotation = random.randint(0,7)
-            images.append(f"../images/{letter}/{letter}{rotation}.png")
-        #print(images)
-        genereator(images, name, i)
+    itterations = 3000
+   
+    pool_size = 4  # your "parallelness"
+
+    pool = Pool(pool_size)
+
+    for item in range(itterations):
+        
+        pool.apply_async(generateImage, (item,(itterations+2000),))
+
+    pool.close()
+    pool.join()

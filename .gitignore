@@ -129,6 +129,9 @@ dmypy.json
 .pyre/
 
 
+# don't know what this is because
+.DS_Store
+
 # generated data and training data
 data/lables/*
 !data/lables/clean.sh

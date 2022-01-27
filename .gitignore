@@ -129,8 +129,10 @@ dmypy.json
 .pyre/
 
 
-# don't know what this is because
+# General Mac os stuff
 .DS_Store
+.AppleDouble
+.LSOverride
 
 # generated data and training data
 data/lables/*

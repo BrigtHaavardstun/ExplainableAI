@@ -1,0 +1,2 @@
+from QuineMcCluskey import main
+

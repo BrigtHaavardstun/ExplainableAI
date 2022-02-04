@@ -9,6 +9,7 @@ def load_dataset():
 
     X = []
     y = []
+    labels = []
 
     directory = "data/training_data"
     onlyfiles = sorted([f[:-4] for f in listdir(directory) if isfile(join(directory, f)) and f != "clean.sh"])
@@ -25,15 +26,17 @@ def load_dataset():
         curr_y = [0,0] #hot encoding
         curr_y[int(lable)] = 1
         y.append(curr_y)
+        labels.append(file)
 
 
     X = np.asarray(X)
     y = np.asarray(y)
+    
 
     # We want to force values to be in range [0,1]
     #X = X.astype('float32')
     #X = X / 255.0
-    return X,y
+    return X,y, labels
 
 
 def bootstrap(X,y):

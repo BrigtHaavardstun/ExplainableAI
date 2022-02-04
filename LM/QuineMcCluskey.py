@@ -3,6 +3,8 @@
 
 # Link to github: https://github.com/int-main/Quine-McCluskey/blob/master/Quine%20McCluskey.py
 import random
+from LM.boolParser import BooleanExpression as BE
+
 
 def mul(x,y): # Multiply 2 minterms
     res = []
@@ -90,7 +92,7 @@ def removeTerms(_chart,terms): # Removes minterms which are already covered from
                 pass
 
 
-def main(mt, dc):
+def find_minterms(mt, dc, verbose=False):
     
     mt.sort()
     minterms = mt+dc
@@ -106,13 +108,14 @@ def main(mt, dc):
             groups[bin(minterm).count('1')] = [bin(minterm)[2:].zfill(size)]
     # Primary grouping ends
     
-    #Primary group printing starts
-    print("\n\n\n\nGroup No.\tMinterms\tBinary of Minterms\n%s"%('='*50))
-    for i in sorted(groups.keys()):
-        print("%5d:"%i) # Prints group number
-        for j in groups[i]:
-            print("\t\t    %-20d%s"%(int(j,2),j)) # Prints minterm and its binary representation
-        print('-'*50)
+    if verbose:
+        #Primary group printing starts
+        print("\n\n\n\nGroup No.\tMinterms\tBinary of Minterms\n%s"%('='*50))
+        for i in sorted(groups.keys()):
+            print("%5d:"%i) # Prints group number
+            for j in groups[i]:
+                print("\t\t    %-20d%s"%(int(j,2),j)) # Prints minterm and its binary representation
+            print('-'*50)
     #Primary group printing ends
     
     # Process for creating tables and finding prime implicants starts
@@ -135,41 +138,49 @@ def main(mt, dc):
             m += 1
         local_unmarked = set(flatten(tmp)).difference(marked) # Unmarked elements of each table
         all_pi = all_pi.union(local_unmarked) # Adding Prime Implicants to global list
-        print("Unmarked elements(Prime Implicants) of this table:",None if len(local_unmarked)==0 else ', '.join(local_unmarked)) # Printing Prime Implicants of current table
+        if verbose:
+            print("Unmarked elements(Prime Implicants) of this table:",None if len(local_unmarked)==0 else ', '.join(local_unmarked)) # Printing Prime Implicants of current table
         if should_stop: # If the minterms cannot be combined further
-            print("\n\nAll Prime Implicants: ",None if len(all_pi)==0 else ', '.join(all_pi)) # Print all prime implicants
+            if verbose:
+                print("\n\nAll Prime Implicants: ",None if len(all_pi)==0 else ', '.join(all_pi)) # Print all prime implicants
             break
-        # Printing of all the next groups starts
-        print("\n\n\n\nGroup No.\tMinterms\tBinary of Minterms\n%s"%('='*50))
-        for i in sorted(groups.keys()):
-            print("%5d:"%i) # Prints group number
-            for j in groups[i]:
-                print("\t\t%-24s%s"%(','.join(findminterms(j)),j)) # Prints minterms and its binary representation
-            print('-'*50)
-        # Printing of all the next groups ends
+        if verbose:
+            # Printing of all the next groups starts
+            print("\n\n\n\nGroup No.\tMinterms\tBinary of Minterms\n%s"%('='*50))
+            for i in sorted(groups.keys()):
+                print("%5d:"%i) # Prints group number
+                for j in groups[i]:
+                    print("\t\t%-24s%s"%(','.join(findminterms(j)),j)) # Prints minterms and its binary representation
+                print('-'*50)
+            # Printing of all the next groups ends
     # Process for creating tables and finding prime implicants ends
 
 
     # Printing and processing of Prime Implicant chart starts
     sz = len(str(mt[-1])) # The number of digits of the largest minterm
     chart = {}
-    print('\n\n\nPrime Implicants chart:\n\n    Minterms    |%s\n%s'%(' '.join((' '*(sz-len(str(i))))+str(i) for i in mt),'='*(len(mt)*(sz+1)+16)))
+    if verbose:
+        print('\n\n\nPrime Implicants chart:\n\n    Minterms    |%s\n%s'%(' '.join((' '*(sz-len(str(i))))+str(i) for i in mt),'='*(len(mt)*(sz+1)+16)))
     for i in all_pi:
         merged_minterms,y = findminterms(i),0
-        print("%-16s|"%','.join(merged_minterms),end='')
+        if verbose:
+            print("%-16s|"%','.join(merged_minterms),end='')
         for j in refine(merged_minterms,dc):
             x = mt.index(int(j))*(sz+1) # The position where we should put 'X'
-            print(' '*abs(x-y)+' '*(sz-1)+'X',end='')
+            if verbose:
+                print(' '*abs(x-y)+' '*(sz-1)+'X',end='')
             y = x+sz
             try:
                 chart[j].append(i) if i not in chart[j] else None # Add minterm in chart
             except KeyError:
                 chart[j] = [i]
-        print('\n'+'-'*(len(mt)*(sz+1)+16))
+        if verbose:
+            print('\n'+'-'*(len(mt)*(sz+1)+16))
     # Printing and processing of Prime Implicant chart ends
 
     EPI = findEPI(chart) # Finding essential prime implicants
-    print("\nEssential Prime Implicants: "+', '.join(str(i) for i in EPI))
+    if verbose:
+        print("\nEssential Prime Implicants: "+', '.join(str(i) for i in EPI))
     removeTerms(chart,EPI) # Remove EPI related columns from chart
 
     if(len(chart) == 0): # If no minterms remain after removing EPI related columns
@@ -182,7 +193,8 @@ def main(mt, dc):
         final_result = [min(P[0],key=len)] # Choosing the term with minimum variables from P
         final_result.extend(findVariables(i) for i in EPI) # Adding the EPIs to final solution
     final_result = ' + '.join(''.join(i) for i in final_result)
-    print('\n\nSolution: F = '+final_result)
+    if verbose:
+        print('\n\nSolution: F = '+final_result)
     return final_result
 
     
@@ -209,15 +221,15 @@ def manipulateRes(result):
 
 
         
-from boolParser import BooleanExpression as BE
 if __name__ == "__main__":
     mt = [int(i) for i in input("Enter the minterms: ").strip().split()]
     dc = [int(i) for i in input("Enter the don't cares(If any): ").strip().split()]
-    ans = main(mt,dc)
+    ans = find_minterms(mt,dc)
     print(ans)
 
     boolExpr = BE(ans)
     
+    #Used to test wether the BooleanExpression is working properly.
     """
     for a in [False, True]:
         for b in [False, True]:

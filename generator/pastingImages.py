@@ -16,17 +16,26 @@ def is_overlap(l1, r1, l2, r2):
     return True
 
 def genereator(images, name, count):
-    height = 32
-    width = 32
+    height = 57
+    width = 57
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
 
+    img_size_width = height//3 #+ random.randint(-3,3)  # More noise in the training data
+    img_size_height = height//3 #+ random.randint(-3,3) #
     
-    paste_image_list = [Image.open(image_loc).resize((width//3,height//3)).convert("RGBA") for image_loc in images]
+    paste_image_list = [Image.open(image_loc).resize((img_size_width,img_size_height)).convert("RGBA") for image_loc in images]
     alread_paste_point_list = []
 
     for img in paste_image_list:
         # if all not overlap, find the none-overlap start point
+        attempts = 0
         while True:
+            attempts += 1
+            if attempts == 1000:
+                print(f"{str(count)}:couldn't find a place, resizing...")
+                im_width,im_height =img.size
+                img = img.resize((im_width-2, im_height-2))
+                attempts = 0
             # left-top point
             # x, y = random.randint(0, background.size[0]), random.randint(0, background.size[1])
 
@@ -66,21 +75,21 @@ def generateImage(i, itterations):
     name = "".join(sorted(letters))
     images = []
     for letter in letters:
-        rotation = 0
+        rotation = random.randint(0,7)
         images.append(f"../images/{letter}/{letter}{rotation}.png")
     genereator(images, name, i)
 
 
 if __name__ == "__main__":
-    itterations = 3000
+    itterations = 30000
    
-    pool_size = 4  # your "parallelness"
+    pool_size = 6  # your "parallelness"
 
     pool = Pool(pool_size)
 
     for item in range(itterations):
         
-        pool.apply_async(generateImage, (item,(itterations+2000),))
+        pool.apply_async(generateImage, (item,(itterations),))
 
     pool.close()
     pool.join()

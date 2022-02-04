@@ -28,9 +28,13 @@ class CNN:
         Activation function: LeakyReLU
         Pooling: MaxPool (2,2)
         """
+        input_width  = 57
+        input_height = 57
+        channels = 1
+
         num_classes = 2
         model = self.model
-        model.add(Conv2D(32, kernel_size=(3, 3),activation='linear',padding='same',input_shape=( 32,32,1))) 
+        model.add(Conv2D(32, kernel_size=(3, 3),activation='linear',padding='same',input_shape=( input_width,input_height,channels))) 
         model.add(LeakyReLU(alpha=0.1))
         model.add(MaxPooling2D((2, 2),padding='same'))
         model.add(Dropout(0.25))
@@ -72,4 +76,7 @@ class CNN:
     
     def save(self):
         self.model.save(f"CNN/savedModels/{self.name}")
+
+    def predict(self, x):
+        return self.model.predict(x)
 

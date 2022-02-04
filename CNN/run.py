@@ -7,14 +7,23 @@ from tensorflow import keras
 import numpy as np
 
 
-def run():
+def run(verbose=False, save=False, with_data_valid=False):
+    """
+    Trains a CNN model based on data from ./data folder.
+    Return: the trained model.
+    """
+
     # Get the data
-    X,Y = load_dataset()
+    X,Y, labels = load_dataset()
+    Y_zip = zip(Y, labels)
 
     #Split into train, test, and validation datasets
-    train_X, X, train_Y, Y = train_test_split(X,Y, stratify=Y, random_state=13)
-    valid_X, test_X, valid_Y, test_Y = train_test_split(X,Y, stratify=Y, random_state=13)
+    train_X, X, train_Y_zip, Y_zip = train_test_split(X,Y_zip, stratify=Y_zip, random_state=13)
+    valid_X, test_X, valid_Y_zip, test_Y_zip = train_test_split(X,Y_zip, stratify=Y_zip, random_state=13)
 
+    train_Y,train_labels = zip(*train_Y_zip)
+    valid_Y,valid_labels = zip(*valid_Y_zip)
+    test_Y,test_labels = zip(*test_Y_zip)
 
     # Create model
     print("making the model...")
@@ -27,12 +36,16 @@ def run():
     epochs = 20
     history = model.fit_model(train_X, train_Y, valid_X, valid_Y, epochs)
 
-    model.save()
+    if save:
+        model.save()
 
-    #plot_history(history)
-    disply_confusion_matrix(model.model, valid_X, valid_Y)
+    if verbose:
+        plot_history(history)
+        disply_confusion_matrix(model.model, test_X, test_Y)
 
-
+    if with_data_valid:
+        return model, (valid_X, valid_Y,valid_labels)
+    return model
 
 def run_preloaded():
     # Get the data
@@ -87,4 +100,4 @@ def disply_confusion_matrix(model, test_X, test_Y):
 
 
 if __name__ == "__main__":
-    run()
+    run(verbose=True, save=True)

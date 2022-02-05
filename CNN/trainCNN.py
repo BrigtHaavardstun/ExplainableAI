@@ -6,8 +6,15 @@ import matplotlib.pyplot as plt
 from tensorflow import keras
 import numpy as np
 
+def train_test_validation_split(size):
+    train, test_valid = train_test_split(list(range(size)), test_size=0.4)
+    test, valid = train_test_split(test_valid, test_size=0.4)
+    return train, test, valid
 
-def run(verbose=False, save=False, with_data_valid=False):
+
+
+
+def run(verbose=False, save=True, with_data_valid=False, name="Standar"):
     """
     Trains a CNN model based on data from ./data folder.
     Return: the trained model.
@@ -15,26 +22,54 @@ def run(verbose=False, save=False, with_data_valid=False):
 
     # Get the data
     X,Y, labels = load_dataset()
-    Y_zip = zip(Y, labels)
 
-    #Split into train, test, and validation datasets
-    train_X, X, train_Y_zip, Y_zip = train_test_split(X,Y_zip, stratify=Y_zip, random_state=13)
-    valid_X, test_X, valid_Y_zip, test_Y_zip = train_test_split(X,Y_zip, stratify=Y_zip, random_state=13)
+    # Perfrom train_test_split, with labels.
+    trainIdx, testIdx, validIdx = train_test_validation_split(len(X))
+    # Train data
+    train_X, train_Y, train_label = [], [], []
+    for i in trainIdx:
+        train_X.append(X[i])
+        train_Y.append(Y[i])
+        train_label.append(labels[i])
 
-    train_Y,train_labels = zip(*train_Y_zip)
-    valid_Y,valid_labels = zip(*valid_Y_zip)
-    test_Y,test_labels = zip(*test_Y_zip)
+    train_X = np.array(train_X)
+    train_Y = np.array(train_Y)
+    train_label = np.array(train_label)
+
+    #Test data
+    test_X, test_Y, test_label = [],[], []
+    for i in testIdx:
+        test_X.append(X[i])
+        test_Y.append(Y[i])
+        test_label.append(labels[i])
+
+    test_X = np.array(test_X)
+    test_Y = np.array(test_Y)
+    test_label = np.array(test_label)
+
+    #Validation data
+    valid_X, valid_Y,valid_labels = [], [], []
+    for i in validIdx:
+        valid_X.append(X[i])
+        valid_Y.append(Y[i])
+        valid_labels.append(labels[i])
+
+    valid_X = np.array(valid_X)
+    valid_Y = np.array(valid_Y)
+    valid_labels = np.array(valid_labels)
+
+    
 
     # Create model
     print("making the model...")
-    batch_size = 100
-    model = CNN(verbose=True, name='FirstTest', batch_size=batch_size)
+    model = CNN(verbose=True, name=name)
 
     
 
     print("training the model...")
     epochs = 20
     history = model.fit_model(train_X, train_Y, valid_X, valid_Y, epochs)
+    
 
     if save:
         model.save()
@@ -46,6 +81,12 @@ def run(verbose=False, save=False, with_data_valid=False):
     if with_data_valid:
         return model, (valid_X, valid_Y,valid_labels)
     return model
+
+def load_model(name):
+    ai_model =  keras.models.load_model(f'CNN/savedModels/{name}')
+    cnn_model = CNN(name=name, model=ai_model)
+    return cnn_model
+
 
 def run_preloaded():
     # Get the data

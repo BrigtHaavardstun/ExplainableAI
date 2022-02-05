@@ -83,5 +83,16 @@ class CNN:
         self.model.save(f"CNN/savedModels/{self.name}")
 
     def predict(self, x):
-        return self.model.predict(x)
+        """
+        WARNING performs max over options to calculate one-hot encoding over possibilities.
+        """
+        x = np.array([x])
+
+        prediction =  self.model.predict(x)[0] 
+
+        if prediction[0] > prediction[1]:
+            return [1,0]
+        else:
+            return [0,1]
+
 

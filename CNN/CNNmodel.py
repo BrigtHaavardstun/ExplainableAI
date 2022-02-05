@@ -6,20 +6,25 @@ from keras.layers import Conv2D, MaxPooling2D
 #from keras.layers.normalization import BatchNormalization
 from keras.layers.advanced_activations import LeakyReLU
 from keras.optimizers import adam_v2
+import numpy as np 
 
 
 
 
 
 class CNN:
-    def __init__(self, verbose:bool, name:string, batch_size=int) -> None:
-        self.model = Sequential()
+    def __init__(self, model=None,name:str="Defualt",verbose:bool=True):
         self.verbose = verbose
         self.name = name
-        self.batch_size = batch_size
-        self._set_layers()
-        self._compile()
+        if model:
+            self.model = model
+        else:
+            self.model = Sequential()
+            self._set_layers()
+            self._compile()
+
         
+    
 
     def _set_layers(self):
         """

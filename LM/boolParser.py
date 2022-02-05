@@ -35,3 +35,5 @@ class BooleanExpression:
                 return True
         return False
             
+    def get_expression(self):
+        return self.expression

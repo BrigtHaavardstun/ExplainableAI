@@ -11,15 +11,27 @@ def process_labels(labels):
     """
     proccessed_labels = []
     for label in labels:
-        stopIdx = 0
+        curr_label = ""
         for i,e in enumerate(label):
             if e.isalpha():
-                stopIdx = i
+                curr_label += e
             else: # e.isdigit()
                 break
-        proccessed_labels.append(label[0:stopIdx+1])
+        proccessed_labels.append(curr_label)
     return proccessed_labels
 
+# This corresponds to δ in the equation
+def complexity_of_model(booleanExpr:BooleanExpression):
+    """
+    This could possibly be better formulated.
+    Maybe we should count the number of literals.
+
+    ALSO: this should be moved to a TM module
+    """
+    return len(booleanExpr.get_expression())
+
+
+# This corresponds to λ in the equation
 def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X, valid_labels):
     """
     For model_ai: Itterate over all(?) validation data. 
@@ -30,7 +42,7 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
     Maps will be on the form of:
 
     {
-        "": [0,0], 
+        "": [0,0], #[false_count,true_count]
         "A": [0,0], 
         "B": [0,0], 
         "C": [0,0], 
@@ -39,18 +51,25 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
         (...)
         "ABCD": [0,0],
     }
+
+    ALSO: this should be moved to a TM module
+
     """
+
+    
     all_labels = [
         "", "A","B", "C", "D",
         "AB", "AC", "AD","BC", "BD", "CD",
         "ABC", "ABD", "ACD", "BCD", "ABCD"
     ]
-    score_map_model_ai = {}
-    score_map_boolexpr = {} 
+
+    # Maps holding score for each label combination. 
+    count_map_model_ai = {}
+    count_map_boolexpr = {} 
 
     for label in all_labels:
-        score_map_model_ai[label] = [0,0]
-        score_map_boolexpr[label] = [0,0]
+        count_map_model_ai[label] = [0,0]
+        count_map_boolexpr[label] = [0,0]
     
     # Handling boolean expression first
     for label in all_labels:
@@ -58,8 +77,44 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
                                     B="B" in label,
                                     C="C" in label,
                                     D="D" in label)
+        if evaluation:
+            count_map_boolexpr[label][1] = 1
+        else:
+            count_map_boolexpr[label][0] = 1
 
-    pass
+
+    # handling ai model 
+    for label, data in zip(valid_labels, valid_X):
+        prediction = model_ai.predict(data) 
+        if prediction == [1,0]:
+            count_map_model_ai[label][0] += 1
+        else:
+            count_map_model_ai[label][1] += 1
+
+
+    # Convert maps counting nr_false and nr_true into probabilities of true.
+    # P(T|label) = nrTrue/(nrTrue +nrFalse)
+
+    probaility_map_ai = {}
+    probaility_map_boolexpr = {}
+    for label in all_labels:
+        # ai model
+        false_count, true_count = count_map_model_ai[label]
+        assert false_count+ true_count != 0, f"You didn't give the ai label {label}, hence we can't make the prediction"
+        probaility_map_ai[label] = true_count/(false_count+true_count)
+
+        # bool expr
+        false_count, true_count = count_map_boolexpr[label]
+        probaility_map_boolexpr[label] = true_count/(false_count+true_count)
+    
+
+
+    # Using mean square error. sum over all labels, (probAI - probBoolXpr)^2, 
+
+    mean_square_error = 0
+    for label in all_labels:
+        mean_square_error += (probaility_map_ai[label] - probaility_map_boolexpr[label])**2
+    return mean_square_error
 
 
 def convert_to_binary_sum(label):
@@ -83,15 +138,7 @@ def convert_to_binary_sum(label):
 
     return binary_sum
 
-
-
-def test():
-    
-    labels = ["ABC", "AB", "BCD"]
-    predictions = [[0,1],[0,1], [1,0]]
-
-    bool_expr = run_lm(labels, predictions)
-
+ 
 
 def run_lm(labels, predictions):
     """
@@ -127,13 +174,15 @@ def run_lm(labels, predictions):
         if (i not in prediction_true_binary_sum) and (i not in prediction_false_binary_sum):
             dont_cares.append(i)
 
+    if len(prediction_true_binary_sum) == 0:
+        return "" #TODO: This should just return false.
     min_terms = find_minterms(prediction_true_binary_sum, dont_cares)
     return(min_terms)
 
 
 
 
-def run_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
+def arg_min_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
     """
     Given traning data and ai model finds examples to show to the user
 
@@ -146,7 +195,13 @@ def run_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
         all_data_zip.append((valid_X[i], valid_Y[i], valid_labels[i]))
     sub_sets_attempts = 1000
     sample_size = 4
+
+    min_picks = []
+    min_score = float("inf")
+
+    print("Searching for best sample to display...")
     for i in  range(sub_sets_attempts):
+        print(f"{i+1}/{sub_sets_attempts}")
         picks = sample(all_data_zip,sample_size)
         
         predictions = []
@@ -163,6 +218,17 @@ def run_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
 
 
         compatibility = evaluate_compatibility(boolExpr, model_ai, valid_X, valid_labels)
+
+        complexity = complexity_of_model(boolExpr)
+
+        picks_score = compatibility + complexity*0.001
+        if picks_score < min_score:
+            print("new best set.")
+            min_score = picks_score
+            min_picks = picks
+    
+    return min_picks
+
 
         
 

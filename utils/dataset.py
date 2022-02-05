@@ -31,6 +31,7 @@ def load_dataset():
 
     X = np.asarray(X)
     y = np.asarray(y)
+    labels = np.asarray(labels)
     
 
     # We want to force values to be in range [0,1]

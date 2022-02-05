@@ -69,9 +69,9 @@ def chooseFilesToCombine(num):
 
 # define worker function before a Pool is instantiated
 def generateImage(i, itterations):
-    if item%(itterations//100)== 0:
-            print(str(100*item/itterations)+"%")
-    letters = chooseFilesToCombine(random.randint(1,4))    
+    letters = chooseFilesToCombine(random.randint(0,4))    
+    if len(letters) == 0:
+        genereator([], "", i)
     name = "".join(sorted(letters))
     images = []
     for letter in letters:
@@ -81,9 +81,9 @@ def generateImage(i, itterations):
 
 
 if __name__ == "__main__":
-    itterations = 30000
+    itterations = 10000
    
-    pool_size = 6  # your "parallelness"
+    pool_size = 4  # your "parallelness"
 
     pool = Pool(pool_size)
 

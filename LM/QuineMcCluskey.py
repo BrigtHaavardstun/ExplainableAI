@@ -1,6 +1,8 @@
 # Quine McCluskey algorithm for minimizing logical expressions
 # Author: Suman Adhikari
 
+# OUTDATED NOT USED
+
 # Link to github: https://github.com/int-main/Quine-McCluskey/blob/master/Quine%20McCluskey.py
 import random
 from LM.boolParser import BooleanExpression as BE
@@ -23,6 +25,7 @@ def multiply(x,y): # Multiply 2 expressions
     for i in x:
         for j in y:
             tmp = mul(i,j)
+            print(f"{i},{j}: {tmp}")
             res.append(tmp) if len(tmp) != 0 else None
     return res
 
@@ -93,6 +96,7 @@ def removeTerms(_chart,terms): # Removes minterms which are already covered from
 
 
 def find_minterms(mt, dc, verbose=False):
+    print(f"mt: {mt}, dc: {dc}")
     
     mt.sort()
     minterms = mt+dc
@@ -187,10 +191,21 @@ def find_minterms(mt, dc, verbose=False):
         final_result = [findVariables(i) for i in EPI] # Final result with only EPIs
     else: # Else follow Petrick's method for further simplification
         P = [[findVariables(j) for j in chart[i]] for i in chart]
+        print(P)
         while len(P)>1: # Keep multiplying until we get the SOP form of P
             P[1] = multiply(P[0],P[1])
+            print(P[1])
             P.pop(0)
-        final_result = [min(P[0],key=len)] # Choosing the term with minimum variables from P
+        print(chart)
+        print(P)
+        #if len(P[0]) == 0:
+        #    final_result = [""]
+        #else:
+        final_result = []
+        if P == [[]]: #Hacky fix?
+            final_result = []
+        else:
+            final_result = [min(P[0],key=len)] # Choosing the term with minimum variables from P
         final_result.extend(findVariables(i) for i in EPI) # Adding the EPIs to final solution
     final_result = ' + '.join(''.join(i) for i in final_result)
     if verbose:
@@ -219,6 +234,10 @@ def manipulateRes(result):
     return final
 
 
+def test():
+    mt= [7, 8]
+    dc= [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14]
+    find_minterms(mt,dc)
 
         
 if __name__ == "__main__":

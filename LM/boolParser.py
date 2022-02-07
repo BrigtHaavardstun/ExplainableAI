@@ -2,9 +2,15 @@ class BooleanExpression:
     def __init__(self,expression_str:str):
         self.expression = expression_str
         self.expression_ors = self.expression.split(" + ")
+        self.always_true = self.expression == "T"
+        self.always_false = self.expression == "F"
     
     def evaluate(self, A,B,C,D):
         #print(f"A:{A}\nB:{B}\nC:{C}\nD:{D}")
+        if self.always_true:
+            return True
+        if self.always_false:
+            return False 
         
         literals = {
             "A":A,

@@ -1,5 +1,6 @@
-from LM.QuineMcCluskey import find_minterms
-from random import sample
+#from LM.QuineMcCluskey import find_minterms
+from LM.kMaps.Kamps import find_minterms
+from random import sample, choice
 from CNN.CNNmodel import CNN 
 from LM.boolParser import BooleanExpression
 def process_labels(labels):
@@ -19,6 +20,10 @@ def process_labels(labels):
                 break
         proccessed_labels.append(curr_label)
     return proccessed_labels
+
+# This corresponds to δ in the equation
+def complexity_of_image(labels):
+    return sum([len(label) for label in labels])
 
 # This corresponds to δ in the equation
 def complexity_of_model(booleanExpr:BooleanExpression):
@@ -138,6 +143,28 @@ def convert_to_binary_sum(label):
 
     return binary_sum
 
+def convert_to_binary_reprsentation(label): 
+    converted = ""
+    if "A" in label:
+        converted += "1"
+    else:
+         converted += "0"
+    if "B" in label:
+        converted += "1"
+    else:
+        converted += "0"
+    if "C" in label:
+        converted += "1"
+    else:
+        converted += "0"
+    if "D" in label:
+        converted += "1"
+    else:
+        converted += "0"
+    return converted
+
+def convert_digit_to_binary(digit): 
+    return bin(digit)[2:].zfill(4)
  
 
 def run_lm(labels, predictions):
@@ -166,17 +193,21 @@ def run_lm(labels, predictions):
 
 
 
-    prediction_true_binary_sum  = [convert_to_binary_sum(label) for label in predicted_true]
-    prediction_false_binary_sum = [convert_to_binary_sum(label) for label in predicted_false]
+    prediction_true_binary  = [convert_to_binary_reprsentation(label) for label in predicted_true]
+    prediction_false_binary = [convert_to_binary_reprsentation(label) for label in predicted_false]
 
     dont_cares = []
     for i in range(16):
-        if (i not in prediction_true_binary_sum) and (i not in prediction_false_binary_sum):
-            dont_cares.append(i)
-
-    if len(prediction_true_binary_sum) == 0:
-        return "" #TODO: This should just return false.
-    min_terms = find_minterms(prediction_true_binary_sum, dont_cares)
+        if (convert_digit_to_binary(i) not in prediction_true_binary) and (convert_digit_to_binary(i) not in prediction_false_binary):
+            dont_cares.append(convert_digit_to_binary(i))
+    
+    if len(prediction_true_binary) == 0:
+        print("only false")
+        return "F" #This should just return false.
+    elif len(prediction_false_binary) == 0:
+        print("only true")
+        return "T"
+    min_terms = find_minterms(prediction_true_binary, dont_cares)
     return(min_terms)
 
 
@@ -191,8 +222,15 @@ def arg_min_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
     valid_labels = process_labels(valid_labels)
 
     all_data_zip = []
+    true_data_zip = []
+    false_data_zip = []
     for i in range(len(valid_labels)):
         all_data_zip.append((valid_X[i], valid_Y[i], valid_labels[i]))
+
+        if valid_Y[i][0] == 1:
+            false_data_zip.append((valid_X[i], valid_Y[i], valid_labels[i]))
+        else:
+            true_data_zip.append((valid_X[i], valid_Y[i], valid_labels[i]))
     sub_sets_attempts = 1000
     sample_size = 4
 
@@ -202,7 +240,16 @@ def arg_min_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
     print("Searching for best sample to display...")
     for i in  range(sub_sets_attempts):
         print(f"{i+1}/{sub_sets_attempts}")
-        picks = sample(all_data_zip,sample_size)
+
+        # we take total 4 picks, >1 true, >1 false.
+        # if we don't the result will always be either just true or just false.
+        picks = []
+        assert len(true_data_zip) != 0
+        picks.append(choice(true_data_zip)) # one true
+        assert len(false_data_zip) != 0
+        picks.append(choice(false_data_zip))# one false
+        picks.append(choice(all_data_zip)) #All random 
+        picks.append(choice(all_data_zip)) #All random
         
         predictions = []
         labels_picked = []
@@ -212,18 +259,21 @@ def arg_min_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
             labels_picked.append(label)
             ground_truth.append(y)
 
-        
         booleanExprStr = run_lm(labels = labels_picked, predictions = predictions)
         boolExpr = BooleanExpression(booleanExprStr)
 
 
-        compatibility = evaluate_compatibility(boolExpr, model_ai, valid_X, valid_labels)
+        compatibility = evaluate_compatibility(boolExpr, model_ai, valid_X, valid_labels) 
 
-        complexity = complexity_of_model(boolExpr)
+        model_complexity = complexity_of_model(boolExpr)
 
-        picks_score = compatibility + complexity*0.001
+        image_complexity = complexity_of_image(labels_picked)
+
+        picks_score = compatibility*100 + model_complexity + image_complexity
+        print(f"bool:{booleanExprStr}\ncompatibility: {compatibility}\nmodel_complex: {model_complexity}\n" 
+                                + f"image_complexiy: {image_complexity}\npick_score: {picks_score}")
         if picks_score < min_score:
-            print("new best set.")
+            print(f"new best set!!!\nLabels: {labels_picked}, predictions: {predictions}")
             min_score = picks_score
             min_picks = picks
     

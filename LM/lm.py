@@ -23,6 +23,10 @@ def process_labels(labels):
 
 # This corresponds to δ in the equation
 def complexity_of_image(labels):
+    """
+    We want our model to be easy to understand. 
+    Therefor the image should containe few labels.
+    """
     return sum([len(label) for label in labels])
 
 # This corresponds to δ in the equation
@@ -36,8 +40,10 @@ def complexity_of_model(booleanExpr:BooleanExpression):
     return len(booleanExpr.get_expression())
 
 
+BOOL_DP = {}
 # This corresponds to λ in the equation
 def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X, valid_labels):
+    global BOOL_DP
     """
     For model_ai: Itterate over all(?) validation data. 
     Keep a score over how many true and false each literal combination gives.
@@ -60,7 +66,8 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
     ALSO: this should be moved to a TM module
 
     """
-
+    if booleanExpr.get_expression() in BOOL_DP:
+        return BOOL_DP[booleanExpr.get_expression()]
     
     all_labels = [
         "", "A","B", "C", "D",
@@ -119,6 +126,7 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
     mean_square_error = 0
     for label in all_labels:
         mean_square_error += (probaility_map_ai[label] - probaility_map_boolexpr[label])**2
+    BOOL_DP[booleanExpr.get_expression()] = mean_square_error
     return mean_square_error
 
 

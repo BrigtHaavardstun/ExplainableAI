@@ -34,10 +34,6 @@ def run_system():
     valid_X,valid_Y,valid_labels= _sub_sample(valid_X,valid_Y,valid_labels, 200)
 
 
-    one_test = valid_X[0]
-    print(model.predict(one_test))
-
-    pass
     result = arg_min_ta(valid_X=valid_X, valid_Y=valid_Y, valid_labels=valid_labels, model_ai=model)
 
 
@@ -50,7 +46,9 @@ def run_system():
 
 
 
-
+import LM.QuineMcCluskey as QMC
+import LM.kMaps.Kamps as kMaps
 if __name__ == "__main__":
-    #run_system()
-    test()
+    run_system()
+    #train_model()
+    #QMC.test()

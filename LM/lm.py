@@ -40,6 +40,36 @@ def complexity_of_model(booleanExpr:BooleanExpression):
     return len(booleanExpr.get_expression())
 
 
+PROB_MAP_AI = None
+def _get_probaility_map_ai(model_ai,valid_X,valid_labels):
+    global PROB_MAP_AI
+    if PROB_MAP_AI is not None:
+        return PROB_MAP_AI
+    all_labels = [
+        "", "A","B", "C", "D",
+        "AB", "AC", "AD","BC", "BD", "CD",
+        "ABC", "ABD", "ACD", "BCD", "ABCD"
+    ]
+    count_map_model_ai = {}
+    for label in all_labels:
+        count_map_model_ai[label] = [0,0]
+    
+     # handling ai model 
+    for label, data in zip(valid_labels, valid_X):
+        prediction = model_ai.predict(data) 
+        if prediction == [1,0]:
+            count_map_model_ai[label][0] += 1
+        else:
+            count_map_model_ai[label][1] += 1
+
+    PROB_MAP_AI = {}
+    for label in all_labels:
+        # ai model
+        false_count, true_count = count_map_model_ai[label]
+        assert false_count+ true_count != 0, f"You didn't give the ai label {label}, hence we can't make the prediction"
+        PROB_MAP_AI[label] = true_count/(false_count+true_count)
+    return PROB_MAP_AI
+
 BOOL_DP = {}
 # This corresponds to λ in the equation
 def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X, valid_labels):
@@ -76,14 +106,12 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
     ]
 
     # Maps holding score for each label combination. 
-    count_map_model_ai = {}
     count_map_boolexpr = {} 
 
     for label in all_labels:
-        count_map_model_ai[label] = [0,0]
         count_map_boolexpr[label] = [0,0]
     
-    # Handling boolean expression first
+    # Handling boolean expression
     for label in all_labels:
         evaluation = booleanExpr.evaluate(A="A" in label,
                                     B="B" in label,
@@ -95,26 +123,14 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
             count_map_boolexpr[label][0] = 1
 
 
-    # handling ai model 
-    for label, data in zip(valid_labels, valid_X):
-        prediction = model_ai.predict(data) 
-        if prediction == [1,0]:
-            count_map_model_ai[label][0] += 1
-        else:
-            count_map_model_ai[label][1] += 1
+   
 
 
     # Convert maps counting nr_false and nr_true into probabilities of true.
     # P(T|label) = nrTrue/(nrTrue +nrFalse)
 
-    probaility_map_ai = {}
     probaility_map_boolexpr = {}
     for label in all_labels:
-        # ai model
-        false_count, true_count = count_map_model_ai[label]
-        assert false_count+ true_count != 0, f"You didn't give the ai label {label}, hence we can't make the prediction"
-        probaility_map_ai[label] = true_count/(false_count+true_count)
-
         # bool expr
         false_count, true_count = count_map_boolexpr[label]
         probaility_map_boolexpr[label] = true_count/(false_count+true_count)
@@ -122,7 +138,7 @@ def evaluate_compatibility(booleanExpr:BooleanExpression , model_ai:CNN, valid_X
 
 
     # Using mean square error. sum over all labels, (probAI - probBoolXpr)^2, 
-
+    probaility_map_ai = _get_probaility_map_ai(model_ai=model_ai, valid_X=valid_X, valid_labels=valid_labels)
     mean_square_error = 0
     for label in all_labels:
         mean_square_error += (probaility_map_ai[label] - probaility_map_boolexpr[label])**2

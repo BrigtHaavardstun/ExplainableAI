@@ -256,8 +256,18 @@ def arg_min_ta(valid_X, valid_Y, valid_labels,model_ai:CNN):
         picks.append(choice(true_data_zip)) # one true
         assert len(false_data_zip) != 0
         picks.append(choice(false_data_zip))# one false
-        picks.append(choice(all_data_zip)) #All random 
-        picks.append(choice(all_data_zip)) #All random
+        while(len(picks) < sample_size):
+            to_add = choice(all_data_zip)
+            aX,aY,aL = to_add
+            found_match = False
+            for pX,pY,pL in picks:
+                if (pX == aX).all() and (pY == aY).all() and pL == aL:
+                    found_match = True
+                    break
+            if found_match:
+                continue
+            
+            picks.append(to_add) #All random 
         
         predictions = []
         labels_picked = []

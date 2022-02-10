@@ -1,12 +1,15 @@
 from os import WEXITED
 from PIL import Image
 from multiprocessing.pool import ThreadPool as Pool
+from utils.common import get_all_permutations
+
 import random
+from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT, DATA_SET_SIZE
 import sys
 
 def genereator(images, name, count):
-    height = 32
-    width = 32
+    height = IMAGE_HIGHT
+    width = IMAGE_WIDTH
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
     
     diff = random.randint(0,10)-5
@@ -18,31 +21,30 @@ def genereator(images, name, count):
         x,y = random.choice(positions)
         background.paste(img, (x, y), img)
         positions.remove((x,y))
-    background.save(f"../data/images/{name}{count}.png")   
+    background.save(f"data/images/{name}{count}.png")   
 
-def chooseFilesToCombine(num):
-    possiblilities = ["A","B","C","D"]
-    picked = []
-    for i in range(num):
-        picked.append(random.choice(possiblilities))
-        possiblilities.remove(picked[-1])
-    return picked
+import random
+def chooseFilesToCombine():
+    possiblilities = get_all_permutations()
+    return random.choice(possiblilities)
 
 
-if __name__ == "__main__":
+def run(verbose=False):
     # Run this in ./generator directory. New created images will be stored in ./generator/generated
     
     pool_size = 4  # your "parallelness"
     pool = Pool(pool_size)
 
-    for i in range(5000):
-        letters = chooseFilesToCombine(random.randint(1,4))    
-        print(letters)
+    for i in range(DATA_SET_SIZE):
+        letters = chooseFilesToCombine()   
+        if verbose: 
+            print(letters)
         name = "".join(sorted(letters))
         images = []
         for letter in letters:
-            images.append(f"../images/{letter}/{letter}.png")
-        print(images)
+            images.append(f"images/{letter}/{letter}.png")
+        if verbose:
+            print(images)
         pool.apply_async(genereator, (images, name, i,))
 
     pool.close()

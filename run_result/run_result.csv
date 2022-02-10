@@ -1,0 +1,9 @@
+model_name,guessed_bool_expr,subset_selectors,delta,compatibility_evalutator,compatibility,complexity,label1,label2,label3,label4,prediction1,prediction2,prediction3,prediction4
+CNN v1.1,AB',RandomSelect,SumOfLetters,Mean_Square_Error,0.014756944444444444,4,A,AB,,B,1,0,0,0
+NN v1.1,AB',RandomSelect,SumOfLetters,Mean_Square_Error,0.07250000000000001,4,A,D,,AB,1,0,0,0
+CNN v1.1,AB',RandomSelect,MaxLetter,Mean_Square_Error,0.014756944444444444,2,A,C,,AB,1,0,0,0
+NN v1.1,AB',RandomSelect,MaxLetter,Mean_Square_Error,0.07250000000000001,2,A,C,B,AB,1,0,0,0
+CNN v1.1,AB',RandomSelect,MinLetter,Mean_Square_Error,0.014756944444444444,0,ACD,CD,AB,,1,0,0,0
+NN v1.1,AB',RandomSelect,MinLetter,Mean_Square_Error,0.07250000000000001,0,AD,AB,A,,1,0,1,0
+CNN v1.1,AB',RandomSelect,SquaredSum,Mean_Square_Error,0.014756944444444444,6,A,AB,,C,1,0,0,0
+NN v1.1,AB',RandomSelect,SquaredSum,Mean_Square_Error,0.07250000000000001,6,A,,C,AB,1,0,0,0

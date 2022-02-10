@@ -1,7 +1,9 @@
+from turtle import pos
 from PIL import Image
 import random
-import sys
 from multiprocessing.pool import ThreadPool as Pool
+from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT, DATA_SET_SIZE
+from utils.common import get_all_permutations
 
 """
 [ref](https://www.geeksforgeeks.org/find-two-rectangles-overlap/)
@@ -15,16 +17,17 @@ def is_overlap(l1, r1, l2, r2):
 
     return True
 
+
 def genereator(images, name, count):
-    height = 57
-    width = 57
+    height = IMAGE_HIGHT
+    width = IMAGE_WIDTH
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
 
     img_size_width = height//3 #+ random.randint(-3,3)  # More noise in the training data
     img_size_height = height//3 #+ random.randint(-3,3) #
     
     paste_image_list = [Image.open(image_loc).resize((img_size_width,img_size_height)).convert("RGBA") for image_loc in images]
-    alread_paste_point_list = []
+    already_paste_point_list = []
 
     for img in paste_image_list:
         # if all not overlap, find the none-overlap start point
@@ -45,51 +48,46 @@ def genereator(images, name, count):
             # right-bottom point
             l2, r2 = (x, y), (x+img.size[0], y+img.size[1])
 
-            if all(not is_overlap(l1, r1, l2, r2) for l1, r1 in alread_paste_point_list):
+            if all(not is_overlap(l1, r1, l2, r2) for l1, r1 in already_paste_point_list):
                 # save alreay pasted points for checking overlap
-                alread_paste_point_list.append((l2, r2))
+                already_paste_point_list.append((l2, r2))
                 background.paste(img, (x, y), img)
                 break
 
-    background.save(f"../data/images/{name}{count}.png")
+    background.save(f"data/images/{name}{count}.png")
 
     # check like this, all three rectangles all not overlapping each other
     from itertools import combinations
-    assert(all(not is_overlap(l1, r1, l2, r2) for (l1, r1), (l2, r2) in combinations(alread_paste_point_list, 2)))
+    assert(all(not is_overlap(l1, r1, l2, r2) for (l1, r1), (l2, r2) in combinations(already_paste_point_list, 2)))
 
 
-import random
-def chooseFilesToCombine(num):
-    possiblilities = ["A","B","C","D"]
-    picked = []
-    for i in range(num):
-        picked.append(random.choice(possiblilities))
-        possiblilities.remove(picked[-1])
+
+def randomPickLetters():
+    possiblilities = get_all_permutations()
+    picked = random.choice(possiblilities)
     return picked
 
 # define worker function before a Pool is instantiated
-def generateImage(i, itterations):
-    letters = chooseFilesToCombine(random.randint(0,4))    
+def generateImage(i):
+    letters = randomPickLetters()    
     if len(letters) == 0:
         genereator([], "", i)
     name = "".join(sorted(letters))
     images = []
     for letter in letters:
         rotation = random.randint(0,7)
-        images.append(f"../images/{letter}/{letter}{rotation}.png")
+        images.append(f"images/{letter}/{letter}{rotation}.png")
     genereator(images, name, i)
 
-
-if __name__ == "__main__":
-    itterations = 10000
-   
+def run():  
     pool_size = 4  # your "parallelness"
 
     pool = Pool(pool_size)
 
-    for item in range(itterations):
+    for item in range(DATA_SET_SIZE):
         
-        pool.apply_async(generateImage, (item,(itterations),))
+        pool.apply_async(generateImage, (item,))
 
     pool.close()
     pool.join()
+

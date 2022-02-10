@@ -1,10 +1,11 @@
 from utils.dataset import load_dataset
 from sklearn.model_selection import train_test_split
-from .CNNmodel import CNN
 from PIL import Image
 import matplotlib.pyplot as plt
 from tensorflow import keras
 import numpy as np
+from models.abstract_model import AbstractModel
+from models.loadModel import LoadModel
 
 def train_test_validation_split(size):
     train, test_valid = train_test_split(list(range(size)), test_size=0.4)
@@ -14,9 +15,10 @@ def train_test_validation_split(size):
 
 
 
-def run(verbose=False, save=True, with_data_valid=False, name="Standar"):
+def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=False, name="Standar"):
     """
-    Trains a CNN model based on data from ./data folder.
+    constructur = CNN /NN
+    Trains a model based on data from ./data folder.
     Return: the trained model.
     """
 
@@ -62,7 +64,7 @@ def run(verbose=False, save=True, with_data_valid=False, name="Standar"):
 
     # Create model
     print("making the model...")
-    model = CNN(verbose=True, name=name)
+    model = constructor(verbose=True, name=name)
 
     
 
@@ -82,12 +84,16 @@ def run(verbose=False, save=True, with_data_valid=False, name="Standar"):
         return model, (valid_X, valid_Y,valid_labels)
     return model
 
-def load_model(name):
-    ai_model =  keras.models.load_model(f'CNN/savedModels/{name}')
-    cnn_model = CNN(name=name, model=ai_model)
-    return cnn_model
+def load_model(name:str)->AbstractModel:
+    """
+    name: Custom name of ai model
+    model_name: Name of the model used, CNN or NN
+    """
+    ai_model_keras =  keras.models.load_model(f'models/savedModels/{name}')
+    ai_model = LoadModel(name=name, model=ai_model_keras)
+    return ai_model
 
-
+"""
 def run_preloaded():
     # Get the data
     X,Y = load_dataset()
@@ -104,7 +110,7 @@ def run_preloaded():
     disply_confusion_matrix(model, valid_X, valid_Y)
 
     print(model.score(test_X, test_Y))
-
+"""
 def plot_history(history):
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])

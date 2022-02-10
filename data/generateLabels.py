@@ -4,7 +4,7 @@ from os import listdir
 from os.path import isfile, join
 
 def booleanFunction(A,B,C,D):
-    return (A and not B) or (C and not A) #!!! MEGA IMPORTANT, defines ML if we need multiple MLs
+    return (A and not B) #!!! MEGA IMPORTANT, defines ML if we need multiple MLs
                                      # we need different bool funcs
 
 def parseNameToLabel(fileName):
@@ -27,12 +27,14 @@ def generateLable(folderPrefix, filename):
 
 
 def readAllFileNamesInTrainingData():
-    prefixFolder = "lables/"
-    directory = "training_data"
+    directory = "data/training_data"
     onlyfiles = sorted([f[:-4] for f in listdir(directory) if isfile(join(directory, f))])
-    for file in onlyfiles:
+    return onlyfiles
+    
+
+def run():
+    all_files = readAllFileNamesInTrainingData()
+
+    prefixFolder = "data/lables/"
+    for file in all_files:
         generateLable(prefixFolder,file)
-
-
-if __name__ == "__main__":
-    readAllFileNamesInTrainingData()

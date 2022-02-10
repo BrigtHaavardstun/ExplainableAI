@@ -11,7 +11,7 @@ def image_loc_to_bitmap(image_location):
    
     return bitmap
 
-def main(new_prefix,image_location):
+def converter(new_prefix,image_location):
     bitmap = image_loc_to_bitmap(image_location)
     
     # W
@@ -24,4 +24,4 @@ if __name__ == "__main__":
     print(file_name)
     image_loc = file_name
     new_prefix = "training_data/"
-    main(new_prefix,image_loc)
+    converter(new_prefix,image_loc)

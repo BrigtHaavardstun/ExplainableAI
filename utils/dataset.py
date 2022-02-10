@@ -40,6 +40,18 @@ def load_dataset():
     return X,y, labels
 
 
+def sub_sample(valid_X, valid_Y, valid_labels, sample_size):
+    all_data_zip = []
+    for i in range(len(valid_labels)):
+        all_data_zip.append((valid_X[i], valid_Y[i], valid_labels[i]))
+
+
+    picks = random.sample(all_data_zip,sample_size)
+    
+    valid_X,valid_Y,valid_labels = zip(*picks)
+    return valid_X,valid_Y,valid_labels 
+
+
 def bootstrap(X,y):
     X,y = makeBiggestMeetSmallest(X,y)
     #X,y = duplicateSmallestToMatchBiggest(X,y)

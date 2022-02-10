@@ -116,6 +116,10 @@ def find_essential_prime_implicants(prime_implicants, minterms):
         sop = multiply(sop, products)
 
     min = 9999
+
+    # TODO: Here we "pick" one of the possible answers. Now this could be a problem, beacuse there could be many possible solutions.
+    # How am i to compansate for this? 
+    # TODAY i don't now, i will find a solution another day.
     ids = set()
     for p in sop:
         length = len(p)

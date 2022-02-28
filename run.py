@@ -21,6 +21,7 @@ from TA.Lambda.mean_square_error import MSE
 from utils.dataset import load_dataset, sub_sample
 from utils.save_data import save_data
 from utils.common import one_hot_to_number
+from utils.global_props import set_sample_attempts
 
 
 import random
@@ -40,14 +41,14 @@ def run_system(model:AbstractModel, set_selector:ISubsetSelector, delta:IDelta, 
    
 
 
-    picks, compatibility, complexity, boolexpr_best = arg_min_ta(verbose=verbose,valid_X=valid_X, valid_Y=valid_Y, valid_labels=valid_labels, ai_model=model,
+    picks, compatibility, complexity, boolforest_best = arg_min_ta(verbose=verbose,valid_X=valid_X, valid_Y=valid_Y, valid_labels=valid_labels, ai_model=model,
      set_selector=set_selector,
       delta=delta, 
       compatibility_evalutator=compatibility_evalutator
     )
     predictions = [str(one_hot_to_number(model.predict(x))) for x,y,label in picks]
     #display_result(picks=picks, compatibility=compatibility, complexity=complexity, ai_model=model)
-    save_data(ai_model=model,bool_expr=boolexpr_best,picks=picks,predictions=predictions, compatibility=compatibility, complexity=complexity,
+    save_data(ai_model=model,boolforest=boolforest_best,picks=picks,predictions=predictions, compatibility=compatibility, complexity=complexity,
         subset_selectors=set_selector, delta=delta, compatibility_evalutator=compatibility_evalutator)
 
 def display_result(picks, compatibility, complexity, ai_model):

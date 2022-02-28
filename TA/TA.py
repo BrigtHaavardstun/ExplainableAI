@@ -1,8 +1,8 @@
-from LM.boolParser import BooleanExpression
+from LM.boolean.BoolExpression import BooleanExpression
 from models.abstract_model import AbstractModel
 
 from utils.common import remove_digit_from_label
-from utils.global_props import SAMPLE_ATTEMPTS
+from utils.global_props import get_sample_attempts
 
 from TA.subset.ISubset import ISubsetSelector
 from TA.delta.IDelta import IDelta
@@ -62,17 +62,18 @@ def arg_min_ta(valid_X, valid_Y, valid_labels,ai_model:AbstractModel,
             labels_picked.append(label)
             ground_truth.append(y)
 
-        booleanExprStr = run_lm(labels = labels_picked, predictions = predictions)
-        boolExpr = BooleanExpression(booleanExprStr)
+        #booleanExprStr = run_lm(labels = labels_picked, predictions = predictions)
+        #boolExpr = BooleanExpression(booleanExprStr)
+        boolean_forest = run_lm(labels = labels_picked, predictions = predictions)
 
 
-        compatibility = compatibility_evalutator.compatibility(ai_model=ai_model, boolean_expression=boolExpr, valid_X=valid_X, valid_labels=valid_labels) 
+        compatibility = compatibility_evalutator.compatibility(ai_model=ai_model, bool_forest=boolean_forest, valid_X=valid_X, valid_labels=valid_labels) 
 
         sample_complexity = delta.get_complexity_of_subset(labels_picked)
 
         picks_score = compatibility*100 + sample_complexity
         if verbose:
-            print(f"bool:{booleanExprStr}\ncompatibility: {compatibility}\n" 
+            print(f"bool_forest:{boolean_forest.get_forest()}\nbool_min:{boolean_forest.get_min_expression()}\ncompatibility: {compatibility}\n" 
                                     + f"sample_complexity: {sample_complexity}\n"
                                     + f"pick_score: {picks_score}")
         if picks_score < min_score:
@@ -81,6 +82,6 @@ def arg_min_ta(valid_X, valid_Y, valid_labels,ai_model:AbstractModel,
             min_picks = picks
             compatibility_best = compatibility
             complexity_best = sample_complexity
-            boolexpr_best = boolExpr
+            boolforest_best = boolean_forest
     
-    return min_picks, compatibility_best, complexity_best, boolexpr_best
+    return min_picks, compatibility_best, complexity_best, boolforest_best

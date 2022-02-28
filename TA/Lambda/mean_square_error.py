@@ -1,5 +1,5 @@
 from models.abstract_model import AbstractModel
-from LM.boolParser import BooleanExpression
+from LM.boolean.IBoolForest import IBoolForest
 from TA.Lambda.ILambda import ILambda
 from utils.common import get_all_permutations
 class MSE(ILambda):
@@ -10,7 +10,7 @@ class MSE(ILambda):
     def __repr__(self):
         return "Mean_Square_Error"
     
-    def compatibility(self, ai_model:AbstractModel, boolean_expression:BooleanExpression, valid_X, valid_labels):
+    def compatibility(self, ai_model:AbstractModel, bool_forest:IBoolForest, valid_X, valid_labels):
         """
         Returns a value describing the compatibility between tha ai_model and boolean expression.
         Low score is better.
@@ -23,8 +23,8 @@ class MSE(ILambda):
 
        
         """
-        if (ai_model,boolean_expression.get_expression()) in self.boolexpr_prob_map:
-            return self.boolexpr_prob_map[(ai_model,boolean_expression.get_expression())]
+        if (ai_model,bool_forest.get_forest()) in self.boolexpr_prob_map:
+            return self.boolexpr_prob_map[(ai_model,bool_forest.get_forest())]
         
         all_labels = [
             "", "A","B", "C", "D",
@@ -55,7 +55,7 @@ class MSE(ILambda):
         
         # Handling boolean expression
         for label in all_labels:
-            evaluation = boolean_expression.evaluate(
+            evaluation = bool_forest.evaluate(
                                         A="A" in label,
                                         B="B" in label,
                                         C="C" in label,
@@ -83,7 +83,7 @@ class MSE(ILambda):
         mean_square_error = 0
         for label in all_labels:
             mean_square_error += (probaility_map_ai[label] - probaility_map_boolexpr[label])**2
-        self.boolexpr_prob_map[(ai_model,boolean_expression.get_expression())] = mean_square_error
+        self.boolexpr_prob_map[(ai_model,bool_forest.get_forest())] = mean_square_error
         return mean_square_error
 
 

@@ -1,6 +1,6 @@
 # Image attributes
-IMAGE_WIDTH = 57
-IMAGE_HIGHT = 57
+IMAGE_WIDTH = 64
+IMAGE_HIGHT = 64
 
 
 # Letters being used

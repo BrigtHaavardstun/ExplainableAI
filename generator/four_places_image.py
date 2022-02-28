@@ -12,7 +12,8 @@ def genereator(images, name, count):
     width = IMAGE_WIDTH
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
     
-    diff = random.randint(0,10)-5
+    maxDiff = 3
+    diff = random.randint(-maxDiff,0)
     paste_image_list = [Image.open(image_loc).resize((width//2+diff,height//2+diff)).convert("RGBA") for image_loc in images]
  
 
@@ -29,7 +30,7 @@ def chooseFilesToCombine():
     return random.choice(possiblilities)
 
 
-def run(verbose=False):
+def run(verbose=False, rotation=False):
     # Run this in ./generator directory. New created images will be stored in ./generator/generated
     
     pool_size = 4  # your "parallelness"
@@ -42,7 +43,10 @@ def run(verbose=False):
         name = "".join(sorted(letters))
         images = []
         for letter in letters:
-            images.append(f"images/{letter}/{letter}.png")
+            letterRotation = letter
+            if rotation:
+                letterRotation += str(random.randint(0,7))
+            images.append(f"images/{letter}/{letterRotation}.png")
         if verbose:
             print(images)
         pool.apply_async(genereator, (images, name, i,))

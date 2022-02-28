@@ -10,44 +10,44 @@ A level-1 auxiliary file: chapter/dataset.aux
 The style file: generators/myplainnat.bst
 A level-1 auxiliary file: generators/appendix-a.aux
 Database file #1: generators/refs.bib
-You've used 1 entry,
+You've used 2 entries,
             2773 wiz_defined-function locations,
-            610 strings with 5317 characters,
-and the built_in function-call counts, 635 in all, are:
-= -- 66
-> -- 21
+            622 strings with 5501 characters,
+and the built_in function-call counts, 1182 in all, are:
+= -- 121
+> -- 51
 < -- 2
-+ -- 7
-- -- 6
-* -- 41
-:= -- 92
-add.period$ -- 5
-call.type$ -- 1
-change.case$ -- 5
-chr.to.int$ -- 1
-cite$ -- 2
-duplicate$ -- 32
-empty$ -- 52
-format.name$ -- 9
-if$ -- 142
++ -- 17
+- -- 15
+* -- 94
+:= -- 178
+add.period$ -- 11
+call.type$ -- 2
+change.case$ -- 11
+chr.to.int$ -- 2
+cite$ -- 4
+duplicate$ -- 53
+empty$ -- 93
+format.name$ -- 19
+if$ -- 255
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 1
-newline$ -- 14
-num.names$ -- 4
-pop$ -- 9
+missing$ -- 2
+newline$ -- 22
+num.names$ -- 8
+pop$ -- 16
 preamble$ -- 1
-purify$ -- 4
+purify$ -- 9
 quote$ -- 0
-skip$ -- 29
+skip$ -- 44
 stack$ -- 0
-substring$ -- 34
-swap$ -- 10
+substring$ -- 61
+swap$ -- 11
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 11
+type$ -- 22
 warning$ -- 0
-while$ -- 6
+while$ -- 11
 width$ -- 0
-write$ -- 25
+write$ -- 44

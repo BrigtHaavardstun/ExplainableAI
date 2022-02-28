@@ -2,4 +2,13 @@
 \contentsline {figure}{\numberline {1.1}{\ignorespaces Caption for flowchart\relax }}{2}{figure.caption.5}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Bitmap A\relax }}{6}{figure.caption.7}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Bitmap AD\relax }}{6}{figure.caption.7}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Bitmap BCD\relax }}{6}{figure.caption.7}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Bitmap ABCD\relax }}{6}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Bitmap ABD\relax }}{6}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Bitmap CD\relax }}{6}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Bitmap w/rotation ABC\relax }}{8}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Bitmap ACD, too big. Overlapping, and out of image.\relax }}{8}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Bitmap AB, too small. A is broken up, B looks like R.\relax }}{8}{figure.caption.10}%
 \addvspace {10\p@ }

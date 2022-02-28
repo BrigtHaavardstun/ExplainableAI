@@ -1,0 +1,16 @@
+\begin{thebibliography}{1}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ongaro and Ousterhout(2014)]{raftAlg}
+Diego Ongaro and John Ousterhout.
+\newblock In search of an understandable consensus algorithm.
+\newblock In \emph{Proceedings of the 2014 USENIX Conference on USENIX Annual
+  Technical Conference}, USENIX ATC'14, pages 305--320, Berkeley, CA, USA,
+  2014. USENIX Association.
+\newblock ISBN 978-1-931971-10-2.
+
+\end{thebibliography}

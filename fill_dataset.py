@@ -3,12 +3,13 @@ from data import convert_images_to_bitmask_par, generateLabels
 
 
 
-def main(mode:bool = True, verbose:bool = True):
+def main(fixedSquare:bool = True, verbose:bool = True, rotation:bool = False):
 
-    if mode:
+    if fixedSquare:
         if verbose:
             print("Generating images using four_places routine...")
-        four_places_image.run()
+        
+        four_places_image.run(rotation=rotation)
     else:
         if verbose:
             print("Generating images using random placement routine...")
@@ -28,4 +29,4 @@ def main(mode:bool = True, verbose:bool = True):
 
 
 if __name__ == '__main__':
-    main()
+    main(fixedSquare=False,rotation=False)

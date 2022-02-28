@@ -31,6 +31,8 @@ class Term:
         return len(list(filter(lambda c: c == "1", self.term)))
 
     def __eq__(self, other):
+        if type(other) != type(self):
+            return False
         return self.term == other.term
 
     def __str__(self):
@@ -115,19 +117,23 @@ def find_essential_prime_implicants(prime_implicants, minterms):
     for products in chart.values():
         sop = multiply(sop, products)
 
-    min = 9999
+    min = float("inf")
 
     # TODO: Here we "pick" one of the possible answers. Now this could be a problem, beacuse there could be many possible solutions.
     # How am i to compansate for this? 
     # TODAY i don't now, i will find a solution another day.
-    ids = set()
+    # TODO: invest this minimzation
+    ids = []
     for p in sop:
         length = len(p)
         if length < min:
             min = length
-            ids = p
+            ids = [p]
+        elif length == min:
+            ids.append(p)
+        
 
-    return [prime_implicants[i] for i in ids]
+    return [[prime_implicants[i] for i in p] for p in ids]
 
 
 def multiply(result, product):
@@ -161,7 +167,7 @@ class Minterms(object):
         prime_implicants = find_prime_implicants(self.minterms, self.not_cares)
         result = find_essential_prime_implicants(prime_implicants, self.minterms)
         return result
-def find_minterms(tm, dc):
+def find_all_minterms(tm, dc):
     t_minterms = [Term(term) for term in tm]
     not_cares = [Term(term) for term in dc]
     minterms = Minterms(t_minterms, not_cares)
@@ -175,28 +181,33 @@ def find_minterms(tm, dc):
         2: "C",
         3: "D"
     }
-    pretty_print = []
-    for claus in res:
-        current = ""
-        for i,l in enumerate(str(claus)):
-            if l == "*":
-                continue
-            elif l == "1":
-                current += index_letter[i]
-            elif l == "0": 
-                current += index_letter[i] + "'"
-            else:
-                raise ValueError("Should be 1 or 0")
-        pretty_print.append(current)
-    if pretty_print == ['']:
-        return "T"
+    all_min_terms = []
+    for term in res:
+        term_formated = []
+        for claus in term:
+            current = ""
+            for i,l in enumerate(str(claus)):
+                if l == "*":
+                    continue
+                elif l == "1":
+                    current += index_letter[i]
+                elif l == "0": 
+                    current += index_letter[i] + "'"
+                else:
+                    raise ValueError("Should be 1 or 0")
+            term_formated.append(current)
+        if  term_formated == [""]: #empty term
+            return "T"
     
-    result = " + ".join(pretty_print)
-    return result
+        all_min_terms.append("+".join(term_formated))
+    return all_min_terms
 
 
-if __name__ == "__main__":
+
+def test_bool():
     str_terms = ["1000"]
     terms_not_care = ["0000", "0010", "0011", "0100", "0101", "0110", "0111", "1001", "1010", "1011", "1100", "1101", "1110", "1111"]
     
-    find_minterms(str_terms, terms_not_care)
+    print(find_minterms(str_terms, terms_not_care))
+
+    

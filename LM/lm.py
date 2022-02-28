@@ -1,10 +1,12 @@
 #from LM.QuineMcCluskey import find_minterms
 from LM.kMaps import Kamps
 from utils.common import convert_label_to_binary, convert_digit_to_binary
-
+from LM.boolean.BoolExpression import BooleanExpression
+from LM.boolean.Forests.LexioForest import LexioForest
+from LM.boolean.IBoolForest import IBoolForest
  
 
-def run_lm(labels, predictions):
+def run_lm(labels, predictions)->IBoolForest:
     """
     Given labels and correspoding predictions, runs Karnaugh maps to find the minimal fitting boolean expression.
 
@@ -39,11 +41,17 @@ def run_lm(labels, predictions):
             dont_cares.append(convert_digit_to_binary(i))
     
     if len(prediction_true_binary) == 0:
-        return "F" 
+        return _convert_to_boolean_forest(["F"]) 
     elif len(prediction_false_binary) == 0:
-        return "T"
-    min_terms = Kamps.find_minterms(prediction_true_binary, dont_cares)
-    return(min_terms)
+        return _convert_to_boolean_forest(["T"])
+    all_min_terms = Kamps.find_all_minterms(prediction_true_binary, dont_cares)
+    
+    boolean_forest = _convert_to_boolean_forest(all_min_terms)
+    return boolean_forest
 
 
 
+def _convert_to_boolean_forest(all_min_terms):
+    return LexioForest([BooleanExpression(expr) for expr in all_min_terms])
+
+        

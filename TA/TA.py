@@ -32,13 +32,13 @@ def arg_min_ta(valid_X, valid_Y, valid_labels,ai_model:AbstractModel,
         else:
             true_data_zip.append((valid_X[i], valid_Y[i], valid_labels[i]))
 
-    sub_sets_attempts = SAMPLE_ATTEMPTS
+    sub_sets_attempts = get_sample_attempts()
 
     min_picks = []
     min_score = float("inf")
     complexity_best = float("inf")
     compatibility_best = float("inf")
-    boolexpr_best = ""
+    boolforest_best = None
 
     # Pick the sub_set we are testing.
     set_selector.load(all_data_zip=all_data_zip, true_data_zip=true_data_zip, false_data_zip=false_data_zip)

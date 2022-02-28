@@ -58,21 +58,19 @@ def display_result(picks, compatibility, complexity, ai_model):
         prediction = ai_model.predict(example_X)
         print(f"label: '{example_label}', Correct: {example_Y}, predicted: {prediction}")
 
-
-
-
-
-if __name__ == "__main__":
+def main_run_system(re_train = True):
     model_name_CNN= "CNN v1.1"
-    train_model(model_to_train=CNN, model_name=model_name_CNN)
+    if re_train:
+        train_model(model_to_train=CNN, model_name=model_name_CNN)
 
     model_name_NN= "NN v1.1"
-    train_model(model_to_train=NN, model_name=model_name_NN)
+    if re_train:
+        train_model(model_to_train=NN, model_name=model_name_NN)
 
     subset_selectors = [RandomSelect()]
     deltas = [SumOfLetters(), MaxLetter(), MinLetter(), SquaredSum()]
     lambdas = [MSE()]
-
+    differentAttempts = [10,20,50,75,100,200,500,1000,2000]
     ai_models = [load_model(model_name_CNN),load_model(model_name_NN)]
 
     valid_X,valid_Y,valid_labels =load_dataset()
@@ -83,18 +81,33 @@ if __name__ == "__main__":
         for compatibility_evalutator in lambdas:
             for delta in deltas:
                 for ai_model in ai_models:
-                    print(
-                        f"model: {ai_model}\n" +
-                        f"subset_selector: {subset_selector}\n"+
-                        f"compatibility_evalutator: {compatibility_evalutator}\n" +
-                        f"delta: {delta}"
-                        
-                    )
-                    run_system(model=ai_model,
-                    valid_X=valid_X,valid_Y=valid_Y,valid_labels=valid_labels,
-                    set_selector=subset_selector,
-                     delta=delta,
-                     compatibility_evalutator=compatibility_evalutator,
-                     verbose=True
-                     )
+                    for size in differentAttempts:
+                        #set global attempts to size.
+                        for i in range(3):
+                            # we do three runs on each to get the average
+                            # calulated afterwards
+                            set_sample_attempts(size)
+                            print(
+                                f"model: {ai_model}\n" +
+                                f"subset_selector: {subset_selector}\n"+
+                                f"compatibility_evalutator: {compatibility_evalutator}\n" +
+                                f"delta: {delta}\n" +
+                                f"attemps: {size}"
+                                
+                            )
+                            run_system(model=ai_model,
+                            valid_X=valid_X,valid_Y=valid_Y,valid_labels=valid_labels,
+                            set_selector=subset_selector,
+                            delta=delta,
+                            compatibility_evalutator=compatibility_evalutator,
+                            verbose=True
+                            )
 
+
+
+
+
+
+
+if __name__ == "__main__":
+    main_run_system(re_train=True)

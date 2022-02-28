@@ -23,8 +23,8 @@ def genereator(images, name, count):
     width = IMAGE_WIDTH
     background = Image.new(mode="RGBA",size=(width,height), color=(255,255,255))
 
-    img_size_width = height//3 #+ random.randint(-3,3)  # More noise in the training data
-    img_size_height = height//3 #+ random.randint(-3,3) #
+    img_size_width = height//2 - random.randint(0,10)  # More noise in the training data
+    img_size_height = img_size_width #we want to maintain scale.
     
     paste_image_list = [Image.open(image_loc).resize((img_size_width,img_size_height)).convert("RGBA") for image_loc in images]
     already_paste_point_list = []

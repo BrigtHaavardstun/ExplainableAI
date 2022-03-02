@@ -1,12 +1,16 @@
 \chapter{Model}
 
 In this thesis there are multiple "models" and we will therefor establish cleare notations and descriptions of 
-of each.
+each.
 
-\section{$\theta{ai}$ - the AI}
+\section{$\theta_{ai}$ - the AI model to be learned}
 
-With $\theta{ai}$ we refere to the AI model we are trying to teach to a human. 
+With $\theta_{ai}$ we refere to the AI model we are trying to teach to a human. 
 In this thesis we will experimented with two different implementations of $\theta{ai}$. 
-One being a convolutional nural network, refered to as $CNN$, and the other being a fully connected nural network, refrenced to as $NN$.
+The first being \gls{CNN} \cite{CNN:deeplearning}, and the other being \gls{FCNN}.
+$\theta_{ai}$ will be trained on imags, and will try to preditc a ground truth boolean function. 
+This will be discussed in the chapter \nameref{DatasetChap}. Both \gls{CNN} and \gls{FCNN} will be discussed in further implementations detail.
 
-\section{$\theta{LM}$ - modeling human learner}
+\section{$\theta_{LM}$ - modeling human learner}
+$\theta_{LM}$ will be an algorithm trying to mimic human behavior. Given a set of \hyperref[InstanceDescription]{instances} and corresponds predicted values $\theta_{LM}$ 
+outputs a guessed $\theta_{ai}$ it belives made these prediction for the given instances.

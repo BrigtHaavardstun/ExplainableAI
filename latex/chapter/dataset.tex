@@ -1,4 +1,5 @@
 \chapter{Dataset}
+\label{DatasetChap}
 
 In this chapter we discuss how the dataset was choosen, how we create it, and the different parameters 
 acceseable when creating it. 
@@ -22,6 +23,7 @@ At the same time the bitmaps representation of literals gives us the possibility
 more or less complex datasets – different orientations, sizes and letter styles. 
 
 \section{Description of an instance}
+\label{InstanceDescription}
 
 In more detail, the input to our AI will be a 64x64 bitmap. The cells in the bitmap will either have the value $0$ or $255$.
 The cells having the value $255$ will together make up one or more letter from a predetermined letter set $L = {A,B,C,D}$.
@@ -129,3 +131,10 @@ it has to fit inside the image. Nor can it be made to small \ref{Bitmap-small-AB
 
 Having a broader range of sizes on the images will increase varience and complexity of our dataset.
 
+\section{Labels}
+After having described our data instance, we now describe the corresponding labels in the dataset.
+Our labeles will hold either the value $0$ or the value $1$. This corresponds to our ground truth boolean function returing 
+True ($1$) or False ($0$). When evalueting a instance we retrive letters used to genereated this instace,
+and set the corresponding letters to true in our ground truth boolean function, and letters not present will be set to false.
+For instance given ground truth boolean function $(A $ and not $ B)$ \nameref{Bitmap-A} would be true, and hence 
+get label $1$, while \nameref{Bitmap-highvar-ABD} would be false and have label $0$

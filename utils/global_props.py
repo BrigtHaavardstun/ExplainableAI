@@ -24,3 +24,6 @@ def set_sample_attempts(size):
 def get_sample_attempts():
     global SAMPLE_ATTEMPTS
     return SAMPLE_ATTEMPTS
+
+def booleanFunctionDefiniton(A,B,C,D):
+    return (A and B) or (C and D) or (A and D)

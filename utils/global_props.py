@@ -8,11 +8,14 @@ ALL_LETTERS = ["A", "B", "C", "D"]
 
 
 # Data set sizes
-DATA_SET_SIZE = 100
+DATA_SET_SIZE = 20000
 
 # Number of samples(?) picked by AT, maybe?
 SAMPLE_SIZE = 4 # Number of pictures to be shown
-SAMPLE_ATTEMPTS = 10000 # Number of itterations of AI argmin
+SAMPLE_ATTEMPTS = 200 # Number of itterations of AI argmin
+
+# Run overwrites this value.
+# Move SAMPLE_ATTEMPTS_LITS TO THIS FILE(?)
 def set_sample_attempts(size):
     """
     Using this we can create a graf plot of the "complexity" / "compatibility" score of each combination on different attempts to

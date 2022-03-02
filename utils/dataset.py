@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 import random
 
+
 def load_dataset():
 
     X = []
@@ -12,7 +13,8 @@ def load_dataset():
     labels = []
 
     directory = "data/training_data"
-    onlyfiles = sorted([f[:-4] for f in listdir(directory) if isfile(join(directory, f)) and f != "clean.sh"])
+    onlyfiles = sorted([f[:-4] for f in listdir(directory)
+                       if isfile(join(directory, f)) and f != "clean.sh"])
     for file in onlyfiles:
         # get training data
         img = Image.open(f"{directory}/{file}.bmp")
@@ -23,21 +25,19 @@ def load_dataset():
         lable = -1
         with open(f"data/lables/{file}.txt", "r") as f:
             lable = f.read()
-        curr_y = [0,0] #hot encoding
+        curr_y = [0, 0]  # hot encoding
         curr_y[int(lable)] = 1
         y.append(curr_y)
         labels.append(file)
 
-
     X = np.asarray(X)
     y = np.asarray(y)
     labels = np.asarray(labels)
-    
 
     # We want to force values to be in range [0,1]
     #X = X.astype('float32')
     #X = X / 255.0
-    return X,y, labels
+    return X, y, labels
 
 
 def sub_sample(valid_X, valid_Y, valid_labels, sample_size):
@@ -45,22 +45,19 @@ def sub_sample(valid_X, valid_Y, valid_labels, sample_size):
     for i in range(len(valid_labels)):
         all_data_zip.append((valid_X[i], valid_Y[i], valid_labels[i]))
 
+    picks = random.sample(all_data_zip, sample_size)
 
-    picks = random.sample(all_data_zip,sample_size)
-    
-    valid_X,valid_Y,valid_labels = zip(*picks)
-    return valid_X,valid_Y,valid_labels 
+    valid_X, valid_Y, valid_labels = zip(*picks)
+    return valid_X, valid_Y, valid_labels
 
 
-def bootstrap(X,y):
-    X,y = makeBiggestMeetSmallest(X,y)
+def bootstrap(X, y):
+    X, y = makeBiggestMeetSmallest(X, y)
     #X,y = duplicateSmallestToMatchBiggest(X,y)
-    return X,y
-
-    
+    return X, y
 
 
-def makeBiggestMeetSmallest(X,y):
+def makeBiggestMeetSmallest(X, y):
     unique, counts = np.unique(y, return_counts=True)
     occurences = dict(zip(unique, counts))
     print(occurences)
@@ -75,9 +72,9 @@ def makeBiggestMeetSmallest(X,y):
 
     new_x = []
     new_y = []
-    
+
     for i in range(len(y)):
-        
+
         if y[i] == biggest and diff > 0:
             # we skip diff many
             diff -= 1
@@ -87,12 +84,11 @@ def makeBiggestMeetSmallest(X,y):
             new_y.append(y[i])
     X = np.array(new_x)
     y = np.array(new_y)
-        
-    return X,y
+
+    return X, y
 
 
-
-def duplicateSmallestToMatchBiggest(X,y):
+def duplicateSmallestToMatchBiggest(X, y):
     unique, counts = np.unique(y, return_counts=True)
     occurences = dict(zip(unique, counts))
     print(occurences)
@@ -104,26 +100,19 @@ def duplicateSmallestToMatchBiggest(X,y):
         smallest = 0
     else:
         smallest = 1
-    
-    
-    X_smallest = [x for i,x in enumerate(X) if y[i] == smallest ] 
+
+    X_smallest = [x for i, x in enumerate(X) if y[i] == smallest]
     x_new = []
     y_new = [smallest]*(abs(ones-zeros))
     for _ in range(abs(ones-zeros)):
         x_new.append(random.choice(X_smallest))
-        
-    if len(x_new)>0:
+
+    if len(x_new) > 0:
         X = np.append(X, x_new, axis=0)
         y = np.append(y, y_new)
-
-    
-
-
 
     unique, counts = np.unique(y, return_counts=True)
     occurences = dict(zip(unique, counts))
     print(occurences)
-    
 
-    return X,y
-    
+    return X, y

@@ -4,9 +4,9 @@ from utils.common import convert_label_to_binary, convert_digit_to_binary
 from LM.boolean.BoolExpression import BooleanExpression
 from LM.boolean.Forests.LexioForest import LexioForest
 from LM.boolean.IBoolForest import IBoolForest
- 
 
-def run_lm(labels, predictions)->IBoolForest:
+
+def run_lm(labels, predictions) -> IBoolForest:
     """
     Given labels and correspoding predictions, runs Karnaugh maps to find the minimal fitting boolean expression.
 
@@ -18,40 +18,38 @@ def run_lm(labels, predictions)->IBoolForest:
     it is not given that "a=t,b=t,c=t" also gives true.
     """
 
-    #split into true and false groups
+    # split into true and false groups
     predicted_true = []
     predicted_false = []
-    for label, predicition in zip(labels,predictions):
+    for label, predicition in zip(labels, predictions):
         # predictions is one-hot encoded. Where [1 ,0] == False and [0, 1] == True
-        if predicition == [0,1]:
+        if predicition == [0, 1]:
             predicted_true.append(label)
-        elif predicition == [1,0]:
+        elif predicition == [1, 0]:
             predicted_false.append(label)
         else:
-            raise ValueError(f"Invalid prediction. Got {predicition} from {label}")
+            raise ValueError(
+                f"Invalid prediction. Got {predicition} from {label}")
 
-
-
-    prediction_true_binary  = [convert_label_to_binary(label) for label in predicted_true]
-    prediction_false_binary = [convert_label_to_binary(label) for label in predicted_false]
+    prediction_true_binary = [convert_label_to_binary(
+        label) for label in predicted_true]
+    prediction_false_binary = [convert_label_to_binary(
+        label) for label in predicted_false]
 
     dont_cares = []
     for i in range(16):
         if (convert_digit_to_binary(i) not in prediction_true_binary) and (convert_digit_to_binary(i) not in prediction_false_binary):
             dont_cares.append(convert_digit_to_binary(i))
-    
+
     if len(prediction_true_binary) == 0:
-        return _convert_to_boolean_forest(["F"]) 
+        return _convert_to_boolean_forest(["F"])
     elif len(prediction_false_binary) == 0:
         return _convert_to_boolean_forest(["T"])
     all_min_terms = Kamps.find_all_minterms(prediction_true_binary, dont_cares)
-    
+
     boolean_forest = _convert_to_boolean_forest(all_min_terms)
     return boolean_forest
 
 
-
 def _convert_to_boolean_forest(all_min_terms):
     return LexioForest([BooleanExpression(expr) for expr in all_min_terms])
-
-        

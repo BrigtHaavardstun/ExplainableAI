@@ -1,8 +1,11 @@
 
 from models.abstract_model import AbstractModel
+
+
 class LoadModel(AbstractModel):
-    def __init__(self,model,name:str="Defualt",verbose:bool=True):
-         super(LoadModel, self).__init__(model=model, name=name,verbose=verbose)
+    def __init__(self, model, name: str = "Defualt", verbose: bool = True):
+        super(LoadModel, self).__init__(
+            model=model, name=name, verbose=verbose)
 
     def _set_layers(self):
         """

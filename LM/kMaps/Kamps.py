@@ -59,7 +59,7 @@ def diff_terms(term1, term2):
                     pos = idx
 
         if diff == 1:
-            new_term = "*".join((term1.term[:pos], term2.term[pos + 1 :]))
+            new_term = "*".join((term1.term[:pos], term2.term[pos + 1:]))
             new_source = term1.source | term2.source
             term1.flag = True
             term2.flag = True
@@ -120,9 +120,10 @@ def find_essential_prime_implicants(prime_implicants, minterms):
     min = float("inf")
 
     # TODO: Here we "pick" one of the possible answers. Now this could be a problem, beacuse there could be many possible solutions.
-    # How am i to compansate for this? 
+    # How am i to compansate for this?
     # TODAY i don't now, i will find a solution another day.
     # TODO: invest this minimzation
+    # Len(p) == num of ors + 1.
     ids = []
     for p in sop:
         length = len(p)
@@ -131,7 +132,6 @@ def find_essential_prime_implicants(prime_implicants, minterms):
             ids = [p]
         elif length == min:
             ids.append(p)
-        
 
     return [[prime_implicants[i] for i in p] for p in ids]
 
@@ -144,9 +144,6 @@ def multiply(result, product):
         for a, b in itertools.product(result, product):
             new_result.add(a | set((b,)))
         return new_result
-
-
-
 
 
 class Minterms(object):
@@ -165,15 +162,16 @@ class Minterms(object):
 
     def simplify(self):
         prime_implicants = find_prime_implicants(self.minterms, self.not_cares)
-        result = find_essential_prime_implicants(prime_implicants, self.minterms)
+        result = find_essential_prime_implicants(
+            prime_implicants, self.minterms)
         return result
+
+
 def find_all_minterms(tm, dc):
     t_minterms = [Term(term) for term in tm]
     not_cares = [Term(term) for term in dc]
     minterms = Minterms(t_minterms, not_cares)
     res = minterms.simplify()
-    
-
 
     index_letter = {
         0: "A",
@@ -186,28 +184,26 @@ def find_all_minterms(tm, dc):
         term_formated = []
         for claus in term:
             current = ""
-            for i,l in enumerate(str(claus)):
+            for i, l in enumerate(str(claus)):
                 if l == "*":
                     continue
                 elif l == "1":
                     current += index_letter[i]
-                elif l == "0": 
+                elif l == "0":
                     current += index_letter[i] + "'"
                 else:
                     raise ValueError("Should be 1 or 0")
             term_formated.append(current)
-        if  term_formated == [""]: #empty term
+        if term_formated == [""]:  # empty term
             return "T"
-    
+
         all_min_terms.append("+".join(term_formated))
     return all_min_terms
 
 
-
 def test_bool():
-    str_terms = ["1000"]
-    terms_not_care = ["0000", "0010", "0011", "0100", "0101", "0110", "0111", "1001", "1010", "1011", "1100", "1101", "1110", "1111"]
-    
-    print(find_minterms(str_terms, terms_not_care))
+    str_terms = ["0100", "1111"]
+    terms_not_care = ["0000", "0001", "0010", "0011", "0101",
+                      "0111", "1001", "1010", "1011", "1100", "1101", "1110"]
 
-    
+    print(find_all_minterms(str_terms, terms_not_care))

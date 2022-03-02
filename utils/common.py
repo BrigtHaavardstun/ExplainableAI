@@ -2,6 +2,7 @@
 from itertools import combinations
 from utils.global_props import ALL_LETTERS
 
+
 def get_all_permutations(letters=ALL_LETTERS):
     if len(letters) <= 1:
         return letters
@@ -27,21 +28,21 @@ def remove_digit_from_labels(labels):
     proccessed_labels = []
     for label in labels:
         curr_label = ""
-        for i,e in enumerate(label):
+        for i, e in enumerate(label):
             if e.isalpha():
                 curr_label += e
-            else: # e.isdigit()
+            else:  # e.isdigit()
                 break
         proccessed_labels.append(curr_label)
     return proccessed_labels
 
 
-def convert_label_to_binary(label): 
+def convert_label_to_binary(label):
     converted = ""
     if "A" in label:
         converted += "1"
     else:
-         converted += "0"
+        converted += "0"
     if "B" in label:
         converted += "1"
     else:
@@ -56,8 +57,10 @@ def convert_label_to_binary(label):
         converted += "0"
     return converted
 
-def convert_digit_to_binary(digit): 
+
+def convert_digit_to_binary(digit):
     return bin(digit)[2:].zfill(4)
+
 
 def one_hot_to_number(one_hot):
     if one_hot[0] == 1:

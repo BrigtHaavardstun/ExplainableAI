@@ -1,5 +1,3 @@
-
-
 class IDelta:
     # This corresponds to δ in the equation
     def get_complexity_of_subset(self, subset):

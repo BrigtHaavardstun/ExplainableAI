@@ -1,3 +1,4 @@
+from sklearn import metrics
 from utils.dataset import load_dataset
 from sklearn.model_selection import train_test_split
 from PIL import Image
@@ -7,12 +8,11 @@ import numpy as np
 from models.abstract_model import AbstractModel
 from models.loadModel import LoadModel
 
+
 def train_test_validation_split(size):
     train, test_valid = train_test_split(list(range(size)), test_size=0.4)
     test, valid = train_test_split(test_valid, test_size=0.4)
     return train, test, valid
-
-
 
 
 def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=False, name="Standar"):
@@ -23,7 +23,7 @@ def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=Fa
     """
 
     # Get the data
-    X,Y, labels = load_dataset()
+    X, Y, labels = load_dataset()
 
     # Perfrom train_test_split, with labels.
     trainIdx, testIdx, validIdx = train_test_validation_split(len(X))
@@ -38,8 +38,8 @@ def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=Fa
     train_Y = np.array(train_Y)
     train_label = np.array(train_label)
 
-    #Test data
-    test_X, test_Y, test_label = [],[], []
+    # Test data
+    test_X, test_Y, test_label = [], [], []
     for i in testIdx:
         test_X.append(X[i])
         test_Y.append(Y[i])
@@ -49,8 +49,8 @@ def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=Fa
     test_Y = np.array(test_Y)
     test_label = np.array(test_label)
 
-    #Validation data
-    valid_X, valid_Y,valid_labels = [], [], []
+    # Validation data
+    valid_X, valid_Y, valid_labels = [], [], []
     for i in validIdx:
         valid_X.append(X[i])
         valid_Y.append(Y[i])
@@ -60,18 +60,13 @@ def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=Fa
     valid_Y = np.array(valid_Y)
     valid_labels = np.array(valid_labels)
 
-    
-
     # Create model
     print("making the model...")
     model = constructor(verbose=True, name=name)
 
-    
-
     print("training the model...")
     epochs = 20
     history = model.fit_model(train_X, train_Y, valid_X, valid_Y, epochs)
-    
 
     if save:
         model.save()
@@ -81,17 +76,19 @@ def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=Fa
         disply_confusion_matrix(model.model, test_X, test_Y)
 
     if with_data_valid:
-        return model, (valid_X, valid_Y,valid_labels)
+        return model, (valid_X, valid_Y, valid_labels)
     return model
 
-def load_model(name:str)->AbstractModel:
+
+def load_model(name: str) -> AbstractModel:
     """
     name: Custom name of ai model
     model_name: Name of the model used, CNN or NN
     """
-    ai_model_keras =  keras.models.load_model(f'models/savedModels/{name}')
+    ai_model_keras = keras.models.load_model(f'models/savedModels/{name}')
     ai_model = LoadModel(name=name, model=ai_model_keras)
     return ai_model
+
 
 """
 def run_preloaded():
@@ -111,6 +108,8 @@ def run_preloaded():
 
     print(model.score(test_X, test_Y))
 """
+
+
 def plot_history(history):
     plt.plot(history.history['accuracy'])
     plt.plot(history.history['val_accuracy'])
@@ -129,21 +128,15 @@ def plot_history(history):
     plt.show()
 
 
-
-from sklearn import metrics
 def disply_confusion_matrix(model, test_X, test_Y):
     predictions = np.asarray(model.predict(test_X)).argmax(axis=1)
     test_Y = test_Y.argmax(axis=1)
-
 
     disp = metrics.ConfusionMatrixDisplay.from_predictions(test_Y, predictions)
     disp.figure_.suptitle("Confusion Matrix")
     print(f"Confusion matrix:\n{disp.confusion_matrix}")
 
     plt.show()
-    
-
-
 
 
 if __name__ == "__main__":

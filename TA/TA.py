@@ -1,7 +1,7 @@
 from LM.boolean.BoolExpression import BooleanExpression
 from models.abstract_model import AbstractModel
 
-from utils.common import remove_digit_from_label
+from utils.common import remove_digit_from_labels
 from utils.global_props import get_sample_attempts
 
 from TA.subset.ISubset import ISubsetSelector
@@ -11,15 +11,13 @@ from TA.Lambda.ILambda import ILambda
 from LM.lm import run_lm
 
 
-
-
-def arg_min_ta(valid_X, valid_Y, valid_labels,ai_model:AbstractModel, 
-    set_selector:ISubsetSelector, delta:IDelta, compatibility_evalutator:ILambda, 
-    verbose=False):
+def arg_min_ta(valid_X, valid_Y, valid_labels, ai_model: AbstractModel,
+               set_selector: ISubsetSelector, delta: IDelta, compatibility_evalutator: ILambda,
+               verbose=False):
     """
     Given traning data and ai model finds examples to show to the user
     """
-    valid_labels = remove_digit_from_label(valid_labels)
+    valid_labels = remove_digit_from_labels(valid_labels)
 
     all_data_zip = []
     true_data_zip = []

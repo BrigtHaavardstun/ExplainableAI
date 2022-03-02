@@ -9,15 +9,14 @@ def get_all_permutations(letters=ALL_LETTERS):
     all_combinations.append("")
     all_combinations.extend(letters)
 
-
-    for i in range(2,len(letters)+1):
-        result = list(combinations(letters,i))
+    for i in range(2, len(letters)+1):
+        result = list(combinations(letters, i))
 
         all_combinations.extend(["".join(list(elem)) for elem in result])
     return all_combinations
 
 
-def remove_digit_from_label(labels):
+def remove_digit_from_labels(labels):
     """
     Removes all digits from labels
 

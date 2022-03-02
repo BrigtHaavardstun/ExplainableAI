@@ -1,11 +1,14 @@
 """
 This boolean forest will predict using a lexiograpical ordering of the BooleanExpressions.
 """
-from LM.boolean.BoolExpression import BooleanExpression, is_smaller_then_current
+from LM.boolean.BoolExpression import cmpr_bool_expression
 from LM.boolean.IBoolForest import IBoolForest
+import functools
+
 
 class LexioForest(IBoolForest):
-    def __init__(self,list_of_BooleanExpressions:list):
+    def __init__(self, list_of_BooleanExpressions: list):
+
         self.list_of_BooleanExpressions = list_of_BooleanExpressions
         self.top_expression = self._find_minimal_expression()
 
@@ -14,21 +17,25 @@ class LexioForest(IBoolForest):
         for expression in self.list_of_BooleanExpressions:
             if min_expr is None:
                 min_expr = expression
-            elif self.smaller(expression, min_expr):
+            elif not self.smaller_or_equal(current=min_expr, other=expression):
                 min_expr = expression
-        
+
         print(f"min_bool: {min_expr.get_expression()}")
         return min_expr
 
-
-    def smaller(self,other, current):
-        if len(other.expression_ors) < len(current.expression_ors):
+    def smaller_or_equal(self, current, other):
+        if len(current.expression_ors) < len(other.expression_ors):
             return True
-        elif len(other.expression_ors) > len(current.expression_ors):
+        elif len(current.expression_ors) > len(other.expression_ors):
             return False
-        elif is_smaller_then_current(test=other.min_expression, current=current.min_expression):
-            return True
-        return False
+
+        for currBolExpr, otherBolExpr in zip(current.expression_ors, other.expression_ors):
+            cmp = cmpr_bool_expression(currBolExpr, otherBolExpr)
+            if cmp > 0:
+                return False
+            elif cmp < 0:
+                return True
+        return True
 
     def get_forest(self):
         return "{" + "-".join([boolExpr.get_expression() for boolExpr in self.list_of_BooleanExpressions]) + "}"

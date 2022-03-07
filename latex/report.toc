@@ -1,17 +1,19 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}%
-\contentsline {chapter}{\numberline {2}Model}{2}{chapter.2}%
-\contentsline {section}{\numberline {2.1}$\theta _{ai}$ - the AI model to be learned}{2}{section.2.1}%
-\contentsline {section}{\numberline {2.2}$\theta _{LM}$ - modeling human learner}{2}{section.2.2}%
-\contentsline {chapter}{\numberline {3}Dataset}{3}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Background}{3}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Description of an instance}{4}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Properties of instance}{4}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Parameters generating instances}{5}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}$FixedSquares$ – placement of letter}{5}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}$Rotation$ – orientation of the letter}{5}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}$Scale$ - size of the letter}{6}{subsection.3.4.3}%
-\contentsline {section}{\numberline {3.5}Labels}{6}{section.3.5}%
-\contentsline {chapter}{List of Acronyms and Abbreviations}{8}{section*.9}%
-\contentsline {chapter}{Bibliography}{9}{chapter*.10}%
-\contentsline {chapter}{\numberline {A}Generated code from Protocol buffers}{10}{appendix.A}%
+\contentsline {chapter}{\numberline {2}Models}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1}\gls {ai-model} - the AI model to be learned}{2}{section.2.1}%
+\contentsline {section}{\numberline {2.2}$L_M$ - modeling human learner}{2}{section.2.2}%
+\contentsline {section}{\numberline {2.3}$\Theta _{M}$ - $L_M$s model of $\Theta _{AI}$}{3}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Dataset}{4}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Background}{4}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Description of an instance}{5}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Properties of instance}{5}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Parameters generating instances}{6}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}$FixedSquares$ – placement of letter}{6}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}$Rotation$ – orientation of the letter}{6}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}$Scale$ - size of the letter}{7}{subsection.3.4.3}%
+\contentsline {section}{\numberline {3.5}Labels}{7}{section.3.5}%
+\contentsline {chapter}{Glossary}{9}{section*.9}%
+\contentsline {chapter}{List of Acronyms and Abbreviations}{10}{section*.11}%
+\contentsline {chapter}{Bibliography}{11}{chapter*.12}%
+\contentsline {chapter}{\numberline {A}Generated code from Protocol buffers}{12}{appendix.A}%

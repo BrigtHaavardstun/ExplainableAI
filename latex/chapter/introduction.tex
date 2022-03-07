@@ -4,11 +4,11 @@ In this master thesis we implement and discuss the result of the propsed model
 for machine teaching. 
 
 \section{Background}
-This master thesis is connected to the reasearch of \{to the reacition or refrence on research proposal\}.
-In their research proposal they put forward a generic formula for machine teaching \ref{generic-formula}. 
+This master thesis is connected to the reasearch of \{citation or refrence on research proposal\}.
+In their research proposal they put forward a formula for machine teaching \ref{Machine Teaching-formula}. 
 
 \begin{equation}
-    \label{generic-formula}
+    \label{Machine Teaching-formula}
     \centering
     T(\Theta_{AI})=\argmin_{S: \Theta_{AI} \models S} \{\delta(S)+\lambda (\Theta_{AI}, \Theta_M):L_M(S)=\Theta_M\}
 \end{equation}
@@ -17,3 +17,6 @@ In their research proposal they put forward a generic formula for machine teachi
     \centering
     L_M(S)=\argmin_{\Theta_M :\Theta_M \models S} \{\beta(\Theta_M)\}
 \end{equation}
+
+In this thesis we discuss different implementations of \ref{Machine Teaching-formula}. In particular we discuss
+different definitions of $\delta$,$\lambda$, $L_M$, the selection of subsets $S$ and selection of $\Theta_M$.

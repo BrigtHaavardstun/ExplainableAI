@@ -8,12 +8,14 @@ from TA.TA import arg_min_ta
 
 from TA.subset.ISubset import ISubsetSelector
 from TA.subset.random_select import RandomSelect
+from TA.subset.smart_select import SmartSelect
 
 from TA.delta.IDelta import IDelta
 from TA.delta.sumOfLetters import SumOfLetters
 from TA.delta.maxLetter import MaxLetter
 from TA.delta.minLetter import MinLetter
 from TA.delta.squaredSum import SquaredSum
+from TA.delta.absLetter import AbsLetter
 
 from TA.Lambda.ILambda import ILambda
 from TA.Lambda.mean_square_error import MSE
@@ -24,7 +26,7 @@ from utils.common import one_hot_to_number
 from utils.global_props import set_sample_attempts, DATA_SET_SIZE
 
 
-import random
+import numpy as np
 from PIL import Image
 
 
@@ -68,15 +70,22 @@ def main_run_system(re_train=True):
     if re_train:
         train_model(model_to_train=NN, model_name=model_name_NN)
 
-    subset_selectors = [RandomSelect()]
-    deltas = [SumOfLetters(), MaxLetter(), MinLetter(), SquaredSum()]
+    subset_selectors = [SmartSelect(), RandomSelect()]
+    # , MinLetter(),SquaredSum()]  # MaxLetter()
+    deltas = [AbsLetter(), SumOfLetters()]
     lambdas = [MSE()]
-    differentAttempts = [10, 20, 50, 75, 100, 200, 500, 1000, 2000]
-    ai_models = [load_model(model_name_CNN), load_model(model_name_NN)]
+    #
+    differentAttempts = [200, 500, 2000]
+    ai_models = [load_model(model_name_CNN)]  # , load_model(model_name_NN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
     valid_X, valid_Y, valid_labels = sub_sample(
-        valid_X, valid_Y, valid_labels, len(valid_X)//2)
+        valid_X, valid_Y, valid_labels, len(valid_X)//20)
+
+    from utils.common import remove_digit_from_labels
+    num_tot_label = len(
+        np.unique(np.array(remove_digit_from_labels(valid_labels))))
+    print(num_tot_label)
 
     for subset_selector in subset_selectors:
         for compatibility_evalutator in lambdas:
@@ -84,7 +93,7 @@ def main_run_system(re_train=True):
                 for ai_model in ai_models:
                     for size in differentAttempts:
                         # set global attempts to size.
-                        for i in range(3):
+                        for i in range(1):
                             # we do three runs on each to get the average
                             # calulated afterwards
                             set_sample_attempts(size)
@@ -101,7 +110,7 @@ def main_run_system(re_train=True):
                                        set_selector=subset_selector,
                                        delta=delta,
                                        compatibility_evalutator=compatibility_evalutator,
-                                       verbose=True
+                                       verbose=False
                                        )
 
 

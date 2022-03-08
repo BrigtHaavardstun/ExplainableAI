@@ -1,4 +1,3 @@
-from os import WEXITED
 from PIL import Image
 from multiprocessing.pool import ThreadPool as Pool
 from utils.common import get_all_permutations

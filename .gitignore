@@ -145,5 +145,4 @@ data/images/*
 !data/images/clean.sh
 
 savedModels/
-run_result/
 .DS_Store

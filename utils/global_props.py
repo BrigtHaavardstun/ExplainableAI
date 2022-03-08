@@ -8,14 +8,16 @@ ALL_LETTERS = ["A", "B", "C", "D"]
 
 
 # Data set sizes
-DATA_SET_SIZE = 20000
+DATA_SET_SIZE = 5000
 
 # Number of samples(?) picked by AT, maybe?
-SAMPLE_SIZE = 4 # Number of pictures to be shown
-SAMPLE_ATTEMPTS = 200 # Number of itterations of AI argmin
+SAMPLE_SIZE = 4  # Number of pictures to be shown
+SAMPLE_ATTEMPTS = 200  # Number of itterations of AI argmin
 
 # Run overwrites this value.
 # Move SAMPLE_ATTEMPTS_LITS TO THIS FILE(?)
+
+
 def set_sample_attempts(size):
     """
     Using this we can create a graf plot of the "complexity" / "compatibility" score of each combination on different attempts to
@@ -24,9 +26,11 @@ def set_sample_attempts(size):
     global SAMPLE_ATTEMPTS
     SAMPLE_ATTEMPTS = size
 
+
 def get_sample_attempts():
     global SAMPLE_ATTEMPTS
     return SAMPLE_ATTEMPTS
 
-def booleanFunctionDefiniton(A,B,C,D):
-    return (A and B) or (C and D) or (A and D)
+
+def booleanFunctionDefiniton(A, B, C, D):
+    return (A and B) or D

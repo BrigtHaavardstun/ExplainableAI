@@ -8,12 +8,14 @@ from TA.TA import arg_min_ta
 
 from TA.subset.ISubset import ISubsetSelector
 from TA.subset.random_select import RandomSelect
+from TA.subset.smart_select import SmartSelect
 
 from TA.delta.IDelta import IDelta
 from TA.delta.sumOfLetters import SumOfLetters
 from TA.delta.maxLetter import MaxLetter
 from TA.delta.minLetter import MinLetter
 from TA.delta.squaredSum import SquaredSum
+from TA.delta.absLetter import AbsLetter
 
 from TA.Lambda.ILambda import ILambda
 from TA.Lambda.mean_square_error import MSE
@@ -24,7 +26,6 @@ from utils.common import one_hot_to_number
 from utils.global_props import set_sample_attempts, DATA_SET_SIZE
 
 
-import random
 from PIL import Image
 
 
@@ -68,15 +69,18 @@ def main_run_system(re_train=True):
     if re_train:
         train_model(model_to_train=NN, model_name=model_name_NN)
 
-    subset_selectors = [RandomSelect()]
-    deltas = [SumOfLetters(), MaxLetter(), MinLetter(), SquaredSum()]
+    subset_selectors = [SmartSelect(), RandomSelect()]
+    # , MinLetter(),SquaredSum(), MaxLetter()]
+    deltas = [AbsLetter(), SumOfLetters(), MinLetter(),
+              SquaredSum(), MaxLetter()]
     lambdas = [MSE()]
-    differentAttempts = [10, 20, 50, 75, 100, 200, 500, 1000, 2000]
+    #
+    differentAttempts = [10, 50, 75, 100, 200, 500, 750, 100, 1500, 2000, 2500]
     ai_models = [load_model(model_name_CNN), load_model(model_name_NN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
     valid_X, valid_Y, valid_labels = sub_sample(
-        valid_X, valid_Y, valid_labels, len(valid_X)//2)
+        valid_X, valid_Y, valid_labels, 150)
 
     for subset_selector in subset_selectors:
         for compatibility_evalutator in lambdas:
@@ -101,7 +105,7 @@ def main_run_system(re_train=True):
                                        set_selector=subset_selector,
                                        delta=delta,
                                        compatibility_evalutator=compatibility_evalutator,
-                                       verbose=True
+                                       verbose=False
                                        )
 
 

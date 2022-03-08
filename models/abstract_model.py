@@ -16,6 +16,7 @@ class AbstractModel(metaclass=abc.ABCMeta):
     def __init__(self, model=None, name: str = "Defualt", verbose: bool = True):
         self.verbose = verbose
         self.name = name
+        self.pred_map = {}
         if model:
             self.model = model
         else:
@@ -62,11 +63,31 @@ class AbstractModel(metaclass=abc.ABCMeta):
         """
         WARNING performs max over options to calculate one-hot encoding over possibilities.
         """
+        x.flags.writeable = False # to make hashable
+
+        if x.data.tobytes() in self.pred_map:
+            return self.pred_map[x.data.tobytes()]
+        #print(f"diff found: {len(self.pred_map)}")
+
         x = np.array([x])
 
         prediction = self.model.predict(x)[0]
 
+        pred = []
         if prediction[0] > prediction[1]:
-            return [1, 0]
+            pred= [1, 0]
         else:
-            return [0, 1]
+            pred= [0, 1]
+
+        self.pred_map[x.data.tobytes()] = pred
+        return pred
+
+    def load_multi_pred(self,list_of_x):
+        predictions = self.model.predict(list_of_x)
+        for x,prediction in zip(list_of_x, predictions):
+            pred = []
+            if prediction[0] > prediction[1]:
+                pred= [1, 0]
+            else:
+                pred= [0, 1]
+            self.pred_map[x.data] = pred

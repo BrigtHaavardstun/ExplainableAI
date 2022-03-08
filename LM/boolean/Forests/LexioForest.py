@@ -20,7 +20,6 @@ class LexioForest(IBoolForest):
             elif not self.smaller_or_equal(current=min_expr, other=expression):
                 min_expr = expression
 
-        print(f"min_bool: {min_expr.get_expression()}")
         return min_expr
 
     def smaller_or_equal(self, current, other):

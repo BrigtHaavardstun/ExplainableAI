@@ -26,7 +26,6 @@ from utils.common import one_hot_to_number
 from utils.global_props import set_sample_attempts, DATA_SET_SIZE
 
 
-import numpy as np
 from PIL import Image
 
 
@@ -82,10 +81,6 @@ def main_run_system(re_train=True):
     valid_X, valid_Y, valid_labels = load_dataset()
     valid_X, valid_Y, valid_labels = sub_sample(
         valid_X, valid_Y, valid_labels, 150)
-    from utils.common import remove_digit_from_labels
-    num_tot_label = len(
-        np.unique(np.array(remove_digit_from_labels(valid_labels))))
-    print(num_tot_label)
 
     for subset_selector in subset_selectors:
         for compatibility_evalutator in lambdas:

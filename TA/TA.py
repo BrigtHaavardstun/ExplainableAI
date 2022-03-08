@@ -44,6 +44,7 @@ def arg_min_ta(valid_X, valid_Y, valid_labels, ai_model: AbstractModel,
 
     print("Searching for best sample to display...")
     for i in range(sub_sets_attempts):
+
         if verbose:
             print(f"{i+1}/{sub_sets_attempts}")
 

@@ -7,8 +7,9 @@ We don't allow the letters of two instances to be the same.
 
 import random
 from TA.subset.ISubset import ISubsetSelector
-from utils.global_props import SAMPLE_SIZE
 
+from utils.global_props import SAMPLE_SIZE
+from utils.common import total_combinations 
 from random import choice
 from random import seed
 
@@ -23,11 +24,11 @@ class SmartSelect(ISubsetSelector):
         self.false_data_zip = false_data_zip
         self.sample_size = SAMPLE_SIZE
         self.tried_lables = []
+        
 
     def get_next_subset(self, previus_score, previus_subset):
         found_new = False
         picks = []
-        counter = 0
         while not found_new:
             picks = []
             assert len(self.true_data_zip) != 0
@@ -46,20 +47,20 @@ class SmartSelect(ISubsetSelector):
 
             for i, e in enumerate(choosen_labels):
                 if i < len(choosen_labels) - 1:
+                    # we allow duplicate for ''
                     if e == "":
                         continue
+                    # Check for duplicate
                     if e == choosen_labels[i+1]:
                         contains_duplicates = True
                         break
+            # Restart while, do new search
             if contains_duplicates:
                 continue
-
-            # if its not a dup, we can accept. If we don't find new hit. we just go.
-            counter += 1
-
-            if counter > 10000:
+            
+            # We have found all combinations. So its okey to return something tried.
+            if total_combinations() == len(self.tried_lables):
                 break
-
             # Check if we already have tested this letter combination. Made to str for hash abilty
             # Note, if tha AI have different predictions for same letter we skip them.
             labels_picked = ",".join(choosen_labels)

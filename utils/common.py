@@ -1,7 +1,7 @@
 
 from itertools import combinations
 from utils.global_props import ALL_LETTERS
-
+import math
 
 def get_all_permutations(letters=ALL_LETTERS):
     if len(letters) <= 1:
@@ -15,6 +15,28 @@ def get_all_permutations(letters=ALL_LETTERS):
 
         all_combinations.extend(["".join(list(elem)) for elem in result])
     return all_combinations
+
+_TOT_COMB_SIZE = None
+def total_combinations():
+    global _TOT_COMB_SIZE
+    """
+    We allow multiple *, but no else repating.
+
+    Hence total is (2^n-1 pick n) + (2^n-1 pick (n-1)) + ...+ (2^n-1 pick 1) + (2^n-1 pick 0)
+
+    for each we place "*" in the empty places.
+    """
+    if _TOT_COMB_SIZE is not None:
+        return _TOT_COMB_SIZE
+    
+    total_combinations = 0
+    N = len(ALL_LETTERS)
+    for i in range(len(ALL_LETTERS)+1):
+        total_combinations = math.factorial(N)/(math.factorial(i)*(math.factorial(N-i)))
+
+    _TOT_COMB_SIZE = total_combinations
+    print(_TOT_COMB_SIZE)
+    return _TOT_COMB_SIZE
 
 
 def remove_digit_from_labels(labels):

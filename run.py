@@ -71,17 +71,17 @@ def main_run_system(re_train=True):
         train_model(model_to_train=NN, model_name=model_name_NN)
 
     subset_selectors = [SmartSelect(), RandomSelect()]
-    # , MinLetter(),SquaredSum()]  # MaxLetter()
-    deltas = [AbsLetter(), SumOfLetters()]
+    # , MinLetter(),SquaredSum(), MaxLetter()]
+    deltas = [AbsLetter(), SumOfLetters(), MinLetter(),
+              SquaredSum(), MaxLetter()]
     lambdas = [MSE()]
     #
-    differentAttempts = [200, 500, 2000]
-    ai_models = [load_model(model_name_CNN)]  # , load_model(model_name_NN)]
+    differentAttempts = [10, 50, 75, 100, 200, 500, 750, 100, 1500, 2000, 2500]
+    ai_models = [load_model(model_name_CNN), load_model(model_name_NN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
     valid_X, valid_Y, valid_labels = sub_sample(
-        valid_X, valid_Y, valid_labels, len(valid_X)//20)
-
+        valid_X, valid_Y, valid_labels, 150)
     from utils.common import remove_digit_from_labels
     num_tot_label = len(
         np.unique(np.array(remove_digit_from_labels(valid_labels))))
@@ -93,7 +93,7 @@ def main_run_system(re_train=True):
                 for ai_model in ai_models:
                     for size in differentAttempts:
                         # set global attempts to size.
-                        for i in range(1):
+                        for i in range(3):
                             # we do three runs on each to get the average
                             # calulated afterwards
                             set_sample_attempts(size)

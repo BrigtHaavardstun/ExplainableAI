@@ -8,8 +8,8 @@ We don't allow the letters of two instances to be the same.
 import random
 from TA.subset.ISubset import ISubsetSelector
 
-from utils.global_props import SAMPLE_SIZE
-from utils.common import total_combinations 
+from utils.global_props import get_sample_size
+from utils.common import total_combinations
 from random import choice
 from random import seed
 
@@ -22,9 +22,7 @@ class SmartSelect(ISubsetSelector):
         self.all_data_zip = all_data_zip
         self.true_data_zip = true_data_zip
         self.false_data_zip = false_data_zip
-        self.sample_size = SAMPLE_SIZE
         self.tried_lables = []
-        
 
     def get_next_subset(self, previus_score, previus_subset):
         found_new = False
@@ -35,7 +33,7 @@ class SmartSelect(ISubsetSelector):
             # picks.append(choice(self.true_data_zip))  # one true
             assert len(self.false_data_zip) != 0
             # picks.append(choice(self.false_data_zip))  # one false
-            while(len(picks) < self.sample_size):
+            while(len(picks) < get_sample_size()):
                 to_add = choice(self.all_data_zip)
                 picks.append(to_add)
 
@@ -57,7 +55,7 @@ class SmartSelect(ISubsetSelector):
             # Restart while, do new search
             if contains_duplicates:
                 continue
-            
+
             # We have found all combinations. So its okey to return something tried.
             if total_combinations() == len(self.tried_lables):
                 break

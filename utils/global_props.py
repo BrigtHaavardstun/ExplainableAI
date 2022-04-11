@@ -11,7 +11,20 @@ ALL_LETTERS = ["A", "B", "C", "D"]
 DATA_SET_SIZE = 5000
 
 # Number of samples(?) picked by AT, maybe?
-SAMPLE_SIZE = 4  # Number of pictures to be shown
+SAMPLE_SIZE = 5  # Number of pictures to be shown
+
+
+def set_sample_size(size):
+    global SAMPLE_SIZE
+    print(size)
+    SAMPLE_SIZE = size
+
+
+def get_sample_size():
+    global SAMPLE_SIZE
+    return SAMPLE_SIZE
+
+
 SAMPLE_ATTEMPTS = 200  # Number of itterations of AI argmin
 
 # Run overwrites this value.

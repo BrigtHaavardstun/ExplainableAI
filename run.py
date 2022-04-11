@@ -23,7 +23,7 @@ from TA.Lambda.mean_square_error import MSE
 from utils.dataset import load_dataset, sub_sample
 from utils.save_data import save_data
 from utils.common import one_hot_to_number
-from utils.global_props import set_sample_attempts, DATA_SET_SIZE
+from utils.global_props import set_sample_attempts, set_sample_size
 
 
 from PIL import Image
@@ -71,11 +71,12 @@ def main_run_system(re_train=True):
 
     subset_selectors = [SmartSelect(), RandomSelect()]
     # , MinLetter(),SquaredSum(), MaxLetter()]
-    deltas = [AbsLetter(), SumOfLetters(), MinLetter(),
-              SquaredSum(), MaxLetter()]
+    deltas = [AbsLetter(), SumOfLetters(),
+              SquaredSum()]
     lambdas = [MSE()]
     #
-    differentAttempts = [10, 50, 75, 100, 200, 500, 750, 100, 1500, 2000, 2500]
+    differentAttempts = [1500, 2000, 2500]
+    differentSampleSize = [2, 3, 4, 5]
     ai_models = [load_model(model_name_CNN), load_model(model_name_NN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
@@ -86,27 +87,30 @@ def main_run_system(re_train=True):
         for compatibility_evalutator in lambdas:
             for delta in deltas:
                 for ai_model in ai_models:
-                    for size in differentAttempts:
+                    for attemps in differentAttempts:
                         # set global attempts to size.
-                        for i in range(3):
-                            # we do three runs on each to get the average
-                            # calulated afterwards
-                            set_sample_attempts(size)
-                            print(
-                                f"model: {ai_model}\n" +
-                                f"subset_selector: {subset_selector}\n" +
-                                f"compatibility_evalutator: {compatibility_evalutator}\n" +
-                                f"delta: {delta}\n" +
-                                f"attemps: {size}"
+                        for count in differentSampleSize:
+                            set_sample_size(count)
 
-                            )
-                            run_system(model=ai_model,
-                                       valid_X=valid_X, valid_Y=valid_Y, valid_labels=valid_labels,
-                                       set_selector=subset_selector,
-                                       delta=delta,
-                                       compatibility_evalutator=compatibility_evalutator,
-                                       verbose=False
-                                       )
+                            for i in range(3):
+                                # we do three runs on each to get the average
+                                # calulated afterwards
+                                set_sample_attempts(attemps)
+                                print(
+                                    f"model: {ai_model}\n" +
+                                    f"subset_selector: {subset_selector}\n" +
+                                    f"compatibility_evalutator: {compatibility_evalutator}\n" +
+                                    f"delta: {delta}\n" +
+                                    f"attemps: {attemps}"
+
+                                )
+                                run_system(model=ai_model,
+                                           valid_X=valid_X, valid_Y=valid_Y, valid_labels=valid_labels,
+                                           set_selector=subset_selector,
+                                           delta=delta,
+                                           compatibility_evalutator=compatibility_evalutator,
+                                           verbose=False,
+                                           )
 
 
 if __name__ == "__main__":

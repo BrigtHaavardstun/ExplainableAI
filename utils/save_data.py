@@ -24,5 +24,6 @@ def save_data(ai_model: AbstractModel, boolforest: IBoolForest, picks, predictio
     prediction_text = ",".join(predictions)
 
     text_to_save = f"{ai_model},{boolforest.get_forest()},{boolforest.get_min_expression()},{subset_selectors},{delta},{compatibility_evalutator},{get_sample_attempts()},{compatibility},{complexity},{label_text},{prediction_text}\n"
-    with open("run_result/run_result.csv", "a") as f:
+
+    with open(f"run_result/run_result{len(labels)}.csv", "a") as f:
         f.write(text_to_save)

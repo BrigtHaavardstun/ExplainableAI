@@ -9,6 +9,8 @@ from TA.TA import arg_min_ta
 from TA.subset.ISubset import ISubsetSelector
 from TA.subset.random_select import RandomSelect
 from TA.subset.smart_select import SmartSelect
+from TA.subset.try_all import TryAll
+from TA.subset.random_w_hash import RandomWHashSelect
 
 from TA.delta.IDelta import IDelta
 from TA.delta.sumOfLetters import SumOfLetters
@@ -16,12 +18,13 @@ from TA.delta.maxLetter import MaxLetter
 from TA.delta.minLetter import MinLetter
 from TA.delta.squaredSum import SquaredSum
 from TA.delta.absLetter import AbsLetter
+from TA.delta.Cardinality import Cardinality
 
 from TA.Lambda.ILambda import ILambda
 from TA.Lambda.mean_square_error import MSE
 
 from utils.dataset import load_dataset, sub_sample
-from utils.save_data import save_data
+from utils.save_data import save_data, clean_all_csv_files
 from utils.common import one_hot_to_number
 from utils.global_props import set_sample_attempts, set_sample_size
 
@@ -69,30 +72,33 @@ def main_run_system(re_train=True):
     if re_train:
         train_model(model_to_train=NN, model_name=model_name_NN)
 
-    subset_selectors = [SmartSelect(), RandomSelect()]
+    subset_selectors = [TryAll(),
+                        RandomSelect(), RandomWHashSelect()]
     # , MinLetter(),SquaredSum(), MaxLetter()]
-    deltas = [AbsLetter(), SumOfLetters(),
-              SquaredSum()]
+    deltas = [SquaredSum()]  # , Cardinality()]  # ,
+    # SquaredSum()]
     lambdas = [MSE()]
     #
-    differentAttempts = [1500, 2000, 2500]
+    differentAttempts = [10, 50, 100, 500, 1000, 2000,
+                         5000, 10000, 50000, 75000, 100000, 200000, 500000]
     differentSampleSize = [2, 3, 4, 5]
-    ai_models = [load_model(model_name_CNN), load_model(model_name_NN)]
+    ai_models = [load_model(model_name_CNN)]  # , load_model(model_name_NN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
-    valid_X, valid_Y, valid_labels = sub_sample(
-        valid_X, valid_Y, valid_labels, 150)
+    #valid_X, valid_Y, valid_labels = sub_sample(valid_X, valid_Y, valid_labels, 150)
 
-    for subset_selector in subset_selectors:
-        for compatibility_evalutator in lambdas:
-            for delta in deltas:
-                for ai_model in ai_models:
-                    for attemps in differentAttempts:
-                        # set global attempts to size.
-                        for count in differentSampleSize:
-                            set_sample_size(count)
+    # Make save files clean
+    clean_all_csv_files()
 
-                            for i in range(3):
+    for compatibility_evalutator in lambdas:
+        for delta in deltas:
+            for ai_model in ai_models:
+                for attemps in differentAttempts:
+                    # set global attempts to size.
+                    for count in differentSampleSize:
+                        set_sample_size(count)
+                        for subset_selector in subset_selectors:
+                            for i in range(2):
                                 # we do three runs on each to get the average
                                 # calulated afterwards
                                 set_sample_attempts(attemps)

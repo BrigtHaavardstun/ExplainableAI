@@ -1,7 +1,8 @@
 
 from itertools import combinations
-from utils.global_props import ALL_LETTERS
+from utils.global_props import ALL_LETTERS, get_sample_size
 import math
+
 
 def get_all_permutations(letters=ALL_LETTERS):
     if len(letters) <= 1:
@@ -16,8 +17,21 @@ def get_all_permutations(letters=ALL_LETTERS):
         all_combinations.extend(["".join(list(elem)) for elem in result])
     return all_combinations
 
+
 _TOT_COMB_SIZE = None
+
+
 def total_combinations():
+    N = len(ALL_LETTERS)
+    sample_size = get_sample_size()
+
+    # All possibilites are unordered n choose k with replacement. N being each "set" k being number of "set"s.
+    n = N**2
+    k = sample_size
+    return math.factorial(n+k-1)//(math.factorial(k))
+
+
+def total_combinations_bugged():
     global _TOT_COMB_SIZE
     """
     We allow multiple *, but no else repating.
@@ -25,14 +39,17 @@ def total_combinations():
     Hence total is (2^n-1 pick n) + (2^n-1 pick (n-1)) + ...+ (2^n-1 pick 1) + (2^n-1 pick 0)
 
     for each we place "*" in the empty places.
+
+    TODO: Fix
     """
     if _TOT_COMB_SIZE is not None:
         return _TOT_COMB_SIZE
-    
+
     total_combinations = 0
     N = len(ALL_LETTERS)
     for i in range(len(ALL_LETTERS)+1):
-        total_combinations = math.factorial(N)/(math.factorial(i)*(math.factorial(N-i)))
+        total_combinations = math.factorial(
+            N)/(math.factorial(i)*(math.factorial(N-i)))
 
     _TOT_COMB_SIZE = total_combinations
     print(_TOT_COMB_SIZE)

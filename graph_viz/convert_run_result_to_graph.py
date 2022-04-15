@@ -51,8 +51,10 @@ def make_graph_on_sub_set_selector(df):
             complexity_y.append(complexity_itterations[itr])
             compatibility_y.append(compatibility_itterations[itr])
 
-        plt.plot(x, compatibility_y, label=f"{sub_set_selctor}-compat")
-        #plt.plot(x, complexity_y, label=f"{sub_set_selctor}-complex")
+        scale_factor = 10
+        plt.plot(x, list(map(lambda x: x*scale_factor, compatibility_y)),
+                 label=f"{sub_set_selctor}-compat")
+        plt.plot(x, complexity_y, label=f"{sub_set_selctor}-complex")
     plt.legend(loc="upper left")
-    plt.ylim(0, 2.0)
+    plt.ylim(0, 30.0)
     plt.show()

@@ -13,6 +13,8 @@ from utils.common import total_combinations
 from random import choice
 from random import seed
 
+from TA.subset.random_select import RandomSelect
+
 
 class SmartSelect(ISubsetSelector):
     def __repr__(self):
@@ -23,11 +25,20 @@ class SmartSelect(ISubsetSelector):
         self.true_data_zip = true_data_zip
         self.false_data_zip = false_data_zip
         self.tried_lables = []
+        self.found_all_possible = False
+
+        self.random_backup = RandomSelect()
+        self.random_backup.load(all_data_zip, true_data_zip, false_data_zip)
 
     def get_next_subset(self, previus_score, previus_subset):
         found_new = False
         picks = []
+        MAX_ITER = 100000
+        counter = 0
         while not found_new:
+            counter += 1
+            if counter == MAX_ITER:
+                self.found_all_possible = True
             picks = []
             assert len(self.true_data_zip) != 0
             # picks.append(choice(self.true_data_zip))  # one true
@@ -37,12 +48,18 @@ class SmartSelect(ISubsetSelector):
                 to_add = choice(self.all_data_zip)
                 picks.append(to_add)
 
+            # If we have found "all_possible" we return earlier
+            if self.found_all_possible:
+                print("all_possible early!")
+                break
+
             # We don't want to check for equvilant examples multiple times.
-            choosen_labels = sorted([str(pL) for pX, pY, pL in picks])
+            choosen_labels = sorted([str(pL+str(pY)) for pX, pY, pL in picks])
 
             # Add check for duplicates
             contains_duplicates = False
 
+            """ 
             for i, e in enumerate(choosen_labels):
                 if i < len(choosen_labels) - 1:
                     # we allow duplicate for ''
@@ -52,9 +69,11 @@ class SmartSelect(ISubsetSelector):
                     if e == choosen_labels[i+1]:
                         contains_duplicates = True
                         break
+            
             # Restart while, do new search
             if contains_duplicates:
                 continue
+            """
 
             # We have found all combinations. So its okey to return something tried.
             if total_combinations() == len(self.tried_lables):
@@ -71,6 +90,7 @@ class SmartSelect(ISubsetSelector):
                 print("found new hash!", labels_picked,
                       "total: " + str(len(self.tried_lables)))
 
+        picks.sort(key=lambda x: x[2])  # sort on lable.
         return picks
 
     def display_hashed(self):

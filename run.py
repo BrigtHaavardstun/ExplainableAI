@@ -48,7 +48,7 @@ def run_system(model: AbstractModel, set_selector: ISubsetSelector, delta: IDelt
                                                                    )
     predictions = [str(one_hot_to_number(model.predict(x)))
                    for x, y, label in picks]
-    #display_result(picks=picks, compatibility=compatibility, complexity=complexity, ai_model=model)
+    # display_result(picks=picks, compatibility=compatibility, complexity=complexity, ai_model=model)
     save_data(ai_model=model, boolforest=boolforest_best, picks=picks, predictions=predictions, compatibility=compatibility, complexity=complexity,
               subset_selectors=set_selector, delta=delta, compatibility_evalutator=compatibility_evalutator)
 

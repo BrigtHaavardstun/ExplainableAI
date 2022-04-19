@@ -30,7 +30,7 @@ def save_data(ai_model: AbstractModel, boolforest: IBoolForest, picks, predictio
 
 
 def clean_all_csv_files():
-    for i in range(2, 6):
+    for i in range(2, 9):
         with open(f"run_result/run_result{i}.csv", "w") as f:
             text = "model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity"
             for j in range(i):

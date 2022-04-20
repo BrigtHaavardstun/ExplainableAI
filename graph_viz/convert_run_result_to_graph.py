@@ -17,7 +17,7 @@ def make_graph_on_sub_set_selector(df):
             sub_set_selectors_to_data[sub_set_selctor].append(
                 (itr, complexity, compatibility))
 
-    for sub_set_selctor in sub_set_selectors_to_data.keys():
+    for i, sub_set_selctor in enumerate(sub_set_selectors_to_data.keys()):
         print(f"{'#'*10}{sub_set_selctor}{'#'*10}")
         complexity_itterations = {}  # [(complexity_score, itterations)]
         compatibility_itterations = {}  # [(complexity_score, itterations)]
@@ -52,9 +52,14 @@ def make_graph_on_sub_set_selector(df):
             compatibility_y.append(compatibility_itterations[itr])
 
         scale_factor = 10
-        plt.plot(x, list(map(lambda x: x*scale_factor, compatibility_y)),
-                 label=f"{sub_set_selctor}-compat")
-        plt.plot(x, complexity_y, label=f"{sub_set_selctor}-complex")
-    plt.legend(loc="upper left")
-    plt.ylim(0, 30.0)
+        plt.subplot(1, len(sub_set_selectors_to_data.keys()), i+1)
+        plt.plot(x, compatibility_y, label=f"compatibility")
+        #plt.plot(x, complexity_y, label=f"complexity")
+        # plt.plot(x, list(map(lambda x: x/max(compatibility_y), compatibility_y)),
+        #         label=f"compatibility")
+        # plt.plot(x, list(map(lambda x: x/max(complexity_y),
+        #         complexity_y)), label=f"complexity")
+        plt.legend(loc="upper left")
+        plt.title(sub_set_selctor)
+
     plt.show()

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CNN v1.1,{D'+A-A+C-A+B},A+B,TryAll,SquaredSum,Mean_Square_Error,10,1.0005886421641197,18,AD,AD,AD,BC,D,D,1,1,1,1,0,0
 CNN v1.1,{A+B-C'+A-A+D},A+B,TryAll,SquaredSum,Mean_Square_Error,10,1.0005886421641197,31,ABC,ABC,AC,BD,BD,C,1,1,1,1,1,0
 CNN v1.1,{A+B},A+B,TryAll,SquaredSum,Mean_Square_Error,10,1.0005886421641197,11,,A,BD,CD,D,D,0,1,1,0,0,0
@@ -14968,3 +14969,6 @@ CNN v1.1,{BD+BC+A-B'C'D'+BD+BC},BD+BC+A,RandomWHashSelect,SquaredSum,Mean_Square
 CNN v1.1,{BD+BC+A-B'C'D'+BD+BC},BD+BC+A,RandomWHashSelect,SquaredSum,Mean_Square_Error,4990,0.0005886421641195213,12,A,B,BC,BD,C,D,1,0,1,1,0,0
 CNN v1.1,{CD'+BD+A-CD'+C'D+A-BD+BC+A-C'D+BC+A},BD+BC+A,RandomWHashSelect,SquaredSum,Mean_Square_Error,4990,0.0005886421641195213,14,,A,B,BC,BD,CD,0,1,0,1,1,0
 CNN v1.1,{BD+BC+A},BD+BC+A,RandomWHashSelect,SquaredSum,Mean_Square_Error,4990,0.0005886421641195213,15,AB,B,BC,BD,C,D,1,0,1,1,0,0
+=======
+model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,label1,label2,label3,label4,label5,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5
+>>>>>>> 3959b5499266ed1862776aa09ea9ae2613c52ae2

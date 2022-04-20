@@ -1,0 +1,4 @@
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',TryAll,SquaredSum,Mean_Square_Error,100000,0.015625,24,,A,A,AB,AC,AD,B,BC,C,CD,0,1,1,0,0,0,0,0,1,0
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',TryAll,SquaredSum,Mean_Square_Error,100000,0.015625,27,,A,AB,AB,AC,AD,BC,C,C,CD,0,1,0,0,0,0,0,1,1,0
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,24,B,BC,AC,D,A,AB,AD,CD,,C,0,0,0,0,1,0,0,0,0,1
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,35,AC,C,CD,AB,BC,,A,AD,BD,ABC,0,1,0,0,0,0,1,0,0,0

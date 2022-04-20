@@ -46,4 +46,4 @@ def get_sample_attempts():
 
 
 def booleanFunctionDefiniton(A, B, C, D):
-    return (A and C and not D) or (B and D and C)
+    return (A and B) or C

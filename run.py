@@ -52,13 +52,21 @@ def run_system(model: AbstractModel, set_selector: ISubsetSelector, delta: IDelt
     save_data(ai_model=model, boolforest=boolforest_best, picks=picks, predictions=predictions, compatibility=compatibility, complexity=complexity,
               subset_selectors=set_selector, delta=delta, compatibility_evalutator=compatibility_evalutator)
 
+    return picks, compatibility, complexity
+
 
 def display_result(picks, compatibility, complexity, ai_model):
     print(
         f"Overall score: {compatibility*100}, compatibility: {compatibility}, complexity: {complexity}")
     for (example_X, example_Y, example_label) in picks:
-        Image.fromarray(example_X).show()
+        img = Image.fromarray(example_X)
         prediction = ai_model.predict(example_X)
+        title = ""
+        if prediction[0] == 1:
+            title = "False"
+        else:
+            title = "True"
+        img.show(title=title)
         print(
             f"label: '{example_label}', Correct: {example_Y}, predicted: {prediction}")
 
@@ -79,16 +87,20 @@ def main_run_system(re_train=True):
     # SquaredSum()]
     lambdas = [MSE()]
     #
-    differentAttempts = [10, 50, 100, 500, 1000, 2000,
-                         5000, 10000, 50000, 75000, 100000, 200000, 500000]
+    differentAttempts = [10, 25, 50, 100, 200, 500, 1000]
     differentSampleSize = [2, 3, 4, 5]
     ai_models = [load_model(model_name_CNN)]  # , load_model(model_name_NN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
-    #valid_X, valid_Y, valid_labels = sub_sample(valid_X, valid_Y, valid_labels, 150)
+    valid_X, valid_Y, valid_labels = sub_sample(
+        valid_X, valid_Y, valid_labels, 150)
 
     # Make save files clean
     clean_all_csv_files()
+
+    picks_best = None
+    compatibility_best = float('inf')
+    complexity_best = float('inf')
 
     for compatibility_evalutator in lambdas:
         for delta in deltas:
@@ -110,13 +122,25 @@ def main_run_system(re_train=True):
                                     f"attemps: {attemps}"
 
                                 )
-                                run_system(model=ai_model,
-                                           valid_X=valid_X, valid_Y=valid_Y, valid_labels=valid_labels,
-                                           set_selector=subset_selector,
-                                           delta=delta,
-                                           compatibility_evalutator=compatibility_evalutator,
-                                           verbose=False,
-                                           )
+                                picks, compatibility, complexity = run_system(model=ai_model,
+                                                                              valid_X=valid_X, valid_Y=valid_Y, valid_labels=valid_labels,
+                                                                              set_selector=subset_selector,
+                                                                              delta=delta,
+                                                                              compatibility_evalutator=compatibility_evalutator,
+                                                                              verbose=False,
+                                                                              )
+
+                                if compatibility < compatibility_best:
+                                    compatibility_best = compatibility
+                                    complexity_best = complexity
+                                    picks_best = picks
+                                elif compatibility == compatibility_best and complexity < complexity_best:
+                                    compatibility_best = compatibility
+                                    complexity_best = complexity
+                                    picks_best = picks
+
+    display_result(picks_best, compatibility_best,
+                   complexity_best, ai_models[0])
 
 
 if __name__ == "__main__":

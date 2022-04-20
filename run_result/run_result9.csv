@@ -1,0 +1,6 @@
+CNN v1.1,{A'B'CD'},A'B'CD',TryAll,SquaredSum,Mean_Square_Error,100000,0.765625,16,,,AC,B,BC,C,C,C,CD,0,0,0,0,0,1,1,1,0
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',TryAll,SquaredSum,Mean_Square_Error,100000,0.015625,26,,A,AB,AC,AC,AD,BC,C,CD,0,1,0,0,0,0,0,1,0
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,31,ABC,,BC,AB,AC,CD,A,AD,C,0,0,0,0,0,0,1,0,1
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,31,BC,C,A,AC,AD,CD,AB,,ACD,0,1,1,0,0,0,0,0,0
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomWHashSelect,SquaredSum,Mean_Square_Error,100000,0.015625,23,,A,AB,AC,AD,BC,C,CD,D,0,1,0,0,0,0,1,0,0
+CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomWHashSelect,SquaredSum,Mean_Square_Error,100000,0.015625,31,,A,AB,AC,ACD,AD,BC,C,CD,0,1,0,0,0,0,0,1,0

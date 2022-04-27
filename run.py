@@ -80,20 +80,19 @@ def main_run_system(re_train=True):
     if re_train:
         train_model(model_to_train=NN, model_name=model_name_NN)
 
-    subset_selectors = [TryAll(),
-                        RandomSelect(), RandomWHashSelect()]
+    subset_selectors = [TryAll()]  # ] RandomSelect(), RandomWHashSelect()]
     # , MinLetter(),SquaredSum(), MaxLetter()]
     deltas = [SquaredSum()]  # , Cardinality()]  # ,
     # SquaredSum()]
     lambdas = [MSE()]
     #
-    differentAttempts = [10, 25, 50, 100, 200, 500, 1000]
-    differentSampleSize = [2, 3, 4, 5]
+    differentAttempts = [10000]
+    differentSampleSize = [1, 2, 3, 4, 5, 6,
+                           7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     ai_models = [load_model(model_name_CNN)]  # , load_model(model_name_NN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
-    valid_X, valid_Y, valid_labels = sub_sample(
-        valid_X, valid_Y, valid_labels, 150)
+    #valid_X, valid_Y, valid_labels = sub_sample(valid_X, valid_Y, valid_labels, 1000)#
 
     # Make save files clean
     clean_all_csv_files()

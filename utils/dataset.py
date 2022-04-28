@@ -5,8 +5,10 @@ import numpy as np
 from PIL import Image
 import random
 
+from utils.common import memoize
 
-def load_dataset():
+
+def load_dataset_no_memoization():
 
     X = []
     y = []
@@ -38,6 +40,9 @@ def load_dataset():
     #X = X.astype('float32')
     #X = X / 255.0
     return X, y, labels
+
+
+load_dataset = memoize(load_dataset_no_memoization)
 
 
 def sub_sample(valid_X, valid_Y, valid_labels, sample_size):

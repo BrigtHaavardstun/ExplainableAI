@@ -106,3 +106,17 @@ def one_hot_to_number(one_hot):
         return 0
     else:
         return 1
+
+
+def memoize(func):
+    # A function to implement memoization of functions
+    cache = dict()
+
+    def memoized_func(*args):
+        if args in cache:
+            return cache[args]
+        result = func(*args)
+        cache[args] = result
+        return result
+
+    return memoized_func

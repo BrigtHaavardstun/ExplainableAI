@@ -1,4 +1,4 @@
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',TryAll,SquaredSum,Mean_Square_Error,100000,0.015625,24,,A,A,AB,AC,AD,B,BC,C,CD,0,1,1,0,0,0,0,0,1,0
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',TryAll,SquaredSum,Mean_Square_Error,100000,0.015625,27,,A,AB,AB,AC,AD,BC,C,C,CD,0,1,0,0,0,0,0,1,1,0
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,24,B,BC,AC,D,A,AB,AD,CD,,C,0,0,0,0,1,0,0,0,0,1
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,35,AC,C,CD,AB,BC,,A,AD,BD,ABC,0,1,0,0,0,0,1,0,0,0
+model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,label1,label2,label3,label4,label5,label6,label7,label8,label9,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5,prediction6,prediction7,prediction8,prediction9
+CNN v1.1,{BC+CD+AD+AC},BC+CD+AD+AC,TryAll,SquaredSum,Mean_Square_Error,50000,1.7980097895875677,29,,A,B,C,D,AC,AD,BC,CD,ABC,0,0,0,0,0,1,1,1,1,1
+CNN v1.1,{AB+BC+CD+AC+BD},AB+BC+CD+AC+BD,TryAll,SquaredSum,Mean_Square_Error,50000,1.1627300037702066,40,A,B,C,D,AB,AC,BC,BD,CD,ABCD,0,0,0,0,1,1,1,1,1,1
+CNN v1.1,{AB+CD+AD+AC+BD},AB+CD+AD+AC+BD,TryAll,SquaredSum,Mean_Square_Error,50000,1.1467790687557717,33,A,B,C,D,AB,AC,AD,BD,CD,BCD,0,0,0,0,1,1,1,1,1,1

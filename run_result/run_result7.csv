@@ -1,1 +1,4 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,label1,label2,label3,label4,label5,label6,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5,prediction6
+CNN v1.1,{B'D+BD'+A-BC+CD+A-B'D+BC+A-BD'+CD+A},BC+CD+A,TryAll,SquaredSum,Mean_Square_Error,50000,1.9522138440907253,21,,C,AB,AC,BC,BD,CD,0,0,1,1,1,0,1
+CNN v1.1,{AB+BD+C-A'D+AB+C},AB+BD+C,TryAll,SquaredSum,Mean_Square_Error,50000,1.4207945198992387,18,,A,B,AB,AC,AD,BD,0,0,0,1,1,0,1
+CNN v1.1,{BC'D'+B'C+AD+CD-AC+B'D+CD+AB-AC+BC'D'+B'D+CD-AC+AD+CD+AB-AC+BC'D'+AD+CD-B'D+B'C+CD+AB-BC'D'+B'D+B'C+CD-B'C+AD+CD+AB},AC+AD+CD+AB,TryAll,SquaredSum,Mean_Square_Error,50000,1.2512566806960703,30,A,AB,AC,AD,BC,BD,BCD,0,1,1,1,0,0,1

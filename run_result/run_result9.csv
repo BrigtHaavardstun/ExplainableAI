@@ -1,6 +1,4 @@
-CNN v1.1,{A'B'CD'},A'B'CD',TryAll,SquaredSum,Mean_Square_Error,100000,0.765625,16,,,AC,B,BC,C,C,C,CD,0,0,0,0,0,1,1,1,0
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',TryAll,SquaredSum,Mean_Square_Error,100000,0.015625,26,,A,AB,AC,AC,AD,BC,C,CD,0,1,0,0,0,0,0,1,0
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,31,ABC,,BC,AB,AC,CD,A,AD,C,0,0,0,0,0,0,1,0,1
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomSelect,SquaredSum,Mean_Square_Error,100000,0.015625,31,BC,C,A,AC,AD,CD,AB,,ACD,0,1,1,0,0,0,0,0,0
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomWHashSelect,SquaredSum,Mean_Square_Error,100000,0.015625,23,,A,AB,AC,AD,BC,C,CD,D,0,1,0,0,0,0,1,0,0
-CNN v1.1,{A'B'CD'+AB'C'D'},A'B'CD'+AB'C'D',RandomWHashSelect,SquaredSum,Mean_Square_Error,100000,0.015625,31,,A,AB,AC,ACD,AD,BC,C,CD,0,1,0,0,0,0,0,1,0
+model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,label1,label2,label3,label4,label5,label6,label7,label8,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5,prediction6,prediction7,prediction8
+CNN v1.1,{AD+CD+BC+AC-B'D+AB'+AD+BC-AB'+AD+CD+BC-B'D+AD+BC+AC},AD+CD+BC+AC,TryAll,SquaredSum,Mean_Square_Error,50000,1.7980097895875677,40,B,C,AB,AC,BC,BD,CD,ABD,ACD,0,0,0,1,1,0,1,1,1
+CNN v1.1,{AB+BC+AD+BD-C'D+AB+BC+AC-C'D+AB+BC+AD-AB+BC+AC+BD},AB+BC+AC+BD,TryAll,SquaredSum,Mean_Square_Error,50000,1.3263663674065702,28,,A,B,C,AB,BC,BD,CD,ACD,0,0,0,0,1,1,1,0,1
+CNN v1.1,{AB+BC+CD+AC-B'D+AB+BC+AC},AB+BC+CD+AC,TryAll,SquaredSum,Mean_Square_Error,50000,1.2204874499268397,23,,A,B,C,AB,AC,BC,BD,CD,0,0,0,0,1,1,1,0,1

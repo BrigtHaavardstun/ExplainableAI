@@ -8,7 +8,18 @@ ALL_LETTERS = ["A", "B", "C", "D"]
 
 
 # Data set sizes
-DATA_SET_SIZE = 5000
+DATA_SET_SIZE = 100000
+
+
+def set_data_size(size):
+    global DATA_SET_SIZE
+    DATA_SET_SIZE = size
+
+
+def get_data_size():
+    global DATA_SET_SIZE
+    return DATA_SET_SIZE
+
 
 # Number of samples(?) picked by AT, maybe?
 SAMPLE_SIZE = 5  # Number of pictures to be shown

@@ -2,7 +2,7 @@ from turtle import pos
 from PIL import Image
 import random
 from multiprocessing.pool import ThreadPool as Pool
-from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT, DATA_SET_SIZE
+from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT, get_data_size
 from utils.common import get_all_permutations
 
 """
@@ -93,7 +93,7 @@ def run():
 
     pool = Pool(pool_size)
 
-    for item in range(DATA_SET_SIZE):
+    for item in range(get_data_size()):
 
         pool.apply_async(generateImage, (item,))
 

@@ -8,6 +8,8 @@ import numpy as np
 from models.abstract_model import AbstractModel
 from models.loadModel import LoadModel
 
+from utils.dataset import sub_sample
+
 
 def train_test_validation_split(size):
     train, test_valid = train_test_split(list(range(size)), test_size=0.4)
@@ -15,7 +17,7 @@ def train_test_validation_split(size):
     return train, test, valid
 
 
-def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=False, name="Standar"):
+def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=False, name="Standar", data_size_cap=float("inf")):
     """
     constructur = CNN /NN
     Trains a model based on data from ./data folder.
@@ -24,6 +26,8 @@ def run(constructor: AbstractModel, verbose=False, save=True, with_data_valid=Fa
 
     # Get the data
     X, Y, labels = load_dataset()
+    if len(X) >= data_size_cap:
+        X, Y, labels = sub_sample(X, Y, labels, data_size_cap)
 
     # Perfrom train_test_split, with labels.
     trainIdx, testIdx, validIdx = train_test_validation_split(len(X))

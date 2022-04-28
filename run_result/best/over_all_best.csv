@@ -1,0 +1,4 @@
+tag,boolforest,bool_min,sample_attemps,compatibility,complexity,labels,predictions
+50-theoreticalFalse,{BC+CD+AD+AC},BC+CD+AD+AC,50000,1.7980097895875677,29,-A-B-C-D-AC-AD-BC-CD-ABC,0-0-0-0-0-1-1-1-1-1
+100-theoreticalFalse,{AB+BC+CD+AC+BD},AB+BC+CD+AC+BD,50000,1.1627300037702066,37,-A-B-C-D-AB-AC-AD-BC-BD-CD-ACD,0-0-0-0-0-1-1-0-1-1-1-1
+200-theoreticalFalse,{AB+BC+CD+AD+AC+BD},AB+BC+CD+AD+AC+BD,50000,0.9467790687557718,46,A-B-C-D-AB-AC-AD-BC-BD-CD-ABD-BCD,0-0-0-0-1-1-1-1-1-1-1-1

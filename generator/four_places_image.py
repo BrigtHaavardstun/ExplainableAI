@@ -3,7 +3,7 @@ from multiprocessing.pool import ThreadPool as Pool
 from utils.common import get_all_permutations
 
 import random
-from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT, DATA_SET_SIZE
+from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT, get_data_size
 import sys
 
 
@@ -37,7 +37,7 @@ def run(verbose=False, rotation=False):
     pool_size = 4  # your "parallelness"
     pool = Pool(pool_size)
 
-    for i in range(DATA_SET_SIZE):
+    for i in range(get_data_size()):
         letters = chooseFilesToCombine()
         if verbose:
             print(letters)

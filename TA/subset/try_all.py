@@ -16,7 +16,7 @@ from utils.common import total_combinations, get_all_permutations
 
 from random import choice
 from random import seed
-from itertools import combinations_with_replacement
+from itertools import combinations
 
 
 class TryAll(ISubsetSelector):
@@ -40,8 +40,7 @@ class TryAll(ISubsetSelector):
         self.all_combinations = self.generate_all_possible_elements()
         self.next_to_try = 0
         self.queue_of_picks = []
-
-        self.random_backup.load(all_data_zip, true_data_zip, false_data_zip)
+        self.all_done = False
 
     def generate_label_to_data_map(self, data_zip):
         label_map = {}
@@ -54,7 +53,7 @@ class TryAll(ISubsetSelector):
 
     def generate_all_possible_elements(self):
         all_permutation = get_all_permutations()
-        all_combinations = combinations_with_replacement(
+        all_combinations = combinations(
             all_permutation, get_sample_size())
         all_combinations = list(all_combinations)
         random.shuffle(all_combinations)
@@ -72,9 +71,10 @@ class TryAll(ISubsetSelector):
         while True:
             # We use random as a back up.
             if self.next_to_try >= len(self.all_combinations):
-                picks = self.random_backup.get_next_subset(
-                    previus_score, previus_subset)
-                break
+                # picks = self.random_backup.get_next_subset(previus_score, previus_subset) not needed
+                picks = None
+                self.all_done = True
+                return None  # no mor to test
 
             current = self.all_combinations[self.next_to_try]
             self.next_to_try += 1  # Try next set

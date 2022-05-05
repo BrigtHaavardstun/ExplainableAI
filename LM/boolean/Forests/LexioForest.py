@@ -42,6 +42,6 @@ class LexioForest(IBoolForest):
     def get_min_expression(self):
         return self.top_expression.get_expression()
 
-    def evaluate(self, A, B, C, D):
+    def evaluate(self, bool_dict):
         "Evaluates a boolean forest, e.g. one or more BooleanExpressions given som prioritation"
-        return self.top_expression.evaluate(A, B, C, D)
+        return self.top_expression.evaluate(bool_dict)

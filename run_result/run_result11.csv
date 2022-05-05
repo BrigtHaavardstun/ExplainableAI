@@ -1,4 +1,5 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5,prediction6,prediction7,prediction8,prediction9,prediction10
-CNN v1.1,{BC+CD+AD+AC},BC+CD+AD+AC,TryAll,SquaredSum,Mean_Square_Error,50000,1.7980097895875677,42,A,B,C,D,AC,AD,BC,BD,CD,ABC,ABD,0,0,0,0,1,1,1,0,1,1,1
-CNN v1.1,{AD'+BC+BD+AC-BC+BD+AB+AC},BC+BD+AB+AC,TryAll,SquaredSum,Mean_Square_Error,50000,1.3263663674065702,41,,B,C,D,AB,AD,BC,BD,CD,ABD,ACD,0,0,0,0,1,0,1,1,0,1,1
-CNN v1.1,{AB+BC+CD+AD+AC},AB+BC+CD+AD+AC,TryAll,SquaredSum,Mean_Square_Error,50000,1.0512566806960704,42,A,B,C,D,AB,AC,AD,BC,CD,ABC,BCD,0,0,0,0,1,1,1,1,1,1,1
+CNN_train_set_20000,{AB'C'+BCD'+BC'D-AC'D+BCD'+BC'D-BCD'+BC'D+AB'D},BCD'+BC'D+AB'D,TryAll,SumOfExamples,Mean_Square_Error,20000,0.0007387338078066911,20,,AB,ABCD,AC,AD,B,BC,BCD,BD,C,D,0,0,0,0,1,0,1,0,1,0,0
+CNN_train_set_20000,{A'BC'+A'BD'+AB'D-A'BC'+A'BD'+AC'D-A'BC'+AB'D+BCD'-A'BC'+AC'D+BCD'-AC'D+BCD'+BC'D-AB'D+BCD'+BC'D-A'BD'+AC'D+BC'D-A'BD'+AB'D+BC'D},AB'D+BCD'+BC'D,TryAll,SumOfExamples,Mean_Square_Error,20000,0.0007387338078066911,20,,A,AB,ABCD,AD,BC,BCD,BD,C,CD,D,0,0,0,0,1,1,0,1,0,0,0
+CNN_train_set_20000,{B'CD+BCD'+BC'D-AB'D+BCD'+BC'D},AB'D+BCD'+BC'D,TryAll,SumOfExamples,Mean_Square_Error,20000,0.0007387338078066911,20,,A,ABCD,AC,ACD,B,BC,BCD,BD,C,D,0,0,0,0,1,0,1,0,1,0,0
+CNN_train_set_20000,{A'CD'+BC'D+AB'D-A'CD'+AC'D+BC'D-BCD'+BC'D+AB'D-AC'D+BCD'+BC'D},BCD'+BC'D+AB'D,TryAll,SumOfExamples,Mean_Square_Error,20000,0.0007387338078066911,20,,A,AB,ABCD,AC,AD,B,BC,BCD,BD,D,0,0,0,0,0,1,0,1,0,1,0

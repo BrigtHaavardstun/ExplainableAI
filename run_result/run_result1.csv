@@ -1,4 +1,2 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,prediction0
-CNN v1.1,{F},F,TryAll,SquaredSum,Mean_Square_Error,50000,5.801047835770776,0,,0
-CNN v1.1,{F},F,TryAll,SquaredSum,Mean_Square_Error,50000,6.92007960244683,0,,0
-CNN v1.1,{T},T,TryAll,SquaredSum,Mean_Square_Error,50000,4.421476248136862,9,ACD,1
+CNN_train_set_20000,{F},F,TryAll,SumOfExamples,Mean_Square_Error,20000,5.929415524330013,0,,0

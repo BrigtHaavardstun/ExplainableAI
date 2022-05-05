@@ -10,6 +10,8 @@ from TA.Lambda.ILambda import ILambda
 
 from LM.lm import run_lm
 
+from utils.global_props import score_function
+
 
 def split_data_in_true_false(valid_X, valid_Y, valid_labels, ai_model: AbstractModel):
     all_data_zip = []
@@ -44,12 +46,9 @@ def arg_min_ta(valid_X, valid_Y, valid_labels, ai_model: AbstractModel,
 
     sub_sets_attempts = get_sample_attempts()
 
-    min_picks = []
     min_score = float("inf")
-    complexity_best = float("inf")
-    compatibility_best = float("inf")
-    boolforest_best = None
-    predictions_best = None
+
+    all_best = []
     # Pick the sub_set we are testing.
     set_selector.load(all_data_zip=all_data_zip,
                       true_data_zip=predicted_true_data_zip, false_data_zip=predicted_false_data_zip)
@@ -81,7 +80,8 @@ def arg_min_ta(valid_X, valid_Y, valid_labels, ai_model: AbstractModel,
             ai_model=ai_model, bool_forest=boolean_forest, valid_X=valid_X, valid_labels=valid_labels)
         sample_complexity = delta.get_complexity_of_subset(labels_picked)
 
-        picks_score = compatibility*100 + sample_complexity
+        picks_score = score_function(
+            compatibility=compatibility, complexity=sample_complexity)
         if verbose:
             print(f"bool_forest:{boolean_forest.get_forest()}\nbool_min:{boolean_forest.get_min_expression()}\ncompatibility: {compatibility}\n"
                   + f"sample_complexity: {sample_complexity}\n"
@@ -89,10 +89,9 @@ def arg_min_ta(valid_X, valid_Y, valid_labels, ai_model: AbstractModel,
         if picks_score < min_score:
             #print(f"new best set!!!\nLabels: {labels_picked}, predictions: {predictions}")
             min_score = picks_score
-            min_picks = picks
-            compatibility_best = compatibility
-            complexity_best = sample_complexity
-            boolforest_best = boolean_forest
-            predictions_best = predictions
-
-    return min_picks, compatibility_best, complexity_best, boolforest_best, predictions_best
+            all_best = [[picks, compatibility, sample_complexity,
+                         boolean_forest, predictions]]
+        elif picks_score == min_score:
+            all_best.append(
+                [picks, compatibility, sample_complexity, boolean_forest, predictions])
+    return all_best

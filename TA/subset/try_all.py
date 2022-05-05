@@ -62,6 +62,7 @@ class TryAll(ISubsetSelector):
     def get_from_pick_queue(self):
         temp = self.queue_of_picks[-1]
         self.queue_of_picks = self.queue_of_picks[:-1]  # Remove last pick
+        temp.sort(key=lambda x: x[2])
         return temp
 
     def get_next_subset(self, previus_score, previus_subset):

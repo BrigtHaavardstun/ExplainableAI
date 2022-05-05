@@ -1,6 +1,9 @@
 #from LM.QuineMcCluskey import find_minterms
 from LM.kMaps import Kamps
+
 from utils.common import convert_label_to_binary, convert_digit_to_binary
+from utils.global_props import get_all_letters
+
 from LM.boolean.BoolExpression import BooleanExpression
 from LM.boolean.Forests.LexioForest import LexioForest
 from LM.boolean.IBoolForest import IBoolForest
@@ -37,7 +40,7 @@ def run_lm(labels, predictions) -> IBoolForest:
         label) for label in predicted_false]
 
     dont_cares = []
-    for i in range(16):
+    for i in range(2**len(get_all_letters())):
         if (convert_digit_to_binary(i) not in prediction_true_binary) and (convert_digit_to_binary(i) not in prediction_false_binary):
             dont_cares.append(convert_digit_to_binary(i))
 

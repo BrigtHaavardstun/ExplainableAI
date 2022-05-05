@@ -1,4 +1,2 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,label1,label2,label3,label4,label5,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5
-CNN v1.1,{B'D+BC+A-B'D+BD'+A-BC+CD+A-BD'+CD+A},BC+CD+A,TryAll,SquaredSum,Mean_Square_Error,50000,1.9522138440907253,14,,A,C,BC,BD,CD,0,1,0,1,0,1
-CNN v1.1,{A'B'D'+AB+BD-AB+BD+C},AB+BD+C,TryAll,SquaredSum,Mean_Square_Error,50000,1.4207945198992387,12,A,B,C,D,AB,BD,0,0,1,0,1,1
-CNN v1.1,{AB+AD+C},AB+AD+C,TryAll,SquaredSum,Mean_Square_Error,50000,1.4060953903734899,15,A,B,D,AB,AC,AD,0,0,0,1,1,1
+CNN_train_set_20000,{BCD'+C'D},BCD'+C'D,TryAll,SumOfExamples,Mean_Square_Error,20000,1.9573303736791892,9,,B,BC,BCD,BD,C,0,0,1,0,1,0

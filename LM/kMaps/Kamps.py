@@ -11,6 +11,7 @@ import itertools
 from collections import defaultdict
 
 from scipy.fft import dct
+from utils.global_props import get_all_letters
 
 
 class Term:
@@ -172,13 +173,10 @@ def find_all_minterms(tm, dc):
     not_cares = [Term(term) for term in dc]
     minterms = Minterms(t_minterms, not_cares)
     res = minterms.simplify()
+    index_letter = {}
+    for i, l in enumerate(get_all_letters()):
+        index_letter[i] = l
 
-    index_letter = {
-        0: "A",
-        1: "B",
-        2: "C",
-        3: "D"
-    }
     all_min_terms = []
     for term in res:
         term_formated = []

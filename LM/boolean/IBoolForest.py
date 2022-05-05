@@ -1,5 +1,5 @@
 class IBoolForest:
-    def evaluate(self, A, B, C, D):
+    def evaluate(self, bool_dict):
         "Evaluates a boolean forest, e.g. one or more BooleanExpressions given som prioritation"
         pass
 

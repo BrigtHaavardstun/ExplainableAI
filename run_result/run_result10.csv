@@ -1,4 +1,3 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label0,label1,label2,label3,label4,label5,label6,label7,label8,label9,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5,prediction6,prediction7,prediction8,prediction9
-CNN v1.1,{BC+CD+AD+AC},BC+CD+AD+AC,TryAll,SquaredSum,Mean_Square_Error,50000,1.7980097895875677,29,,A,B,C,D,AC,AD,BC,CD,ABC,0,0,0,0,0,1,1,1,1,1
-CNN v1.1,{AB+BC+CD+AC+BD},AB+BC+CD+AC+BD,TryAll,SquaredSum,Mean_Square_Error,50000,1.1627300037702066,40,A,B,C,D,AB,AC,BC,BD,CD,ABCD,0,0,0,0,1,1,1,1,1,1
-CNN v1.1,{AB+CD+AD+AC+BD},AB+CD+AD+AC+BD,TryAll,SquaredSum,Mean_Square_Error,50000,1.1467790687557717,33,A,B,C,D,AB,AC,AD,BD,CD,BCD,0,0,0,0,1,1,1,1,1,1
+CNN_train_set_20000,{A'BD'+AC'D+BC'D-A'BC'+A'BD'+AB'D-A'BC'+AB'C'+A'BD'-A'BD'+BC'D+AB'D-A'BC'+AC'D+BCD'-A'BC'+A'BD'+AC'D-A'BC'+AB'C'+BCD'-A'BC'+BCD'+AB'D-BCD'+BC'D+AB'D-AC'D+BCD'+BC'D-AB'C'+A'BD'+BC'D-AB'C'+BCD'+BC'D},BCD'+BC'D+AB'D,TryAll,SumOfExamples,Mean_Square_Error,20000,0.0007387338078066911,19,,AB,ABCD,AC,AD,BC,BCD,BD,C,D,0,0,0,0,1,1,0,1,0,0
+CNN_train_set_20000,{A'CD'+AC'D+BC'D-A'CD'+BC'D+AB'D-BCD'+BC'D+AB'D-AC'D+BCD'+BC'D-AB'C'+A'CD'+BC'D-AB'C'+BCD'+BC'D},BCD'+BC'D+AB'D,TryAll,SumOfExamples,Mean_Square_Error,20000,0.0007387338078066911,19,,AB,ABCD,AC,AD,B,BC,BCD,BD,D,0,0,0,0,1,0,1,0,1,0

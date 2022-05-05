@@ -1,4 +1,5 @@
 import functools
+from utils.global_props import get_all_letters
 
 
 class BooleanExpression:
@@ -13,19 +14,16 @@ class BooleanExpression:
         self.negative_expression = sum(
             [expression.count("'") for expression in self.expression_ors])
 
-    def evaluate(self, A, B, C, D):
+    def evaluate(self, bool_dict):
         # print(f"A:{A}\nB:{B}\nC:{C}\nD:{D}")
         if self.always_true:
             return True
         if self.always_false:
             return False
 
-        literals = {
-            "A": A,
-            "B": B,
-            "C": C,
-            "D": D,
-        }
+        literals = {}
+        for l in get_all_letters():
+            literals[l] = bool_dict[l]
 
         for clause in self.expression_ors:
             currentClause = True

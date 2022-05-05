@@ -34,7 +34,7 @@ def chooseFilesToCombine():
 def run(verbose=False, rotation=False):
     # Run this in ./generator directory. New created images will be stored in ./generator/generated
 
-    pool_size = 4  # your "parallelness"
+    pool_size = 20  # your "parallelness"
     pool = Pool(pool_size)
 
     for i in range(get_data_size()):

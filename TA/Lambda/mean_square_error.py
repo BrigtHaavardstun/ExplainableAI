@@ -2,6 +2,7 @@ from models.abstract_model import AbstractModel
 from LM.boolean.IBoolForest import IBoolForest
 from TA.Lambda.ILambda import ILambda
 from utils.common import get_all_permutations
+from utils.global_props import get_all_letters
 
 
 class MSE(ILambda):
@@ -28,11 +29,7 @@ class MSE(ILambda):
         if (ai_model, bool_forest.get_forest()) in self.boolexpr_prob_map:
             return self.boolexpr_prob_map[(ai_model, bool_forest.get_forest())]
 
-        all_labels = [
-            "", "A", "B", "C", "D",
-            "AB", "AC", "AD", "BC", "BD", "CD",
-            "ABC", "ABD", "ACD", "BCD", "ABCD"
-        ]
+        all_labels = get_all_permutations()
 
         # Maps holding score for each label combination.
         """
@@ -56,12 +53,10 @@ class MSE(ILambda):
 
         # Handling boolean expression
         for label in all_labels:
-            evaluation = bool_forest.evaluate(
-                A="A" in label,
-                B="B" in label,
-                C="C" in label,
-                D="D" in label
-            )
+            bool_dict = {}
+            for l in get_all_letters():
+                bool_dict[l] = l in label
+            evaluation = bool_forest.evaluate(bool_dict)
             if evaluation:
                 count_map_boolexpr[label][1] = 1
             else:

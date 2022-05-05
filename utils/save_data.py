@@ -8,6 +8,7 @@ from LM.boolean.IBoolForest import IBoolForest
 from models.abstract_model import AbstractModel
 
 from utils.global_props import get_sample_attempts
+from utils.common import one_hot_to_number
 
 
 def save_data(ai_model: AbstractModel, boolforest: IBoolForest, picks, predictions, compatibility: float, complexity: float, subset_selectors: ISubsetSelector, delta: IDelta, compatibility_evalutator: ILambda):
@@ -21,7 +22,8 @@ def save_data(ai_model: AbstractModel, boolforest: IBoolForest, picks, predictio
 
     label_text = ",".join(labels)
 
-    prediction_text = ",".join(predictions)
+    prediction_text = ",".join(
+        [str(one_hot_to_number(prediction)) for prediction in predictions])
 
     text_to_save = f"\n{ai_model},{boolforest.get_forest()},{boolforest.get_min_expression()},{subset_selectors},{delta},{compatibility_evalutator},{get_sample_attempts()},{compatibility},{complexity},{label_text},{prediction_text}"
 
@@ -36,7 +38,8 @@ def save_best_run(boolforest: IBoolForest, picks, predictions, compatibility: fl
 
     label_text = "-".join(labels)
 
-    prediction_text = "-".join(predictions)
+    prediction_text = "-".join(
+        [str(one_hot_to_number(prediction)) for prediction in predictions])
 
     text_to_save = f"\n{tag},{boolforest.get_forest()},{boolforest.get_min_expression()},{get_sample_attempts()},{compatibility},{complexity},{label_text},{prediction_text}"
 

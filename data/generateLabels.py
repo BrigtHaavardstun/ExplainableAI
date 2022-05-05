@@ -2,19 +2,14 @@
 
 from os import listdir
 from os.path import isfile, join
-from utils.global_props import booleanFunctionDefiniton
-
-
-def booleanFunction(A, B, C, D):
-    return booleanFunctionDefiniton(A, B, C, D)
+from utils.global_props import booleanFunctionDefiniton, get_all_letters
 
 
 def parseNameToLabel(fileName):
-    A = "A" in fileName
-    B = "B" in fileName
-    C = "C" in fileName
-    D = "D" in fileName
-    return booleanFunction(A, B, C, D)
+    bool_dict = {}
+    for l in get_all_letters():
+        bool_dict[l] = l in fileName
+    return booleanFunctionDefiniton(bool_dict)
 
 # filename = A232, ABC19, BD23 etc.
 

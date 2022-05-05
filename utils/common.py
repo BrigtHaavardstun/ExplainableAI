@@ -1,10 +1,10 @@
 
 from itertools import combinations
-from utils.global_props import ALL_LETTERS, get_sample_size
+from utils.global_props import get_all_letters, get_sample_size
 import math
 
 
-def get_all_permutations(letters=ALL_LETTERS):
+def get_all_permutations(letters=get_all_letters()):
     if len(letters) <= 1:
         return letters
     all_combinations = list()
@@ -22,7 +22,7 @@ _TOT_COMB_SIZE = None
 
 
 def total_combinations():
-    N = len(ALL_LETTERS)
+    N = len(get_all_letters())
     sample_size = get_sample_size()
 
     # All possibilites are unordered n choose k with replacement. N being each "set" k being number of "set"s.
@@ -46,8 +46,8 @@ def total_combinations_bugged():
         return _TOT_COMB_SIZE
 
     total_combinations = 0
-    N = len(ALL_LETTERS)
-    for i in range(len(ALL_LETTERS)+1):
+    N = len(get_all_letters())
+    for i in range(len(get_all_letters())+1):
         total_combinations = math.factorial(
             N)/(math.factorial(i)*(math.factorial(N-i)))
 
@@ -78,27 +78,16 @@ def remove_digit_from_labels(labels):
 
 def convert_label_to_binary(label):
     converted = ""
-    if "A" in label:
-        converted += "1"
-    else:
-        converted += "0"
-    if "B" in label:
-        converted += "1"
-    else:
-        converted += "0"
-    if "C" in label:
-        converted += "1"
-    else:
-        converted += "0"
-    if "D" in label:
-        converted += "1"
-    else:
-        converted += "0"
+    for l in get_all_letters():
+        if l in label:
+            converted += "1"
+        else:
+            converted += "0"
     return converted
 
 
 def convert_digit_to_binary(digit):
-    return bin(digit)[2:].zfill(4)
+    return bin(digit)[2:].zfill(len(get_all_letters()))
 
 
 def one_hot_to_number(one_hot):

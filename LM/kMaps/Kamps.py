@@ -120,10 +120,6 @@ def find_essential_prime_implicants(prime_implicants, minterms):
 
     min = float("inf")
 
-    # TODO: Here we "pick" one of the possible answers. Now this could be a problem, beacuse there could be many possible solutions.
-    # How am i to compansate for this?
-    # TODAY i don't now, i will find a solution another day.
-    # TODO: invest this minimzation
     # Len(p) == num of ors + 1.
     ids = []
     for p in sop:

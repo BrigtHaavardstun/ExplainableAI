@@ -28,7 +28,7 @@ def generateLable(folderPrefix, filename):
 def readAllFileNamesInTrainingData():
     directory = "data/training_data"
     onlyfiles = sorted([f[:-4] for f in listdir(directory)
-                       if isfile(join(directory, f))])
+                       if isfile(join(directory, f)) and f[-4:] == ".bmp"])
     return onlyfiles
 
 

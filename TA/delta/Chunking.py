@@ -2,13 +2,12 @@ from TA.delta.IDelta import IDelta
 
 
 class Chunking(IDelta):
-    def get_complexity_of_subset(self, labels):
+    def get_complexity_of_subset(self, teaching_set):
         """Compute the complexity of the examples given"""
-        # return sum([(1 if len(l) <= 2 else 3) for l in labels])
         complexity = 0
-        for example in labels:
+        for example in teaching_set:
             if len(example) == 0:
-                complexity += 0
+                complexity += 0.1
             elif 1 <= len(example) <= 3:
                 complexity += len(example)*0.2 + 1
             else:

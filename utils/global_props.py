@@ -1,7 +1,4 @@
 # Image attributes
-from glob import glob
-
-
 IMAGE_WIDTH = 64
 IMAGE_HIGHT = 64
 
@@ -16,7 +13,7 @@ def get_all_letters():
 
 
 # Data set sizes
-DATA_SET_SIZE = 20000
+DATA_SET_SIZE = 10000
 
 
 def set_data_size(size):
@@ -29,13 +26,11 @@ def get_data_size():
     return DATA_SET_SIZE
 
 
-# Number of samples(?) picked by AT, maybe?
 SAMPLE_SIZE = 5  # Number of pictures to be shown
 
 
 def set_sample_size(size):
     global SAMPLE_SIZE
-    print(size)
     SAMPLE_SIZE = size
 
 
@@ -69,9 +64,56 @@ def booleanFunctionDefiniton(boolean_dict):
     B = boolean_dict["B"]
     C = boolean_dict["C"]
     D = boolean_dict["D"]
-    return (A and not B and D) or (C and not D and B) or (B and not C and D)
+    return (A and B) or (C and D)
 
 
 def score_function(complexity, compatibility):
-    scale_factor = 100
-    return (complexity+compatibility*scale_factor)
+    global e, B, mu
+    if complexity <= e and compatibility <= B:
+        return (complexity + compatibility*mu)
+    return float("inf")
+
+
+e = float("inf")  # complexity
+
+
+def set_e(value):
+    global e
+    e = value
+
+
+def get_e():
+    global e
+    return e
+
+
+B = float("inf")  # compatibility
+
+
+def set_B(value):
+    global B
+    B = value
+
+
+def get_B():
+    global B
+    return B
+
+
+mu = 100
+
+
+def set_mu(value):
+    global mu
+    mu = value
+
+
+def get_mu():
+    global mu
+    return mu
+
+
+def set_e_b_mu(e, b, mu):
+    set_e(e)
+    set_B(b)
+    set_mu(mu)

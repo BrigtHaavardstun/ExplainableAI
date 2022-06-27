@@ -1,5 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+from utils.global_props import score_function
+import matplotlib.ticker as ticker
+
+import math
 
 
 def run(path_to_csv_file):
@@ -17,8 +22,13 @@ def make_graph_on_sub_set_selector(df):
             sub_set_selectors_to_data[sub_set_selctor].append(
                 (itr, complexity, compatibility))
 
+    max_y = float("-inf")
+    min_y = float("inf")
+
+    fig1, ax1 = plt.subplots()
+
     for i, sub_set_selctor in enumerate(sub_set_selectors_to_data.keys()):
-        print(f"{'#'*10}{sub_set_selctor}{'#'*10}")
+        # print(f"{'#'*10}{sub_set_selctor}{'#'*10}")
         complexity_itterations = {}  # [(complexity_score, itterations)]
         compatibility_itterations = {}  # [(complexity_score, itterations)]
 
@@ -44,22 +54,30 @@ def make_graph_on_sub_set_selector(df):
         x = []
         complexity_y = []
         compatibility_y = []
+
         for itr in sorted(complexity_itterations.keys()):
-            print(
-                f"itr: {itr}, complexity: {complexity_itterations[itr]}, compatibility: {compatibility_itterations[itr]}")
-            x.append(itr)
-            complexity_y.append(complexity_itterations[itr])
-            compatibility_y.append(compatibility_itterations[itr])
+            if itr <= 40:
+                # print(f"itr: {itr}, complexity: {complexity_itterations[itr]}, compatibility: {compatibility_itterations[itr]}")
+                x.append(itr)
+                complexity_y.append(complexity_itterations[itr])
+                compatibility_y.append(compatibility_itterations[itr])
 
         scale_factor = 10
-        plt.subplot(1, len(sub_set_selectors_to_data.keys()), i+1)
-        plt.plot(x, compatibility_y, label=f"compatibility")
-        #plt.plot(x, complexity_y, label=f"complexity")
-        # plt.plot(x, list(map(lambda x: x/max(compatibility_y), compatibility_y)),
-        #         label=f"compatibility")
-        # plt.plot(x, list(map(lambda x: x/max(complexity_y),
-        #         complexity_y)), label=f"complexity")
-        plt.legend(loc="upper left")
-        plt.title(sub_set_selctor)
+        # plt.subplot(1, len(sub_set_selectors_to_data.keys()), i+1)
+        # plt.plot(x, compatibility_y, '_', label=f"compatibility")
+        sum_score = [score_function(complexity=complexity, compatibility=compatibility)
+                     for complexity, compatibility in zip(complexity_y, compatibility_y)]
+
+        # print(x)
+        to_be_ploted = compatibility_y
+        max_y = max(max(to_be_ploted), max_y)
+        min_y = min(min(to_be_ploted), min_y)
+        ax1.plot(x, to_be_ploted, label=f"{sub_set_selctor}")
+
+    plt.legend(loc="upper right")
+    plt.xlabel("Number of Search Attempts")
+    plt.ylabel("Average Compatibility")
+    plt.title(f"Average Compatibility All Subset Selectors")
 
     plt.show()
+# plt.show()

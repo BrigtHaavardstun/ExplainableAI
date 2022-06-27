@@ -18,7 +18,7 @@ def run_lm(labels, predictions) -> IBoolForest:
 
     As we don't know their value we have little to no reasone to asume they are one or the othe.
     One could argue this is a faulty logic, as if "a=t,b=f,c=f", "a=t,b=t,c=f","a=t,b=f,c=t" all is true,
-    it is not given that "a=t,b=t,c=t" also gives true.
+    it is not given that "a=t,b=t,c=t" also gives true. However we belive it is the most reasonable according to occams razor to believe.
     """
 
     # split into true and false groups

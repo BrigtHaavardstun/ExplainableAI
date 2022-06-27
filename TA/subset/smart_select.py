@@ -17,6 +17,9 @@ from TA.subset.random_select import RandomSelect
 
 
 class SmartSelect(ISubsetSelector):
+    def __init__(self):
+        super(SmartSelect, self).__init__()
+
     def __repr__(self):
         return "SmartSelect"
 
@@ -30,7 +33,7 @@ class SmartSelect(ISubsetSelector):
         self.random_backup = RandomSelect()
         self.random_backup.load(all_data_zip, true_data_zip, false_data_zip)
 
-    def get_next_subset(self, previus_score, previus_subset):
+    def get_next_subset(self, previous_score, previus_subset):
         found_new = False
         picks = []
         MAX_ITER = 100000

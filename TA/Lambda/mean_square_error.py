@@ -1,7 +1,7 @@
 from models.abstract_model import AbstractModel
 from LM.boolean.IBoolForest import IBoolForest
 from TA.Lambda.ILambda import ILambda
-from utils.common import get_all_permutations
+from utils.common import get_all_letter_combinations
 from utils.global_props import get_all_letters
 
 
@@ -29,7 +29,7 @@ class MSE(ILambda):
         if (ai_model, bool_forest.get_forest()) in self.boolexpr_prob_map:
             return self.boolexpr_prob_map[(ai_model, bool_forest.get_forest())]
 
-        all_labels = get_all_permutations()
+        all_labels = get_all_letter_combinations()
 
         # Maps holding score for each label combination.
         """
@@ -91,7 +91,7 @@ class MSE(ILambda):
         # Memoization. If we know what this ai will give, we don't change.
         if ai_model in self.ai_prob_map:
             return self.ai_prob_map[ai_model]
-        all_labels = get_all_permutations()
+        all_labels = get_all_letter_combinations()
         count_map_model_ai = {}
         for label in all_labels:
             count_map_model_ai[label] = [0, 0]

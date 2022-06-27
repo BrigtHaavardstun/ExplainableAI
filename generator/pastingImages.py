@@ -3,7 +3,7 @@ from PIL import Image
 import random
 from multiprocessing.pool import ThreadPool as Pool
 from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT, get_data_size
-from utils.common import get_all_permutations
+from utils.common import get_all_letter_combinations
 
 """
 [ref](https://www.geeksforgeeks.org/find-two-rectangles-overlap/)
@@ -27,7 +27,10 @@ def genereator(images, name, count):
         width, height), color=(255, 255, 255))
 
     # More noise in the training data
-    img_size_width = height//2 - random.randint(0, 10)
+
+    img_size_width = height//2
+    random_scale = random.randint(0, img_size_width//2)
+    img_size_width -= random_scale
     img_size_height = img_size_width  # we want to maintain scale.
 
     paste_image_list = [Image.open(image_loc).resize(
@@ -69,7 +72,7 @@ def genereator(images, name, count):
 
 
 def randomPickLetters():
-    possiblilities = get_all_permutations()
+    possiblilities = get_all_letter_combinations()
     picked = random.choice(possiblilities)
     return picked
 

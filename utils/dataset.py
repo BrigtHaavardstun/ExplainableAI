@@ -15,8 +15,9 @@ def load_dataset_no_memoization():
     labels = []
 
     directory = "data/training_data"
-    onlyfiles = sorted([f[:-4] for f in listdir(directory)
-                       if isfile(join(directory, f)) and f != "clean.sh"])
+    end = ".bmp"
+    onlyfiles = sorted([f[:-len(end)] for f in listdir(directory)
+                       if isfile(join(directory, f)) and f.endswith(end)])
     for file in onlyfiles:
         # get training data
         img = Image.open(f"{directory}/{file}.bmp")

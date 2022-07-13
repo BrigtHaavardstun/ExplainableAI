@@ -1,3 +1,3 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,score,label0,label1,label2,label3,label4,label5,label6,prediction0,prediction1,prediction2,prediction3,prediction4,prediction5,prediction6
-CNN_aligment_test_new_10000,{AD'+CD-CD+AB},CD+AB,TryAll,SquaredSum,Mean_Square_Error,10000,8.947240349451479e-05,15.1,15.108947240349451,,AB,AD,B,C,CD,D,0,1,0,0,0,1,0
-CNN_aligment_test_new_10000,{CD+AB},CD+AB,TryAll,SquaredSum,Mean_Square_Error,1000000,8.947240349451479e-05,12.1,12.108947240349451,,A,AB,B,C,CD,D,0,0,1,0,0,1,0
+CNN_paper_work_AB_CD_350,{AC+BD},AC+BD,TryAll,SquaredSum,Mean_Square_Error,1000000000,1.4158374079466596,12.1,12.241583740794665,,A,AC,B,BD,C,D,0,0,1,0,1,0,0
+CNN_paper_work_AB_CD_350,{AD+BC},AD+BC,TryAll,SquaredSum,Mean_Square_Error,1000000000,1.4019645799530123,12.1,13.501964579953011,,A,AD,B,BC,C,D,0,0,1,0,1,0,0

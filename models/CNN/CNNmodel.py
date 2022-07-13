@@ -1,7 +1,7 @@
 # inspiered by https://victorzhou.com/blog/keras-cnn-tutorial/
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
-from keras.layers.advanced_activations import LeakyReLU
+from keras.layers import LeakyReLU
 from models.abstract_model import AbstractModel
 from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT
 

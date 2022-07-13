@@ -1,12 +1,8 @@
 
 import keras
-from keras.models import Sequential, Input, Model
-from keras.layers import Dense, Dropout, Flatten
-from keras.layers import Conv2D, MaxPooling2D
-from keras.layers.advanced_activations import LeakyReLU
+from keras.models import Sequential
 from keras.optimizers import adam_v2
 import numpy as np
-from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT
 
 import abc
 
@@ -73,7 +69,7 @@ class AbstractModel(metaclass=abc.ABCMeta):
 
         x = np.array([x])
 
-        prediction = self.model.predict(x)[0]
+        prediction = self.model(x)[0]
 
         # Softmax
         pred = []

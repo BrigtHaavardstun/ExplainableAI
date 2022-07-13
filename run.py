@@ -1,37 +1,20 @@
+from PIL import Image
+from random import choice
+from utils.global_props import get_e, get_B, get_mu
+from utils.global_props import set_sample_attempts, set_sample_size, set_data_size, get_data_size, get_all_letters, score_function
+from utils.save_data import save_data, clean_all_csv_files, save_best_run
+from utils.dataset import load_dataset, sub_sample
+from TA.Lambda.mean_square_error import MSE
+from TA.Lambda.ILambda import ILambda
+from TA.delta.squaredSum import SquaredSum
+from TA.delta.IDelta import IDelta
+from TA.subset.try_all import TryAll
+from TA.subset.ISubset import ISubsetSelector
 from models.trainModel import run as generate_new_model
 from models.trainModel import load_model
 from models.abstract_model import AbstractModel
 from models.CNN.CNNmodel import CNN
-from models.NN.NNmodel import NN
-
 from TA.TA import arg_min_ta
-
-from TA.subset.ISubset import ISubsetSelector
-from TA.subset.random_select import RandomSelect
-from TA.subset.smart_select import SmartSelect
-from TA.subset.try_all import TryAll
-from TA.subset.random_w_hash import RandomWHashSelect
-
-from TA.delta.IDelta import IDelta
-from TA.delta.sumOfExamples import SumOfExamples
-from TA.delta.maxExample import MaxExample
-from TA.delta.minExample import MinExample
-from TA.delta.squaredSum import SquaredSum
-from TA.delta.absExample import AbsExample
-from TA.delta.Cardinality import Cardinality
-from TA.delta.Chunking import Chunking
-
-from TA.Lambda.ILambda import ILambda
-from TA.Lambda.mean_square_error import MSE
-
-from utils.dataset import load_dataset, sub_sample
-from utils.save_data import save_data, clean_all_csv_files, save_best_run
-from utils.common import one_hot_to_number
-from utils.global_props import set_sample_attempts, set_sample_size, set_data_size, get_data_size, get_all_letters, score_function
-from utils.global_props import get_e, get_B, get_mu
-
-from PIL import Image
-from random import choice
 
 
 def train_model(model_to_train: AbstractModel = CNN, model_name: str = "Defualt", verbose: bool = False, traning_set_size=float("inf")):
@@ -68,21 +51,12 @@ def display_result(picks, compatibility, complexity, ai_model):
 
 
 def main_run_system(re_train=True, clean_data=True, traning_set_size=float("inf"), model_name_NN="NN v1.1", model_name_CNN="CNN v1.1",
-                    deltas=[], ai_models=[], subset_selectors=[], differentNrAttempts=[], verbose=True):
+                    deltas=[SquaredSum()], ai_models=[], subset_selectors=[TryAll()], differentNrAttempts=[], verbose=True):
 
     if re_train:
         train_model(model_to_train=CNN, model_name=model_name_CNN,
                     traning_set_size=traning_set_size)
 
-    if re_train:
-        train_model(model_to_train=NN, model_name=model_name_NN,
-                    traning_set_size=traning_set_size)
-
-    if subset_selectors == []:
-        subset_selectors = [TryAll()]
-
-    if deltas == []:
-        deltas = [SquaredSum()]
     lambdas = [MSE()]
 
     if differentNrAttempts == []:
@@ -94,6 +68,8 @@ def main_run_system(re_train=True, clean_data=True, traning_set_size=float("inf"
         ai_models = [load_model(model_name_CNN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
+    valid_X, valid_Y, valid_labels = sub_sample(
+        valid_X, valid_Y, valid_labels, 8000)
 
     # Make save files clean
     if clean_data:
@@ -147,7 +123,8 @@ def main_run_system(re_train=True, clean_data=True, traning_set_size=float("inf"
                                 over_all_best = one_best
 
     score_func_setting = f"e:{get_e()}-B:{get_B()}-mu:{get_mu()}-"
-    tag_note = str(ai_models[0]) + f"-theoretical{theoretical_best}"
+    tag_note = f"mu:{get_mu()}-" + \
+        str(ai_models[0]) + f"-theoretical{theoretical_best}"
 
     picks, compatibility, complexity, boolean_forest, predictions = over_all_best
     save_best_run(boolforest=boolean_forest, picks=picks, predictions=predictions,

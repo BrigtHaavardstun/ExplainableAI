@@ -1,3 +1,3 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,score,label0,label1,label2,label3,prediction0,prediction1,prediction2,prediction3
-CNN_aligment_test_new_10000,{A'B'+BD'-BD'+B'D-A'B'+AC'-CD+AB-CD+C'D'-BD'+A'C-B'D+AC'-AB+B'D-C'D'+B'D-CD+AC'-AB+A'C-C'D'+A'C-CD+BD'-A'B'+AB-A'B'+C'D'-A'C+AC'},CD+AB,TryAll,SquaredSum,Mean_Square_Error,10000,8.947240349451479e-05,16,16.00894724034945,AB,AC,BD,CD,1,0,0,1
-CNN_aligment_test_new_10000,{A'B'+BD'-BD'+B'D-A'B'+AC'-CD+AB-CD+C'D'-BD'+A'C-B'D+AC'-AB+B'D-C'D'+B'D-CD+AC'-AB+A'C-C'D'+A'C-CD+BD'-A'B'+AB-A'B'+C'D'-A'C+AC'},CD+AB,TryAll,SquaredSum,Mean_Square_Error,1000000,8.947240349451479e-05,16,16.00894724034945,AB,AC,BD,CD,1,0,0,1
+CNN_paper_work_AB_CD_350,{A},A,TryAll,SquaredSum,Mean_Square_Error,1000000000,3.0088577546156956,3.1,3.40088577546157,,A,B,C,0,1,0,0
+CNN_paper_work_AB_CD_350,{A},A,TryAll,SquaredSum,Mean_Square_Error,1000000000,3.040798066630398,3.1,6.140798066630398,,A,B,D,0,1,0,0

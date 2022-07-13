@@ -52,8 +52,10 @@ def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
 
     all_best = []
     # Pick the sub_set we are testing.
+    print("Start load..")
     set_selector.load(all_data_zip=all_data_zip,
                       true_data_zip=predicted_true_data_zip, false_data_zip=predicted_false_data_zip)
+    print("end load")
 
     for i in range(sub_sets_attempts):
         if verbose:

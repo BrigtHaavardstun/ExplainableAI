@@ -1,3 +1,2 @@
 tag,subset_selectors,boolforest,bool_min,sample_attemps,compatibility,complexity,score,labels,predictions
-CNN_aligment_test_new_10000-theoreticalFalse,TryAll,{CD+AB},CD+AB,10000,8.947240349451479e-05,12,12.008947240349451,A-AB-B-C-CD-D,0-1-0-0-1-0
-CNN_aligment_test_new_10000-theoreticalTrue,TryAll,{CD+AB},CD+AB,1000000,8.947240349451479e-05,12,12.008947240349451,A-AB-B-C-CD-D,0-1-0-0-1-0
+mu:0.1-CNN_paper_work_AB_CD_350-theoreticalTrue,TryAll,{F},F,1000000000,4.741966090103567,0.1,0.5741966090103567,,0

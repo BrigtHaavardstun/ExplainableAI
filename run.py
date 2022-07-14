@@ -23,15 +23,15 @@ def train_model(model_to_train: AbstractModel = CNN, model_name: str = "Defualt"
 
 
 def run_system(model: AbstractModel, set_selector: ISubsetSelector, delta: IDelta, compatibility_evalutator: ILambda,
-               valid_X, valid_labels, verbose=False, save=True, with_data_valid=False, name="Standar"):
+               valid_X, valid_labels, verbose=False, save=True, with_data_valid=False, name="Standar", over_all_best_score=float("inf")):
     # get data TODO: This should be the same.
 
-    all_best = arg_min_ta(verbose=verbose, valid_X=valid_X, valid_labels=valid_labels, ai_model=model,
-                          set_selector=set_selector,
-                          delta=delta,
-                          compatibility_evalutator=compatibility_evalutator
-                          )
-    return all_best
+    best = arg_min_ta(verbose=verbose, valid_X=valid_X, valid_labels=valid_labels, ai_model=model,
+                      set_selector=set_selector,
+                      delta=delta,
+                      compatibility_evalutator=compatibility_evalutator, over_all_best_score=over_all_best_score
+                      )
+    return best
 
 
 def display_result(picks, compatibility, complexity, ai_model):
@@ -68,8 +68,6 @@ def main_run_system(re_train=True, clean_data=True, traning_set_size=float("inf"
         ai_models = [load_model(model_name_CNN)]
 
     valid_X, valid_Y, valid_labels = load_dataset()
-    valid_X, valid_Y, valid_labels = sub_sample(
-        valid_X, valid_Y, valid_labels, 8000)
 
     # Make save files clean
     if clean_data:
@@ -98,16 +96,15 @@ def main_run_system(re_train=True, clean_data=True, traning_set_size=float("inf"
                                     f"attemps: {attemps}"
 
                                 )
-                            all_best = run_system(model=ai_model,
-                                                  valid_X=valid_X, valid_labels=valid_labels,
-                                                  set_selector=subset_selector,
-                                                  delta=delta,
-                                                  compatibility_evalutator=compatibility_evalutator,
-                                                  verbose=False,
-                                                  )
-                            # save only one
-                            one_best = choice(all_best)
-                            picks, compatibility, sample_complexity, boolean_forest, predictions = one_best
+                            best_teaching_set = run_system(model=ai_model,
+                                                           valid_X=valid_X, valid_labels=valid_labels,
+                                                           set_selector=subset_selector,
+                                                           delta=delta,
+                                                           compatibility_evalutator=compatibility_evalutator,
+                                                           verbose=False, over_all_best_score=best_score
+                                                           )
+
+                            picks, compatibility, sample_complexity, boolean_forest, predictions = best_teaching_set
                             curr_score = score_function(
                                 complexity=sample_complexity, compatibility=compatibility)
                             save_data(ai_model=ai_model, boolforest=boolean_forest, picks=picks, predictions=predictions, compatibility=compatibility, complexity=sample_complexity,
@@ -120,7 +117,7 @@ def main_run_system(re_train=True, clean_data=True, traning_set_size=float("inf"
                                         "Failed to get theoretical best on run " + str(size))
                             if best_score > curr_score or over_all_best is None:
                                 best_score = curr_score
-                                over_all_best = one_best
+                                over_all_best = best_teaching_set
 
     score_func_setting = f"e:{get_e()}-B:{get_B()}-mu:{get_mu()}-"
     tag_note = f"mu:{get_mu()}-" + \

@@ -1,3 +1,5 @@
 model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,score,label0,label1,label2,prediction0,prediction1,prediction2
-CNN_paper_work_AB_CD_350,{A},A,TryAll,SquaredSum,Mean_Square_Error,1000000000,3.0088577546156956,2.1,2.40088577546157,,A,C,0,1,0
-CNN_paper_work_AB_CD_350,{A},A,TryAll,SquaredSum,Mean_Square_Error,1000000000,3.040798066630398,2.1,5.140798066630398,,A,B,0,1,0
+CNN_paper_work_AB_CD_350,{F},F,TryAll,SquaredSum,Mean_Square_Error,1000000000,4.7537228580241235,2.1,2.5753722858024126,,A,B,0,0,0
+CNN_paper_work_AB_CD_350,{A},A,TryAll,SquaredSum,Mean_Square_Error,1000000000,3.0092382382017178,2.1,5.109238238201717,,A,B,0,1,0
+CNN_paper_work_AB_CD_350,{AC},AC,TryAll,SquaredSum,Mean_Square_Error,1000000000,2.4506345967307492,6,30.506345967307492,A,AC,C,0,1,0
+CNN_paper_work_AB_CD_350,{AC},AC,TryAll,SquaredSum,Mean_Square_Error,1000000000,2.4506345967307492,6,55.012691934614985,A,AC,C,0,1,0

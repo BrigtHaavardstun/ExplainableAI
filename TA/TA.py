@@ -37,7 +37,7 @@ split_data_in_true_false_w_memoization = memoize(split_data_in_true_false)
 
 def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
                set_selector: ISubsetSelector, delta: IDelta, compatibility_evalutator: ILambda,
-               verbose=False):
+               verbose=False, over_all_best_score=float("inf")):
     """
     Given traning data and ai model finds examples to show to the user
     """
@@ -50,14 +50,17 @@ def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
 
     min_score = float("inf")
 
-    all_best = []
+    best = None
     # Pick the sub_set we are testing.
     print("Start load..")
     set_selector.load(all_data_zip=all_data_zip,
-                      true_data_zip=predicted_true_data_zip, false_data_zip=predicted_false_data_zip)
+                      true_data_zip=predicted_true_data_zip, false_data_zip=predicted_false_data_zip, delta=delta)
     print("end load")
-
+    prev_delta = float("-inf")
     for i in range(sub_sets_attempts):
+        if prev_delta > over_all_best_score:
+            print("impossible to find better score. Early break")
+            break
         if verbose:
             print(f"{i+1}/{sub_sets_attempts}")
 
@@ -83,7 +86,7 @@ def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
         compatibility = compatibility_evalutator.compatibility(
             ai_model=ai_model, bool_forest=boolean_forest, valid_X=valid_X, valid_labels=valid_labels)
         sample_complexity = delta.get_complexity_of_subset(labels_picked)
-
+        prev_delta = sample_complexity
         picks_score = score_function(
             compatibility=compatibility, complexity=sample_complexity)
         if verbose:
@@ -92,9 +95,8 @@ def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
                   + f"pick_score: {picks_score}")
         if picks_score < min_score:
             min_score = picks_score
-            all_best = [[picks, compatibility, sample_complexity,
-                         boolean_forest, predictions]]
-        elif picks_score == min_score:
-            all_best.append(
-                [picks, compatibility, sample_complexity, boolean_forest, predictions])
-    return all_best
+            best = [picks, compatibility, sample_complexity,
+                    boolean_forest, predictions]
+            if over_all_best_score > min_score:
+                over_all_best_score = min_score
+    return best

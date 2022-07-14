@@ -12,7 +12,7 @@ class RandomSelect(ISubsetSelector):
     def __repr__(self):
         return "RandomSelect"
 
-    def load(self, all_data_zip, true_data_zip, false_data_zip) -> ISubsetSelector:
+    def load(self, all_data_zip, true_data_zip, false_data_zip, delta) -> ISubsetSelector:
         self.all_data_zip = all_data_zip
         self.true_data_zip = true_data_zip
         self.false_data_zip = false_data_zip

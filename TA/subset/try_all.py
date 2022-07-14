@@ -11,6 +11,8 @@ import random
 from TA.subset.ISubset import ISubsetSelector
 from TA.subset.random_select import RandomSelect
 
+from TA.delta.IDelta import IDelta
+
 from utils.global_props import get_sample_size
 from utils.common import total_combinations, get_all_letter_combinations
 
@@ -26,10 +28,12 @@ class TryAll(ISubsetSelector):
     def __repr__(self):
         return "TryAll"
 
-    def load(self, all_data_zip, true_data_zip, false_data_zip):
+    def load(self, all_data_zip, true_data_zip, false_data_zip, delta: IDelta):
         self.all_data_zip = all_data_zip
         self.true_data_zip = true_data_zip
         self.false_data_zip = false_data_zip
+
+        self.delta = delta
 
         self.label_to_data_map_true = self.generate_label_to_data_map(
             true_data_zip)
@@ -37,6 +41,7 @@ class TryAll(ISubsetSelector):
             false_data_zip)
 
         self.all_combinations = self.generate_all_possible_elements()
+
         self.next_to_try = 0
         self.queue_of_picks = []
         self.all_done = False
@@ -52,10 +57,12 @@ class TryAll(ISubsetSelector):
 
     def generate_all_possible_elements(self):
         all_permutation = get_all_letter_combinations()
-        all_combinations = combinations(
-            all_permutation, get_sample_size())
-        all_combinations = list(all_combinations)
-        random.shuffle(all_combinations)
+
+        all_combinations = list(combinations(
+            all_permutation, get_sample_size()))
+
+        all_combinations.sort(
+            key=lambda x: self.delta.get_complexity_of_subset(x))
         return all_combinations
 
     def get_from_pick_queue(self):

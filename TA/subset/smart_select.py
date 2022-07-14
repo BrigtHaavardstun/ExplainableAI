@@ -23,7 +23,7 @@ class SmartSelect(ISubsetSelector):
     def __repr__(self):
         return "SmartSelect"
 
-    def load(self, all_data_zip, true_data_zip, false_data_zip):
+    def load(self, all_data_zip, true_data_zip, false_data_zip, delta):
         self.all_data_zip = all_data_zip
         self.true_data_zip = true_data_zip
         self.false_data_zip = false_data_zip

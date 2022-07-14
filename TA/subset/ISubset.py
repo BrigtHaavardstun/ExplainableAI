@@ -13,6 +13,6 @@ class ISubsetSelector(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def load(self, all_data_zip, true_data_zip, false_data_zip):
+    def load(self, all_data_zip, true_data_zip, false_data_zip, delta):
         "test"
         pass

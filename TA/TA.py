@@ -1,3 +1,4 @@
+from re import A
 from LM.boolean.BoolExpression import BooleanExpression
 from models.abstract_model import AbstractModel
 
@@ -49,7 +50,6 @@ def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
     sub_sets_attempts = get_sample_attempts()
 
     min_score = float("inf")
-
     best = None
     # Pick the sub_set we are testing.
     print("Start load..")
@@ -58,8 +58,9 @@ def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
     print("end load")
     prev_delta = float("-inf")
     for i in range(sub_sets_attempts):
-        if prev_delta > over_all_best_score:
-            print("impossible to find better score. Early break")
+        if score_function(prev_delta, compatibility_evalutator.get_theoreticaly_lowest_lambda(ai_model=ai_model, valid_X=valid_X, valid_labels=valid_labels)) > over_all_best_score:
+            print(
+                f"impossible to find better score. Early break after {i} attempts. sample size: {get_sample_size()}")
             break
         if verbose:
             print(f"{i+1}/{sub_sets_attempts}")

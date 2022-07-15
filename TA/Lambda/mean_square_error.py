@@ -8,6 +8,7 @@ from utils.global_props import get_all_letters
 class MSE(ILambda):
     def __init__(self):
         self.ai_prob_map = {}
+        self.ai_lambda_score = {}
         self.boolexpr_prob_map = {}
 
     def __repr__(self):
@@ -113,3 +114,15 @@ class MSE(ILambda):
             prob_map_ai[label] = true_count/(false_count+true_count)
         self.ai_prob_map[ai_model] = prob_map_ai  # memoization.
         return prob_map_ai
+
+    def get_theoreticaly_lowest_lambda(self, ai_model: AbstractModel, valid_X, valid_labels) -> float:
+        if ai_model in self.ai_lambda_score:
+            return self.ai_lambda_score[ai_model]
+        ai_prop = self._get_probaility_map_ai(
+            ai_model=ai_model, valid_X=valid_X, valid_labels=valid_labels)
+        total_lambda = 0
+        for letter_group in ai_prop:
+            total_lambda += min(ai_prop[letter_group], 1-ai_prop[letter_group]) * min(
+                ai_prop[letter_group], 1-ai_prop[letter_group])
+        self.ai_lambda_score[ai_model] = total_lambda
+        return total_lambda

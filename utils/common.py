@@ -72,7 +72,7 @@ def remove_digit_from_labels(labels):
                 curr_label += e
             else:  # e.isdigit()
                 break
-        proccessed_labels.append(curr_label)
+        proccessed_labels.append("".join(curr_label))
     return proccessed_labels
 
 

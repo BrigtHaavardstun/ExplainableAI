@@ -138,14 +138,12 @@ dmypy.json
 .LSOverride
 
 # generated data and training data
-data/lables/*
-!data/lables/clean.sh
-
-data/training_data/*
-!data/training_data/clean.sh
-
-data/images/*
-!data/images/clean.sh
+data/lables/
+data/training_data/
+data/images/
+!data/lables/gitkeep.sh
+!data/training_data/gitkeep.sh
+!data/images/gitkeep.sh
 
 savedModels/
 .DS_Store

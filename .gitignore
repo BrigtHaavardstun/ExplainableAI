@@ -138,9 +138,9 @@ dmypy.json
 .LSOverride
 
 # generated data and training data
-data/lables/
-data/training_data/
-data/images/
+data/lables/*
+data/training_data/*
+data/images/*
 !data/lables/gitkeep.sh
 !data/training_data/gitkeep.sh
 !data/images/gitkeep.sh

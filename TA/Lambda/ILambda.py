@@ -9,3 +9,7 @@ class ILambda:
         Low score is better.
         """
         pass
+
+    def get_theoreticaly_lowest_lambda(self, ai_model: AbstractModel,valid_X, valid_labels) -> float:
+        """Find the theoretical_best lambda score"""
+        pass

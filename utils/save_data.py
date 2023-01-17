@@ -11,7 +11,7 @@ from utils.global_props import get_sample_attempts
 from utils.common import one_hot_to_number
 
 
-def save_data(ai_model: AbstractModel, boolforest: IBoolForest, picks, predictions, compatibility: float, complexity: float, subset_selectors: ISubsetSelector, delta: IDelta, compatibility_evalutator: ILambda):
+def save_data(ai_model: AbstractModel, boolforest: IBoolForest, picks, predictions, compatibility: float, complexity: float, subset_selectors: ISubsetSelector, delta: IDelta, compatibility_evalutator: ILambda, score):
     """
     Format: 
     model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,label1,label2,label3,label4,prediction1,prediction2,prediction3,prediction4
@@ -25,13 +25,13 @@ def save_data(ai_model: AbstractModel, boolforest: IBoolForest, picks, predictio
     prediction_text = ",".join(
         [str(one_hot_to_number(prediction)) for prediction in predictions])
 
-    text_to_save = f"\n{ai_model},{boolforest.get_forest()},{boolforest.get_min_expression()},{subset_selectors},{delta},{compatibility_evalutator},{get_sample_attempts()},{compatibility},{complexity},{label_text},{prediction_text}"
+    text_to_save = f"\n{ai_model},{boolforest.get_forest()},{boolforest.get_min_expression()},{subset_selectors},{delta},{compatibility_evalutator},{get_sample_attempts()},{compatibility},{complexity},{score},{label_text},{prediction_text}"
 
     with open(f"run_result/run_result{len(labels)}.csv", "a") as f:
         f.write(text_to_save)
 
 
-def save_best_run(boolforest: IBoolForest, picks, predictions, compatibility: float, complexity: float, tag: str = "Nothing", post_fix=""):
+def save_best_run(subset_selectors: ISubsetSelector, boolforest: IBoolForest, picks, predictions, compatibility: float, complexity: float, score: float, tag: str = "Nothing", post_fix=""):
     labels = []
     for (x, y, label) in picks:
         labels.append(label)
@@ -41,7 +41,7 @@ def save_best_run(boolforest: IBoolForest, picks, predictions, compatibility: fl
     prediction_text = "-".join(
         [str(one_hot_to_number(prediction)) for prediction in predictions])
 
-    text_to_save = f"\n{tag},{boolforest.get_forest()},{boolforest.get_min_expression()},{get_sample_attempts()},{compatibility},{complexity},{label_text},{prediction_text}"
+    text_to_save = f"\n{tag},{subset_selectors},{boolforest.get_forest()},{boolforest.get_min_expression()},{get_sample_attempts()},{compatibility},{complexity},{score},{label_text},{prediction_text}"
 
     with open(f"run_result/best/over_all_best{post_fix}.csv", "a") as f:
         f.write(text_to_save)
@@ -50,7 +50,7 @@ def save_best_run(boolforest: IBoolForest, picks, predictions, compatibility: fl
 def clean_all_csv_files():
     for i in range(1, 17):
         with open(f"run_result/run_result{i}.csv", "w") as f:
-            text = "model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity"
+            text = "model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,score"
             for j in range(i):
                 text += f",label{j}"
             for j in range(i):
@@ -58,5 +58,5 @@ def clean_all_csv_files():
             f.write(text)
 
     with open(f"run_result/best/over_all_best.csv", "w") as f:
-        text = "tag,boolforest,bool_min,sample_attemps,compatibility,complexity,labels,predictions"
+        text = "tag,subset_selectors,boolforest,bool_min,sample_attemps,compatibility,complexity,score,labels,predictions"
         f.write(text)

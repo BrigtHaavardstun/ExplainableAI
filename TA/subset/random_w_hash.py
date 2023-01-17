@@ -20,10 +20,10 @@ class RandomWHashSelect(ISubsetSelector):
         self.randomSelector.load(all_data_zip, true_data_zip, false_data_zip)
         self.tried = []  # Reset
 
-    def get_next_subset(self, previus_score, previus_subset):
+    def get_next_subset(self, previous_score, previous_subset):
         while True:
             pick = self.randomSelector.get_next_subset(
-                previus_score, previus_subset)
+                previous_score, previous_subset)
 
             choosen_labels = sorted([str(pL+str(pY)) for pX, pY, pL in pick])
 

@@ -52,16 +52,47 @@ class BooleanExpression:
 
 
 def sort_expressions(expression_list):
-    return sorted(expression_list, key=functools.cmp_to_key(cmpr_bool_expression))
+    sorted_list =  sorted(expression_list, key=functools.cmp_to_key(cmpr_clauses))
+    return sorted_list
 
-
-def cmpr_bool_expression(current, other):
+def cmpr_clauses(current, other):
     current_negate_count = current.count("'")
     other_negate_count = other.count("'")
 
     cur_size = len(current.replace("'", ""))
     other_size = len(other.replace("'", ""))
 
+    # Swapped negation and size order
+    if other_negate_count < current_negate_count:
+        return 1
+    elif other_negate_count > current_negate_count:
+        return -1
+    elif other_size < cur_size:
+        return 1
+    elif other_size > cur_size:
+        return -1
+    else:
+        # convert negeated letters
+        new_other = ""
+        for i in range(len(other)):
+            to_add = other[i]
+            if i < len(other)-1 and other[i] == "'":
+                to_add = to_add.lower()
+        new_current = ""
+        for i in range(len(current)):
+            to_add = current[i]
+            if i < len(current)-1 and current[i] == "'":
+                to_add = to_add.lower()
+
+        if sorted(new_other) < sorted(new_current):
+            return 1
+        elif sorted(new_other) > sorted(new_current):
+            return -1
+        else:
+            return 0
+    
+
+    """
     if other_size < cur_size:
         return 1
     elif other_size > cur_size:
@@ -71,9 +102,22 @@ def cmpr_bool_expression(current, other):
     elif other_negate_count > current_negate_count:
         return -1
     else:
-        if sorted(other.replace("'", "")) < sorted(current.replace("'", "")):
+        # convert negeated letters
+        new_other = ""
+        for i in range(len(other)):
+            to_add = other[i]
+            if i < len(other)-1 and other[i] == "'":
+                to_add = to_add.lower()
+        new_current = ""
+        for i in range(len(current)):
+            to_add = current[i]
+            if i < len(current)-1 and current[i] == "'":
+                to_add = to_add.lower()
+
+        if sorted(new_other) < sorted(new_current):
             return 1
-        elif sorted(other.replace("'", "")) > sorted(current.replace("'", "")):
+        elif sorted(new_other) > sorted(new_current):
             return -1
         else:
             return 0
+    """

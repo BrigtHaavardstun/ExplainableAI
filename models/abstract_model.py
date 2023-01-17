@@ -1,12 +1,8 @@
 
 import keras
-from keras.models import Sequential, Input, Model
-from keras.layers import Dense, Dropout, Flatten
-from keras.layers import Conv2D, MaxPooling2D
-from keras.layers.advanced_activations import LeakyReLU
+from keras.models import Sequential
 from keras.optimizers import adam_v2
 import numpy as np
-from utils.global_props import IMAGE_WIDTH, IMAGE_HIGHT
 
 import abc
 
@@ -49,6 +45,7 @@ class AbstractModel(metaclass=abc.ABCMeta):
         Trains the model on the given dataset.
         Returns history of training.
         """
+        print(len(train_X))
         training_history = self.model.fit(
             train_X, train_Y, epochs=epochs, verbose=self.verbose, validation_data=(valid_X, valid_Y))
         return training_history
@@ -72,7 +69,7 @@ class AbstractModel(metaclass=abc.ABCMeta):
 
         x = np.array([x])
 
-        prediction = self.model.predict(x)[0]
+        prediction = self.model(x)[0]
 
         # Softmax
         pred = []
@@ -84,12 +81,15 @@ class AbstractModel(metaclass=abc.ABCMeta):
         self.pred_map[x.data.tobytes()] = pred
         return pred
 
-    def load_multi_pred(self, list_of_x):
-        predictions = self.model.predict(list_of_x)
+    def multi_pred(self, list_of_x):
+
+        predictions = self.model.predict(list_of_x, batch_size=len(list_of_x))
+
         for x, prediction in zip(list_of_x, predictions):
             pred = []
             if prediction[0] > prediction[1]:
                 pred = [1, 0]
             else:
                 pred = [0, 1]
-            self.pred_map[x.data] = pred
+            x.flags.writeable = False
+            self.pred_map[x.data.tobytes()] = pred

@@ -4,17 +4,17 @@ from utils.global_props import get_all_letters, get_sample_size
 import math
 
 
-def get_all_permutations(letters=get_all_letters()):
+def get_all_letter_combinations(letters=get_all_letters()):
     if len(letters) <= 1:
         return letters
     all_combinations = list()
     all_combinations.append("")
     all_combinations.extend(letters)
-
     for i in range(2, len(letters)+1):
         result = list(combinations(letters, i))
 
         all_combinations.extend(["".join(list(elem)) for elem in result])
+
     return all_combinations
 
 
@@ -72,7 +72,7 @@ def remove_digit_from_labels(labels):
                 curr_label += e
             else:  # e.isdigit()
                 break
-        proccessed_labels.append(curr_label)
+        proccessed_labels.append("".join(curr_label))
     return proccessed_labels
 
 

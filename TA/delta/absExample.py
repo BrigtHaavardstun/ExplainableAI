@@ -11,7 +11,7 @@ class AbsExample(IDelta):
         """Compute the complexity of the examples given"""
         score = sum([min(len(example), (len(get_all_letters())-len(example)))
                     for example in teaching_set])
-        score += sum([0.1 for example in teaching_set if len(example) == 0])
+        score += sum([1.1 for example in teaching_set if len(example) == 0])
         return score
 
     def __repr__(self):

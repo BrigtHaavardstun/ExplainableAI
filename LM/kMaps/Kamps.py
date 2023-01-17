@@ -121,7 +121,9 @@ def find_essential_prime_implicants(prime_implicants, minterms):
     min = float("inf")
 
     # Len(p) == num of ors + 1.
+    """
     ids = []
+    
     for p in sop:
         length = len(p)
         if length < min:
@@ -129,6 +131,8 @@ def find_essential_prime_implicants(prime_implicants, minterms):
             ids = [p]
         elif length == min:
             ids.append(p)
+    """
+    ids = sop
 
     return [[prime_implicants[i] for i in p] for p in ids]
 

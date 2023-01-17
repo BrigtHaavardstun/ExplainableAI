@@ -24,12 +24,12 @@ def load_dataset_no_memoization():
         ary = np.asarray(img)
         X.append(ary)
 
-        # get lable
-        lable = -1
-        with open(f"data/lables/{file}.txt", "r") as f:
-            lable = f.read()
+        # get label
+        label = -1
+        with open(f"data/labels/{file}.txt", "r") as f:
+            label = f.read()
         curr_y = [0, 0]  # hot encoding
-        curr_y[int(lable)] = 1
+        curr_y[int(label)] = 1
         y.append(curr_y)
         labels.append(file)
 
@@ -38,8 +38,8 @@ def load_dataset_no_memoization():
     labels = np.asarray(labels)
 
     # We want to force values to be in range [0,1]
-    #X = X.astype('float32')
-    #X = X / 255.0
+    # X = X.astype('float32')
+    # X = X / 255.0
     return X, y, labels
 
 
@@ -59,7 +59,7 @@ def sub_sample(valid_X, valid_Y, valid_labels, sample_size):
 
 def bootstrap(X, y):
     X, y = makeBiggestMeetSmallest(X, y)
-    #X,y = duplicateSmallestToMatchBiggest(X,y)
+    # X,y = duplicateSmallestToMatchBiggest(X,y)
     return X, y
 
 

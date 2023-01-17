@@ -14,7 +14,7 @@ def parseNameToLabel(fileName):
 # filename = A232, ABC19, BD23 etc.
 
 
-def generateLable(folderPrefix, filename):
+def generateLabel(folderPrefix, filename):
     storeValue = None
     if parseNameToLabel(fileName=filename):
         storeValue = 1
@@ -35,6 +35,6 @@ def readAllFileNamesInTrainingData():
 def run():
     all_files = readAllFileNamesInTrainingData()
 
-    prefixFolder = "data/lables/"
+    prefixFolder = "data/labels/"
     for file in all_files:
-        generateLable(prefixFolder, file)
+        generateLabel(prefixFolder, file)

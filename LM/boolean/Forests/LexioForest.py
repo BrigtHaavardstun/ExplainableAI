@@ -23,22 +23,22 @@ class LexioForest(IBoolForest):
         return min_expr
 
     def smaller_or_equal(self, current, other):
-        # Swapped negations and size order
         curr_negations = sum([clause.count("'")
                              for clause in current.expression_ors])
         other_negations = sum([clause.count("'")
                               for clause in other.expression_ors])
 
-        if curr_negations < other_negations:
-            return True
-        elif other_negations < curr_negations:
-            return False
+       
 
         if len(current.expression_ors) < len(other.expression_ors):
             return True
         elif len(current.expression_ors) > len(other.expression_ors):
             return False
 
+        if curr_negations < other_negations:
+            return True
+        elif other_negations < curr_negations:
+            return False
         
 
         for currBolExpr, otherBolExpr in zip(current.expression_ors, other.expression_ors):

@@ -64,7 +64,7 @@ def booleanFunctionDefiniton(boolean_dict):
     B = boolean_dict["B"]
     C = boolean_dict["C"]
     D = boolean_dict["D"]
-    return (B and C and D)
+    return not A
 
 
 def score_function(complexity, compatibility):

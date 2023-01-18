@@ -64,13 +64,15 @@ def cmpr_clauses(current, other):
     cur_size = len(current.replace("'", ""))
     other_size = len(other.replace("'", ""))
 
+    # WARNING: NEG > ORS!!!
+    if other_negate_count < current_negate_count:
+        return 1
+    elif other_negate_count > current_negate_count:
+        return -1
+
     if other_size < cur_size:
         return 1
     elif other_size > cur_size:
-        return -1
-    elif other_negate_count < current_negate_count:
-        return 1
-    elif other_negate_count > current_negate_count:
         return -1
     else:
         # convert negeated letters

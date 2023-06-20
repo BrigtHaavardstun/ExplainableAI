@@ -92,6 +92,7 @@ class MSE(ILambda):
         # Memoization. If we know what this ai will give, we don't change.
         if ai_model in self.ai_prob_map:
             return self.ai_prob_map[ai_model]
+        print("loading probability map...")
         all_labels = get_all_letter_combinations()
         count_map_model_ai = {}
         for label in all_labels:
@@ -113,6 +114,8 @@ class MSE(ILambda):
                 true_count != 0, f"You didn't give the ai label {label}, hence we can't make the prediction"
             prob_map_ai[label] = true_count/(false_count+true_count)
         self.ai_prob_map[ai_model] = prob_map_ai  # memoization.
+        print("Done loading probability map!")
+
         return prob_map_ai
 
     def get_theoreticaly_lowest_lambda(self, ai_model: AbstractModel, valid_X, valid_labels) -> float:
@@ -125,4 +128,5 @@ class MSE(ILambda):
             total_lambda += min(ai_prop[letter_group], 1-ai_prop[letter_group]) * min(
                 ai_prop[letter_group], 1-ai_prop[letter_group])
         self.ai_lambda_score[ai_model] = total_lambda
+
         return total_lambda

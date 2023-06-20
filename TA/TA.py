@@ -58,7 +58,7 @@ def arg_min_ta(valid_X, valid_labels, ai_model: AbstractModel,
     print("end load")
     prev_delta = float("-inf")
     for i in range(sub_sets_attempts):
-        if score_function(prev_delta, compatibility_evalutator.get_theoreticaly_lowest_lambda(ai_model=ai_model, valid_X=valid_X, valid_labels=valid_labels)) > over_all_best_score:
+        if score_function(prev_delta, compatibility_evalutator.get_theoreticaly_lowest_lambda(ai_model=ai_model, valid_X=valid_X, valid_labels=valid_labels)) >= over_all_best_score:
             print(
                 f"impossible to find better score. Early break after {i} attempts. sample size: {get_sample_size()}")
             break

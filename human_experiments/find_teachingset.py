@@ -1,24 +1,29 @@
+import random
 from random import randint, shuffle, choice
 from utils.common import one_hot_to_number
-from utils.common import get_all_letter_combinations
-from models.trainModel import load_model
 from utils.dataset import load_dataset
 from utils.common import remove_digit_from_labels, one_hot_to_number
 from PIL import Image
-from random import shuffle
 
 
-def get_images_matching_teaching_set(teaching_set, ai, verbose=False):
+def get_images_matching_teaching_set(teaching_set, ai, verbose=False, seed=420):
+    rnd = random.Random(seed)
     images = []
-    X, Y, labels = load_dataset()
+    # X, Y, labels = load_dataset()
 
     found = []
     title = []
     for example in teaching_set:
         example_label, value = example
+        print("label: ", example_label)
         found = False
+        X, Y, labels = load_dataset()
         test_values = (list(range(len(X)-1, 0, -1)))
-        shuffle(test_values)
+        rnd = random.Random(seed)
+        if example_label != "":
+            # We want each label from the same seed to be identical
+            rnd = random.Random(seed + int(example_label, 32))
+        rnd.shuffle(test_values)
         for i in test_values:
             corr_label = "".join(remove_digit_from_labels(labels[i]))
 
@@ -40,6 +45,7 @@ def get_images_matching_teaching_set(teaching_set, ai, verbose=False):
 def generate_random_teaching_set_of_size_k(k, ai):
     X, Y, labels = load_dataset()
     random_combo = list(zip(X, labels))
+    print("Should not be used?")
     shuffle(random_combo)
 
     img_to_show = []

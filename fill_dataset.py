@@ -27,4 +27,4 @@ def main(fixedSquare: bool = True, verbose: bool = True, rotation: bool = False,
 
 
 if __name__ == '__main__':
-    main(fixedSquare=True, rotation=True, scale=True)
+    main(fixedSquare=False, rotation=True, scale=True)

@@ -7,7 +7,7 @@ from LM.boolean.IBoolForest import IBoolForest
 
 from models.abstract_model import AbstractModel
 
-from utils.global_props import get_sample_attempts
+from utils.global_props import get_sample_attempts, get_all_letters
 from utils.common import one_hot_to_number
 
 
@@ -48,7 +48,7 @@ def save_best_run(subset_selectors: ISubsetSelector, boolforest: IBoolForest, pi
 
 
 def clean_all_csv_files():
-    for i in range(1, 17):
+    for i in range(1, 2**(len(get_all_letters())+1)):
         with open(f"run_result/run_result{i}.csv", "w") as f:
             text = "model_name,boolforest,bool_min,subset_selectors,delta,compatibility_evalutator,sample_attemps,compatibility,complexity,score"
             for j in range(i):

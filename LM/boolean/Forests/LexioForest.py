@@ -28,18 +28,17 @@ class LexioForest(IBoolForest):
         other_negations = sum([clause.count("'")
                               for clause in other.expression_ors])
 
-       
-
-        if len(current.expression_ors) < len(other.expression_ors):
-            return True
-        elif len(current.expression_ors) > len(other.expression_ors):
-            return False
+        # WARNING: NEG > ORS!!!
 
         if curr_negations < other_negations:
             return True
         elif other_negations < curr_negations:
             return False
-        
+
+        if len(current.expression_ors) < len(other.expression_ors):
+            return True
+        elif len(current.expression_ors) > len(other.expression_ors):
+            return False
 
         for currBolExpr, otherBolExpr in zip(current.expression_ors, other.expression_ors):
             cmp = cmpr_clauses(currBolExpr, otherBolExpr)

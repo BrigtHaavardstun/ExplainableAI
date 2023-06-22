@@ -62,7 +62,7 @@ def main_run_system(re_train=True, clean_data=True, traning_set_size=float("inf"
     if differentNrAttempts == []:
         differentNrAttempts = [10, 25, 50, 75, 100,
                                200, 500, 1000, 2000, 5000, 10000]
-    differentSampleSize = list(range(2**len(get_all_letters()), 0, -1))
+    differentSampleSize = list(range(1, 2**len(get_all_letters())+1))
     if ai_models == []:
         # , load_model(model_name_NN)]
         ai_models = [load_model(model_name_CNN)]

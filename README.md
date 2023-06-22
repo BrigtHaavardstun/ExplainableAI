@@ -8,8 +8,7 @@ Supported by the Norwegian Research Council, project Machine Teaching for XAI.
 
  If you follow each step you can choose an boolean function, generate new random training data, train a new Convolutional Neural Network and find the optimal* teaching set for this CNN.
 
- *Optimal in the sence that the Learner defined in the paper and implemented in this code gets the best score for the given teaching set. A combination of the size of the teaching size, and how well the learners choosen boolean formula fits the AI.
-
+ *Optimal as defined in the paper
 <a id='creating-conda'></a>
 ## Setting up the correct envoriment
 <a id='install-conda'></a>

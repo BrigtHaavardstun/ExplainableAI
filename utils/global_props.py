@@ -13,7 +13,7 @@ def get_all_letters():
 
 
 # Data set sizes
-DATA_SET_SIZE = 20000
+DATA_SET_SIZE = 800
 
 
 def set_data_size(size):
@@ -64,7 +64,7 @@ def booleanFunctionDefiniton(boolean_dict):
     B = boolean_dict["B"]
     C = boolean_dict["C"]
     D = boolean_dict["D"]
-    return A or B or C or D
+    return (A and B)
 
 
 def score_function(complexity, compatibility):

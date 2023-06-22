@@ -43,7 +43,7 @@ def genereator(images, name, count):
         while True:
             attempts += 1
             if attempts == 1000:
-                print(f"{str(count)}:couldn't find a place, resizing...")
+                #print(f"{str(count)}:couldn't find a place, resizing...")
                 im_width, im_height = img.size
                 img = img.resize((im_width-2, im_height-2))
                 attempts = 0

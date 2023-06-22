@@ -3,7 +3,9 @@ This projects holds software used to generate teaching sets for the paper "XAI w
 Pekka Parviainen, and Jan Arne Telle. The paper can be found at [http://www.ii.uib.no/~telle/bib/HFHPT.pdf](http://www.ii.uib.no/~telle/bib/HFHPT.pdf).
 
 The survey can be found at: https://github.com/BrigtHaavardstun/XAI4H-Survey
+
 The tools used to analyse the results can be found at: https://github.com/BrigtHaavardstun/XAI4H-Survey-analyse-tool
+
 Supported by the Norwegian Research Council, project Machine Teaching for XAI.
 
 # A tutorial

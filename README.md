@@ -2,6 +2,8 @@
 This projects holds software used to generate teaching sets for the paper "XAI with Machine Teaching when Humans Are (Not) Informed about the Irrelevant Features" by Brigt Arve Toppe H åvardstun, Cèsar Ferri, Jose Hernández-Orallo,
 Pekka Parviainen, and Jan Arne Telle. The paper can be found at [http://www.ii.uib.no/~telle/bib/HFHPT.pdf](http://www.ii.uib.no/~telle/bib/HFHPT.pdf).
 
+Supported by the Norwegian Research Council, project Machine Teaching for XAI.
+
 # A tutorial
 
  If you follow each step you can choose an boolean function, generate new random training data, train a new Convolutional Neural Network and find the optimal* teaching set for this CNN.
@@ -36,3 +38,6 @@ foo@bar:ExplainableAI$ conda activate ExplainableAIVenv
 ```
 
  Once you mangage to open this file in juptyer notebook we will continue from this notebook.
+
+
+ 
